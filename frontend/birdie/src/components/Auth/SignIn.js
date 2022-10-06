@@ -13,6 +13,7 @@ import Typography from "@mui/material/Typography";
 import Container from "@mui/material/Container";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
 import useUserContext from "../../contexts/UserContext";
+import { Navigate } from "react-router-dom";
 
 function Copyright(props) {
     return (
@@ -26,7 +27,7 @@ function Copyright(props) {
 const theme = createTheme();
 
 export default function SignIn() {
-    const { login } = useUserContext();
+    const { login, user } = useUserContext();
     const [formData, setFormData] = useState({
         username: "",
         password: "",
@@ -43,6 +44,8 @@ export default function SignIn() {
             [e.target.name]: e.target.value,
         }));
     };
+
+    if (user) return <Navigate to="/" />;
 
     return (
         <ThemeProvider theme={theme}>

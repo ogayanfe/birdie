@@ -9,6 +9,7 @@ import Chat from "./components/Chat";
 import Profile from "./components/Profile";
 import SignIn from "./components/Auth/SignIn";
 import LoginRequiredRoute from "./components/global/ProtectedRoute";
+import Logout from "./components/Auth/Logout";
 
 function App() {
     return (
@@ -17,11 +18,12 @@ function App() {
                 <Routes>
                     <Route path="/" element={<Base />}>
                         <Route path="/" element={<LoginRequiredRoute />}>
-                            <Route path="/" element={<Home />}></Route>
-                            <Route path="/friends" element={<Friends />}></Route>
-                            <Route path="/saved" element={<Saved />}></Route>
-                            <Route path="/chat" element={<Chat />}></Route>
-                            <Route path="/profile" element={<Profile />}></Route>
+                            <Route path="/" element={<Home />} />
+                            <Route path="/friends" element={<Friends />} />
+                            <Route path="/saved" element={<Saved />} />
+                            <Route path="/chat" element={<Chat />} />
+                            <Route path="/profile" element={<Profile />} />
+                            <Route path="/logout" element={<Logout />} />
                         </Route>
                     </Route>
                     <Route path="/signin" element={<SignIn />} />

@@ -1,8 +1,10 @@
 import Avatar from "@mui/material/Avatar";
 import React from "react";
-// import randomColor from "randomcolor";
+import useUserContext from "../../contexts/UserContext";
 
 const Header = () => {
+    const { user } = useUserContext();
+
     return (
         <header className="flex items-center justify-center  p-2 h-14 absolute w-full bg-gray-100 border-0 text-gray-900 sm:px-8">
             <div className="max max-w-6xl w-full flex justify-between">
@@ -20,7 +22,8 @@ const Header = () => {
                         Create
                         <iconify-icon icon="ant-design:plus-outlined"></iconify-icon>
                     </button>
-                    <Avatar>T</Avatar>
+                    <Avatar src={user && user.profile_pic}></Avatar>
+                    <p className="text-purple-400 text-lg capitalize">{user && user.user_name}</p>
                 </div>
             </div>
         </header>

@@ -7,10 +7,12 @@ const navElement = [
     { name: "Saved", icon: "icon-park-solid:like", href: "/saved" },
     { name: "Chat", icon: "bi:chat-dots-fill", href: "/chat" },
     { name: "Profile", icon: "healthicons:ui-user-profile", href: "/profile" },
+    { name: "Logout", icon: "oi:account-logout", href: "/logout" },
 ];
 
 const SideNav = (props) => {
     const { setShowSidebar, open } = props;
+
     const location = useLocation();
     let cur = location.pathname.split("/").at(1);
     if (cur.length === 0) cur = "home";
@@ -27,7 +29,7 @@ const SideNav = (props) => {
                 </span>
                 <h1 className="font-bold italic">birdie</h1>
             </header>
-            <nav className="flex flex-col py-2 flex-grow">
+            <nav className="flex flex-col py-2 flex-grow overflow-y-scroll overflow-x-hidden">
                 <button
                     className={`lg:hidden transition duration-300 rotate top-4 text-purple-500 absolute right-2 ${
                         open && "rotate-[720deg]"
