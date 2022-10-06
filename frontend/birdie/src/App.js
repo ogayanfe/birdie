@@ -1,47 +1,33 @@
 import React from "react";
-
-import { createBrowserRouter, RouterProvider } from "react-router-dom";
+import { UserContextProvider } from "./contexts/UserContext";
+import { Route, Routes, BrowserRouter } from "react-router-dom";
 import Base from "./components/global/Base";
 import Friends from "./components/Friends";
 import Home from "./components/Home";
 import Saved from "./components/Saved";
 import Chat from "./components/Chat";
 import Profile from "./components/Profile";
-
-const rout = createBrowserRouter([
-    {
-        path: "/",
-        element: <Base />,
-        children: [
-            {
-                path: "/",
-                element: <Home />,
-            },
-            {
-                path: "/friends",
-                element: <Friends />,
-            },
-            {
-                path: "/saved",
-                element: <Saved />,
-            },
-            {
-                path: "/chat",
-                element: <Chat />,
-            },
-            {
-                path: "/profile",
-                element: <Profile />,
-            },
-        ],
-    },
-]);
+import SignIn from "./components/Auth/SignIn";
+import LoginRequiredRoute from "./components/global/ProtectedRoute";
 
 function App() {
     return (
-        <>
-            <RouterProvider router={rout} />
-        </>
+        <UserContextProvider>
+            <BrowserRouter>
+                <Routes>
+                    <Route path="/" element={<Base />}>
+                        <Route path="/" element={<LoginRequiredRoute />}>
+                            <Route path="/" element={<Home />}></Route>
+                            <Route path="/friends" element={<Friends />}></Route>
+                            <Route path="/saved" element={<Saved />}></Route>
+                            <Route path="/chat" element={<Chat />}></Route>
+                            <Route path="/profile" element={<Profile />}></Route>
+                        </Route>
+                    </Route>
+                    <Route path="/signin" element={<SignIn />} />
+                </Routes>
+            </BrowserRouter>
+        </UserContextProvider>
     );
 }
 

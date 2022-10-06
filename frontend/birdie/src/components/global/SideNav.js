@@ -1,5 +1,5 @@
 import React from "react";
-import { Link } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 
 const navElement = [
     { name: "Home", icon: "ant-design:home-filled", href: "/" },
@@ -11,10 +11,14 @@ const navElement = [
 
 const SideNav = (props) => {
     const { setShowSidebar, open } = props;
+    const location = useLocation();
+    let cur = location.pathname.split("/").at(1);
+    if (cur.length === 0) cur = "home";
+
     return (
         <div className="w-full h-full relative  flex flex-col bg-white  border-r-4 border-gray-300">
             <header
-                className={`flex w-[100%] bg-gray-100  h-14 lg:scale-[1_!important] transition origin-left duration-500 justify-center gap-4 text-2xl text-blue-400 items-center ${
+                className={`flex w-[100%] bg-gray-100  h-14 lg:scale-[1_!important] transition origin-left duration-500 justify-center gap-4 text-2xl text-purple-500 items-center ${
                     !open && "scale-0"
                 }`}
             >
@@ -25,7 +29,7 @@ const SideNav = (props) => {
             </header>
             <nav className="flex flex-col py-2 flex-grow">
                 <button
-                    className={`lg:hidden transition duration-300 rotate top-4 text-blue-400 absolute right-2 ${
+                    className={`lg:hidden transition duration-300 rotate top-4 text-purple-500 absolute right-2 ${
                         open && "rotate-[720deg]"
                     }`}
                     onClick={() => setShowSidebar((p) => !p)}
@@ -40,14 +44,15 @@ const SideNav = (props) => {
                     </iconify-icon>
                 </button>
                 {navElement.map((el) => {
-                    const currentUrl = "home";
-                    const color =
-                        el.name.toLowerCase() === currentUrl ? "text-blue-400" : "text-gray-500";
+                    const activeClass =
+                        el.name.toLowerCase() === cur
+                            ? "text-purple-500 scale-110 hover"
+                            : "text-gray-500";
                     return (
                         <Link
                             key={el.icon + el.name}
                             to={el.href}
-                            className={`w-full flex text-left justify-left transition hover:scale-110 pl-[25%] items-center h-14 pt-3 ${color}`}
+                            className={`w-full flex text-left justify-left transition hover:scale-110 pl-[25%] items-center h-14 pt-3 ${activeClass}`}
                         >
                             <span className="text-[1.7rem] ">
                                 <iconify-icon icon={el.icon}></iconify-icon>
