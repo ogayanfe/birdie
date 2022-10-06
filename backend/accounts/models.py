@@ -6,12 +6,12 @@ from django.utils.translation import gettext as _
 from .validators import validate_image
 
 
-def profile_path(instance, filename: str) -> str:
+def profile_path(user, filename: str) -> str:
     """
     Return a unique path for all user images
     """
     extension = filename.split(".").pop()
-    directory_name = f"{instance.user.username}_{instance.user.id}"
+    directory_name = f"{user.username}_{user.id}"
     hash = hashlib.md5(str(time.time()).encode()).hexdigest()
     return f"images/profile/{directory_name}/{hash}.{extension}"
 
