@@ -58,7 +58,8 @@ class PostSerializer(serializers.ModelSerializer):
         return post.comments.count()
 
     def create(self, validated_data):
-        validated_data["creator"] = self.context.get("request").user
+        user = self.context.get("request").user
+        validated_data["creator"] = validated_data.get('creator', user)
         return super().create(validated_data)
 
 

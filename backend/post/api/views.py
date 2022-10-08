@@ -1,3 +1,4 @@
+from django.shortcuts import get_object_or_404
 from rest_framework.generics import (
     ListAPIView,
     CreateAPIView,
@@ -7,8 +8,9 @@ from rest_framework.generics import (
 )
 
 from post.models import Post, Comment
-from .serializers import PostSerializer, PostCommentSerializer, CommentSerializer
+from .serializers import PostSerializer, PostCommentSerializer, CommentSerializer, CreatorSerializer
 from rest_framework.views import APIView
+from rest_framework.response import Response
 
 
 class PostListAPIView(ListAPIView):
@@ -97,3 +99,18 @@ class CommentRetrieveAPIView(RetrieveAPIView):
 
     def get_queryset(self):
         return self.model.objects.filter(creator=self.request.user)
+
+
+class LikeUnlikePostAPIView(APIView):
+
+    def post(self, request, pk):
+        post = get_object_or_404(Post, pk=pk)
+        like = False
+        if post.likes.filter(id=self.request.user.id).exists():
+            post.likes.remove(self.request.user)
+        else:
+            like = True
+            post.likes.add(self.request.user)
+        data = CreatorSerializer(self.request.user).data
+        data['is_liked'] = like
+        return Response(data)
