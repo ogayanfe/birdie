@@ -1,5 +1,5 @@
 from django.urls import path
-from rest_framework_simplejwt.views import TokenRefreshView
+from rest_framework_simplejwt.views import TokenRefreshView, TokenBlacklistView
 from .views import FollowUnfollowUserAPIView, MyTokenObtainPairView, UserDetailAPIView, SignupAPIView
 
 
@@ -9,4 +9,6 @@ urlpatterns = [
     path("info/", UserDetailAPIView.as_view()),
     path("signup/", SignupAPIView.as_view()),
     path("follow/<int:pk>/", FollowUnfollowUserAPIView.as_view()),
+    path('api/token/blacklist/', TokenBlacklistView.as_view(),
+         name='token_blacklist'),
 ]

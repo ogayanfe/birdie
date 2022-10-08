@@ -106,11 +106,30 @@ class LikeUnlikePostAPIView(APIView):
     def post(self, request, pk):
         post = get_object_or_404(Post, pk=pk)
         like = False
-        if post.likes.filter(id=self.request.user.id).exists():
-            post.likes.remove(self.request.user)
+        post_likes = post.likes
+        if post_likes.filter(id=self.request.user.id).exists():
+            post_likes.remove(self.request.user)
         else:
             like = True
-            post.likes.add(self.request.user)
+            post_likes.add(self.request.user)
         data = CreatorSerializer(self.request.user).data
         data['is_liked'] = like
+        data['likes'] = post_likes.count()
+        return Response(data)
+
+
+class SaveUnsavePostAPIView(APIView):
+
+    def post(self, request, pk):
+        post = get_object_or_404(Post, pk=pk)
+        saved = False
+        post_saved_by = post.saved_by
+        if post_saved_by.filter(id=self.request.user.id).exists():
+            post_saved_by.remove(self.request.user)
+        else:
+            saved = True
+            post_saved_by.add(self.request.user)
+        data = CreatorSerializer(self.request.user).data
+        data['saved'] = saved
+        data["save_count"] = post_saved_by.count()
         return Response(data)

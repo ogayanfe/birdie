@@ -11,6 +11,7 @@ from .views import (
     CommentUpdateApiView,
     CommentRetrieveAPIView,
     LikeUnlikePostAPIView,
+    SaveUnsavePostAPIView,
 )
 
 
@@ -23,7 +24,8 @@ urlpatterns = (
     path("comments/update/<int:pk>/", CommentUpdateApiView.as_view()),
     path("comments/<int:pk>/", CommentRetrieveAPIView.as_view()),
     path("create/", PostCreateAPIView.as_view(),),
-    path('<int:pk>/like_unlike/', LikeUnlikePostAPIView.as_view(),),
+    path('<int:pk>/like/', LikeUnlikePostAPIView.as_view(),),
+    path('<int:pk>/save/', SaveUnsavePostAPIView.as_view(),),
     path("update/<int:pk>", PostUpdateAPIView.as_view(),),
     path("delete/<int:pk>", PostDeleteAPIView.as_view(),)
 
