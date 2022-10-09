@@ -1,5 +1,5 @@
 from rest_framework_simplejwt.views import TokenObtainPairView
-from rest_framework.generics import CreateAPIView
+from rest_framework.generics import CreateAPIView, UpdateAPIView
 from rest_framework_simplejwt.tokens import RefreshToken
 from .serializers import MyTokenObtainPairSerializer, UserSerializer, SignupSerializer
 from accounts.models import User
@@ -75,3 +75,11 @@ class FollowUnfollowUserAPIView(APIView):
         data['followed'] = followed
         data['followers'] = user_followers.count()
         return Response(data)
+
+
+class ProfileUpdateAPIView(UpdateAPIView):
+    model = User
+    serializer_class = UserSerializer
+
+    def get_object(self):
+        return get_object_or_404(self.model, id=self.request.user.id)
