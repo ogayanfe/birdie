@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import CardContainer from "../global/CardContainer";
 import useUserContext from "../../contexts/UserContext";
+import TweetForm from "../global/TweetForm";
 
 const Home = () => {
     const { axiosInstance } = useUserContext();
@@ -18,6 +19,7 @@ const Home = () => {
     }, [axiosInstance]);
     return (
         <div className="flex flex-col items-center w-full">
+            <TweetForm />
             <CardContainer posts={data.posts} />
         </div>
     );

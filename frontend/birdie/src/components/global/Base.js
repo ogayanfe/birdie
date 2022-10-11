@@ -17,7 +17,7 @@ const Base = () => {
             </div>
             <div className="flex-grow h-screen w-[calc(100%_-_3.5rem)] relative flex flex-col ml-14 lg:ml-0">
                 <Header />
-                <main className="w-full h-full flex-grow mt-14 overflow-y-scroll pb-14">
+                <main className="w-full h-full flex-grow mt-14 overflow-y-scroll pb-14 border-t-4">
                     <Outlet />
                 </main>
             </div>
