@@ -36,7 +36,7 @@ class Post(models.Model):
     content = models.TextField()
     created = models.DateTimeField(auto_now_add=True)
     likes = models.ManyToManyField(User, related_name="liked_post")
-    saved_by = models.ManyToManyField(User, related_name="saved_post")
+    saves = models.ManyToManyField(User, related_name="saved_post")
     objects = PostManager()
 
     def __str__(self):

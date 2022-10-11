@@ -33,6 +33,7 @@ class PostSerializer(serializers.ModelSerializer):
     likes = serializers.SerializerMethodField(read_only=True)
     is_liked = serializers.SerializerMethodField(read_only=True)
     comments = serializers.SerializerMethodField()
+    saves = serializers.SerializerMethodField()
 
     class Meta:
         model = Post
@@ -45,6 +46,7 @@ class PostSerializer(serializers.ModelSerializer):
             'content',
             'created',
             'comments',
+            'saves',
         )
 
     def get_is_liked(self, post):
@@ -56,6 +58,9 @@ class PostSerializer(serializers.ModelSerializer):
 
     def get_comments(self, post):
         return post.comments.count()
+
+    def get_saves(self, post):
+        return post.saves.count()
 
     def create(self, validated_data):
         user = self.context.get("request").user
