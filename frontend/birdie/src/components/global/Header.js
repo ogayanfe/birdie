@@ -19,11 +19,15 @@ const Header = () => {
                 </div>
                 <div className="flex justify-between items-center gap-3">
                     <button className="bg-purple-400 text-purple-50  flex items-center gap-1 justify-center px-2 h-8 rounded-full w-24">
-                        Create
-                        <iconify-icon icon="ant-design:plus-outlined"></iconify-icon>
+                        <span>Create</span>
+                        <iconify-icon icon="ant-design:plus-outlined">create</iconify-icon>
                     </button>
-                    <Avatar src={user && user.profile_pic}></Avatar>
-                    <p className="text-purple-400 text-lg capitalize">{user && user.user_name}</p>
+                    <Avatar src={user && user.profile_pic} alt={user && user.user_name}>
+                        {user && user.user_name.at(0).toUpperCase()}
+                    </Avatar>
+                    <p className="text-purple-400 text-lg xm:static fixed -top-36 capitalize">
+                        {user && user.user_name}
+                    </p>
                 </div>
             </div>
         </header>
