@@ -28,7 +28,7 @@ const Card = (props) => {
                     </a>
                 </div>
                 {card_image && (
-                    <div className="py-3 h-72">
+                    <div className="py-2 h-72">
                         <img
                             src={card_image}
                             className="h-full w-full rounded-xl object-cover"

@@ -13,12 +13,13 @@ const TweetForm = () => {
                 <Avatar alt="post">{username.at(0).toUpperCase()}</Avatar>
             </div>
             <div className="flex flex-col gap-3 justify-between">
-                <Form action="/" method="post">
+                <Form action="/createpost/" method="post">
                     <label htmlFor="main-tweet-form" className="fixed -top-[10000px]">
                         Post Something
                     </label>
                     <input
                         type="text"
+                        name="content"
                         id="main-tweet-form"
                         placeholder="What's happening?"
                         className="border-none p-2 text-[#5B7083] w-full  rounded-lg focus:outline-none text-sm"
