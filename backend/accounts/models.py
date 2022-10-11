@@ -19,4 +19,4 @@ def profile_path(user, filename: str) -> str:
 class User(AbstractUser):
     profile_pic = models.ImageField(
         upload_to=profile_path, validators=(validate_image,), null=True)
-    followers = models.ManyToManyField('self')
+    following = models.ManyToManyField('self')

@@ -18,7 +18,7 @@ class MyTokenObtainPairSerializer(TokenObtainPairSerializer):
 
 
 class UserSerializer(serializers.ModelSerializer):
-    followers = CreatorSerializer(many=True, read_only=True)
+    following = CreatorSerializer(many=True, read_only=True)
     posts = PostSerializer(many=True, read_only=True)
 
     class Meta:
@@ -29,7 +29,7 @@ class UserSerializer(serializers.ModelSerializer):
             'date_joined',
             'email',
             'profile_pic',
-            'followers',
+            'following',
             'posts',
         ]
         extra_kwargs = {
