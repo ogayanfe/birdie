@@ -1,6 +1,5 @@
 import React from "react";
-import { UserContextProvider } from "./contexts/UserContext";
-import { Route, Routes, BrowserRouter } from "react-router-dom";
+import { Route, createBrowserRouter, createRoutesFromElements } from "react-router-dom";
 import Base from "./components/global/Base";
 import Friends from "./components/Friends";
 import Home from "./components/Home";
@@ -11,26 +10,22 @@ import SignIn from "./components/Auth/SignIn";
 import LoginRequiredRoute from "./components/global/ProtectedRoute";
 import Logout from "./components/Auth/Logout";
 
-function App() {
-    return (
-        <UserContextProvider>
-            <BrowserRouter>
-                <Routes>
-                    <Route path="/" element={<Base />}>
-                        <Route path="/" element={<LoginRequiredRoute />}>
-                            <Route path="/" element={<Home />} />
-                            <Route path="/friends" element={<Friends />} />
-                            <Route path="/saved" element={<Saved />} />
-                            <Route path="/chat" element={<Chat />} />
-                            <Route path="/profile" element={<Profile />} />
-                            <Route path="/logout" element={<Logout />} />
-                        </Route>
-                    </Route>
-                    <Route path="/signin" element={<SignIn />} />
-                </Routes>
-            </BrowserRouter>
-        </UserContextProvider>
-    );
-}
+const App = createBrowserRouter(
+    createRoutesFromElements(
+        <>
+            <Route path="/" element={<Base />}>
+                <Route path="/" element={<LoginRequiredRoute />}>
+                    <Route path="" element={<Home />} action={console.log} />
+                    <Route path="friends/" element={<Friends />} />
+                    <Route path="saved/" element={<Saved />} />
+                    <Route path="chat/" element={<Chat />} />
+                    <Route path="profile/" element={<Profile />} />
+                    <Route path="logout/" element={<Logout />} />
+                </Route>
+            </Route>
+            <Route path="/signin" element={<SignIn />} />
+        </>
+    )
+);
 
 export default App;
