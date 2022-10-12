@@ -22,5 +22,4 @@ export async function createPost({ request, params }) {
     const formData = await request.formData();
     const updates = Object.fromEntries(formData);
     axiosInstance.post("/post/create/", updates).then((res) => console.log(res));
-    // return redirect("");
 }

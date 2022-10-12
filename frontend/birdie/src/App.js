@@ -20,7 +20,7 @@ const App = createBrowserRouter(
                     <Route
                         path=""
                         element={<Home />}
-                        action={console.log}
+                        action={createPost}
                         loader={homePostsLoader}
                     />
                     <Route path="friends/" element={<Friends />} />

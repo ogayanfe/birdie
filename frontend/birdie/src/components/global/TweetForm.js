@@ -1,19 +1,21 @@
 import React from "react";
 import { Avatar } from "@mui/material";
 import useUserContext from "../../contexts/UserContext";
-import { Form } from "react-router-dom";
+import { Form, useLocation } from "react-router-dom";
 
 const TweetForm = () => {
     const {
         user: { user_name: username },
     } = useUserContext();
+    const location = useLocation();
+    const currentLocation = location.pathname.split("/").at(1);
     return (
         <div className="w-[95%] max-w-[598px] grid-cols-[49px,_auto] h-28 grid p-3 gap-1 bg-gray-50">
             <div>
                 <Avatar alt="post">{username.at(0).toUpperCase()}</Avatar>
             </div>
             <div className="flex flex-col gap-3 justify-between">
-                <Form action="/createpost/" method="post">
+                <Form action={`${currentLocation}/`} method="post">
                     <label htmlFor="main-tweet-form" className="fixed -top-[10000px]">
                         Post Something
                     </label>

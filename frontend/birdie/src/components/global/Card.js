@@ -6,7 +6,6 @@ const Card = (props) => {
     const {
         user: { user_id },
     } = useUserContext();
-
     const { avatar, card_content, card_image, comments, likes, shares, saves, user, ow_id, liked } =
         props;
     return (
