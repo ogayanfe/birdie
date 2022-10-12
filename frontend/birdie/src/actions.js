@@ -2,8 +2,8 @@ import axios from "axios";
 // import { redirect } from "react-router-dom";
 
 export function getTokens() {
-    const tokens = localStorage.getItem("userTokens");
-    return JSON.parse(tokens);
+    const tokens = JSON.parse(localStorage.getItem("userTokens"));
+    return tokens ? tokens : { access: null, refresh: null };
 }
 
 export function getAxiosInstance() {

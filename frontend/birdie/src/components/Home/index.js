@@ -11,6 +11,7 @@ export async function homePostsLoader() {
         posts: [],
     };
     const response = await axiosInstance.get("/post/all");
+    console.log(response);
     results = {
         next: response.data.next,
         posts: response.data.results,

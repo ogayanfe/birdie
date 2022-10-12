@@ -2,14 +2,17 @@ import Avatar from "@mui/material/Avatar";
 import React from "react";
 import useUserContext from "../../contexts/UserContext";
 
-const Header = () => {
+const Header = (props) => {
     const { user } = useUserContext();
+    const { isError } = props;
 
     return (
         <header className="flex items-center justify-center  p-2 h-14 absolute w-full bg-gray-100 border-0 text-gray-900 sm:px-8">
             <div className="max max-w-6xl w-full flex justify-between">
                 <div
-                    className="flex gap-2 text-2xl text-purple-400 items-center lg:invisible"
+                    className={`flex gap-2 text-2xl text-purple-400 items-center ${
+                        !isError && "lg:invisible"
+                    }`}
                     aria-hidden={true}
                 >
                     <span className="text-4xl">

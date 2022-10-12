@@ -11,11 +11,12 @@ import LoginRequiredRoute from "./components/global/ProtectedRoute";
 import Logout from "./components/Auth/Logout";
 import { createPost } from "./actions";
 import PostMethod from "./components/global/PostMethod";
+import ErrorPage from "./components/global/ErrorPage";
 
 const App = createBrowserRouter(
     createRoutesFromElements(
         <>
-            <Route path="/" element={<Base />}>
+            <Route path="/" element={<Base />} errorElement={<ErrorPage />}>
                 <Route path="/" element={<LoginRequiredRoute />}>
                     <Route
                         path=""

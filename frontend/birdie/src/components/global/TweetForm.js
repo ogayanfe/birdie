@@ -10,7 +10,7 @@ const TweetForm = () => {
     const location = useLocation();
     const currentLocation = location.pathname.split("/").at(1);
     return (
-        <div className="w-[95%] max-w-[598px] grid-cols-[49px,_auto] h-28 grid p-3 gap-1 bg-gray-50">
+        <div className="w-[95%] max-w-[598px] grid-cols-[49px,_auto] h-28 grid p-3  border-b-4 gap-1 bg-gray-100 mt-2">
             <div>
                 <Avatar alt="post">{username.at(0).toUpperCase()}</Avatar>
             </div>
@@ -23,8 +23,8 @@ const TweetForm = () => {
                         type="text"
                         name="content"
                         id="main-tweet-form"
-                        placeholder="What's happening?"
-                        className="border-none p-2 text-[#5B7083] w-full  rounded-lg focus:outline-none text-sm"
+                        placeholder="Say Something?"
+                        className="border-none p-2 text-[#5B7083] bg-white w-full  rounded-lg focus:outline-none text-sm"
                     />
                 </Form>
                 <div>

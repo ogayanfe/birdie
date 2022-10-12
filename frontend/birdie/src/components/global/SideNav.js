@@ -18,7 +18,7 @@ const SideNav = (props) => {
     if (cur.length === 0) cur = "home";
 
     return (
-        <div className="w-full h-full relative  flex flex-col bg-white  border-r-4 border-gray-300">
+        <div className="w-full h-full relative  flex flex-col bg-white border-r-4 border-gray-300">
             <header
                 className={`flex w-[100%] bg-gray-100  h-14 lg:scale-[1_!important] transition origin-left duration-500 justify-center gap-4 text-2xl text-purple-500 items-center ${
                     !open && "scale-0"
