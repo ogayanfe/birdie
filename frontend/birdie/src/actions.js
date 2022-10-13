@@ -1,5 +1,5 @@
 import axios from "axios";
-// import { redirect } from "react-router-dom";
+import { redirect } from "react-router-dom";
 
 export function getTokens() {
     const tokens = JSON.parse(localStorage.getItem("userTokens"));
@@ -21,5 +21,6 @@ export async function createPost({ request, params }) {
     const axiosInstance = getAxiosInstance();
     const formData = await request.formData();
     const updates = Object.fromEntries(formData);
-    axiosInstance.post("/post/create/", updates).then((res) => console.log(res));
+    axiosInstance.post("/post/create/", formData).then((res) => console.log(res));
+    return redirect("");
 }

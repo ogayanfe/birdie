@@ -30,6 +30,7 @@ const App = createBrowserRouter(
                     <Route
                         path="likes/"
                         element={<Liked />}
+                        action={createPost}
                         loader={async () => {
                             return await pageLoader("liked");
                         }}
@@ -37,6 +38,7 @@ const App = createBrowserRouter(
                     <Route
                         path="saved/"
                         element={<Saved />}
+                        action={createPost}
                         loader={async () => {
                             return await pageLoader("saved");
                         }}
