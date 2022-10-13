@@ -32,6 +32,8 @@ class PostSerializer(serializers.ModelSerializer):
     creator = CreatorSerializer(read_only=True)
     likes = serializers.SerializerMethodField(read_only=True)
     is_liked = serializers.SerializerMethodField(read_only=True)
+    is_commented = serializers.SerializerMethodField(read_only=True)
+    is_saved = serializers.SerializerMethodField(read_only=True)
     comments = serializers.SerializerMethodField()
     saves = serializers.SerializerMethodField()
 
@@ -47,11 +49,21 @@ class PostSerializer(serializers.ModelSerializer):
             'created',
             'comments',
             'saves',
+            'is_saved',
+            'is_commented',
         )
 
     def get_is_liked(self, post):
         user = self.context.get("request").user
         return post.likes.filter(id=user.id).exists()
+
+    def get_is_saved(self, post):
+        user = self.context.get("request").user
+        return post.saves.filter(id=user.id).exists()
+
+    def get_is_commented(self, post):
+        user = self.context.get("request").user
+        return post.comments.filter(creator=user).exists()
 
     def get_likes(self, post):
         return post.likes.count()

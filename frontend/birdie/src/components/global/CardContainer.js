@@ -18,6 +18,8 @@ const CardContainer = (props) => {
                         liked={post.is_liked}
                         avatar={post.creator.profile_pic}
                         creator_id={post.creator.id}
+                        is_saved={post.is_saved}
+                        is_commented={post.is_commented}
                     />
                 );
             })}
