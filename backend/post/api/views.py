@@ -19,12 +19,12 @@ class PostListAPIView(ListAPIView):
     def get_queryset(self):
         filter = self.request.query_params.get('filter', None)
         user = self.request.user
-        user_posts = Post.objects.user_post(user)
         if filter == 'saved':
-            return user.saved_post
+            return user.saved_post.all().order_by("-created")
         elif filter == "liked":
-            return user.liked_post
-        return user_posts
+            return user.liked_post.all().order_by("-created")
+        else:
+            return Post.objects.user_post(user).order_by("-created")
 
 
 class PostCreateAPIView(CreateAPIView):

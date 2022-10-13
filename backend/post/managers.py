@@ -6,4 +6,4 @@ class PostManager(Manager):
 
     def user_post(self, user):
         query = Q(creator=user) | Q(creator__in=user.following.all())
-        return self.get_queryset().filter(query).order_by('-created')
+        return self.get_queryset().filter(query)

@@ -1,8 +1,8 @@
 import React from "react";
 import { Route, createBrowserRouter, createRoutesFromElements } from "react-router-dom";
 import Base from "./components/global/Base";
-import Friends from "./components/Friends";
-import Home, { homePostsLoader } from "./components/Home";
+import Home from "./components/Home";
+import { pageLoader } from "./loaders";
 import Saved from "./components/Saved";
 import Chat from "./components/Chat";
 import Profile from "./components/Profile";
@@ -12,6 +12,7 @@ import Logout from "./components/Auth/Logout";
 import { createPost } from "./actions";
 import PostMethod from "./components/global/PostMethod";
 import ErrorPage from "./components/global/ErrorPage";
+import Liked from "./components/Liked";
 
 const App = createBrowserRouter(
     createRoutesFromElements(
@@ -22,10 +23,24 @@ const App = createBrowserRouter(
                         path=""
                         element={<Home />}
                         action={createPost}
-                        loader={homePostsLoader}
+                        loader={async () => {
+                            return await pageLoader("all");
+                        }}
                     />
-                    <Route path="friends/" element={<Friends />} />
-                    <Route path="saved/" element={<Saved />} />
+                    <Route
+                        path="likes/"
+                        element={<Liked />}
+                        loader={async () => {
+                            return await pageLoader("liked");
+                        }}
+                    />
+                    <Route
+                        path="saved/"
+                        element={<Saved />}
+                        loader={async () => {
+                            return await pageLoader("saved");
+                        }}
+                    />
                     <Route path="chat/" element={<Chat />} />
                     <Route path="profile/" element={<Profile />} />
                     <Route path="logout/" element={<Logout />} />

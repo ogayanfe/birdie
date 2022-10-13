@@ -3,7 +3,7 @@ import CardContainer from "../global/CardContainer";
 import TweetForm from "../global/TweetForm";
 import { useLoaderData } from "react-router-dom";
 
-const Home = () => {
+const Liked = () => {
     const data = useLoaderData();
     return (
         <div className="flex flex-col items-center w-full">
@@ -13,4 +13,4 @@ const Home = () => {
     );
 };
 
-export default Home;
+export default Liked;
