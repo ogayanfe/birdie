@@ -21,6 +21,7 @@ const Card = (props) => {
         creator_id,
         is_saved,
         is_commented,
+        created,
     } = props;
     const { likePost, savePost } = usePageContext();
     const [viewComment, setViewComment] = useState(false);
@@ -34,7 +35,9 @@ const Card = (props) => {
                     <div className="text-sm col text-[#0F1419] capitalize">
                         {user_id === creator_id ? "You" : user}
                     </div>
-                    <div className="text-[#5B7083] text-sm">. 23s</div>
+                    <div className="text-[#5B7083] text-[.8rem]">
+                        <span className="m-2">.</span> {created}
+                    </div>
                 </div>
                 <div className="text-[#0F1419] text-[0.8rem]">
                     {card_content}

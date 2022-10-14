@@ -66,6 +66,7 @@ const CommentsModal = ({ id, open, close }) => {
                                 creator_profile_pic={comment.creator.profile_pic}
                                 creator_id={comment.creator.id}
                                 key={comment.id}
+                                created={comment.created}
                             />
                         );
                     })}

@@ -6,7 +6,7 @@ const CommentCard = (props) => {
     const {
         user: { user_id },
     } = useUserContext();
-    const { content, creator_name, creator_profile_pic, creator_id } = props;
+    const { content, creator_name, creator_profile_pic, creator_id, created } = props;
     return (
         <div className="flex gap-2 p-2 bg-gray-50">
             <div>
@@ -19,11 +19,14 @@ const CommentCard = (props) => {
                 </Avatar>
             </div>
             <div className="flex-grow">
-                <div className="flex items-center justify-between">
+                <div className="flex items-center">
                     <div className="text-sm capitalize">
                         {creator_id === user_id ? "You" : creator_name}
                     </div>
-                    <div className="text-[.65rem]">23s</div>
+                    <div className="text-[.65rem]">
+                        <span className="m-2">.</span>
+                        {created}
+                    </div>
                 </div>
                 <div className="text-[.8rem] text-gray-500 mt-2 text-justify">{content}</div>
             </div>

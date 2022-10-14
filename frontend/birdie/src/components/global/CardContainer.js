@@ -24,6 +24,7 @@ const CardContainer = (props) => {
                         creator_id={post.creator.id}
                         is_saved={post.is_saved}
                         is_commented={post.is_commented}
+                        created={post.created}
                     />
                 );
             })}

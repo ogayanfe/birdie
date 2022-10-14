@@ -1,6 +1,7 @@
 from rest_framework import serializers
 from django.contrib.auth import get_user_model
 from post.models import Post, Comment
+from django.contrib.humanize.templatetags.humanize import naturaltime
 
 User = get_user_model()
 
@@ -13,6 +14,7 @@ class CreatorSerializer(serializers.ModelSerializer):
 
 class CommentSerializer(serializers.ModelSerializer):
     creator = CreatorSerializer(read_only=True)
+    created = serializers.SerializerMethodField(read_only=True)
 
     class Meta:
         model = Comment
@@ -25,6 +27,9 @@ class CommentSerializer(serializers.ModelSerializer):
         validated_data['creator'] = self.context.get("request").user
         return super().create(validated_data)
 
+    def get_created(self, comment):
+        return naturaltime(comment.created)
+
 
 class PostSerializer(serializers.ModelSerializer):
     creator = CreatorSerializer(read_only=True)
@@ -34,6 +39,7 @@ class PostSerializer(serializers.ModelSerializer):
     is_saved = serializers.SerializerMethodField(read_only=True)
     comments = serializers.SerializerMethodField()
     saves = serializers.SerializerMethodField()
+    created = serializers.SerializerMethodField(read_only=True)
 
     class Meta:
         model = Post
@@ -50,6 +56,9 @@ class PostSerializer(serializers.ModelSerializer):
             'is_saved',
             'is_commented',
         )
+
+    def get_created(self, post):
+        return naturaltime(post.created)
 
     def get_is_liked(self, post):
         user = self.context.get("request").user
