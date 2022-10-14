@@ -1,11 +1,13 @@
 import { Dialog } from "@mui/material";
 import React, { useEffect, useState } from "react";
+import usePageContext from "../../contexts/pageContext";
 import usePostActionContext from "../../contexts/PostActionContext";
 import CommentCard from "./CommentCard";
 import CommentForm from "./CommentForm";
 
 const CommentsModal = ({ id, open, close }) => {
-    const { getComments, createComment } = usePostActionContext();
+    const { getComments } = usePostActionContext();
+    const { createComment } = usePageContext();
     const [{ comments, next }, setComments] = useState({
         next: null,
         comments: [],

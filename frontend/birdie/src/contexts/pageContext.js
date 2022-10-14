@@ -8,7 +8,7 @@ export const PageContextProvider = ({ children }) => {
         next: null,
         posts: [],
     });
-    const { _likePost, _savePost } = usePostActionContext();
+    const { _likePost, _savePost, _createComment } = usePostActionContext();
     // function to be called to filter posts when liked
     const [onPostLike, setOnPostLike] = useState(null);
     // function to be called to filter posts when saved
@@ -38,6 +38,21 @@ export const PageContextProvider = ({ children }) => {
         _savePost(id, success);
     };
 
+    const createComment = async (id, formData, onSuccess, onFailure) => {
+        const success = (response) => {
+            onSuccess(response);
+            setData((prev) => {
+                const newPosts = prev.posts.map((post) => {
+                    return post.id === id
+                        ? { ...post, comments: post.comments + 1, is_commented: true }
+                        : post;
+                });
+                return { ...prev, posts: newPosts };
+            });
+        };
+        _createComment(id, formData, success, onFailure);
+    };
+
     const context = {
         data: data,
         setData: setData,
@@ -45,6 +60,7 @@ export const PageContextProvider = ({ children }) => {
         savePost: savePost,
         setOnPostLike: setOnPostLike,
         setOnPostSave: setOnPostSave,
+        createComment: createComment,
     };
     return <pageContext.Provider value={context}>{children}</pageContext.Provider>;
 };

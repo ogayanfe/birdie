@@ -58,7 +58,7 @@ export const PostActionContextProvider = ({ children }) => {
         getPosts: getPosts,
         _likePost: likePost,
         _savePost: savePost,
-        createComment: createComment,
+        _createComment: createComment,
     };
 
     return <postActionContext.Provider value={contextValue}>{children}</postActionContext.Provider>;
