@@ -7,7 +7,7 @@ import CommentsModal from "../global/CommentsModal";
 
 const Home = () => {
     const { getPosts } = usePostActionContext();
-    const { setData } = usePageContext();
+    const { setData, setOnPostLike, setOnPostSave } = usePageContext();
     useEffect(() => {
         const success = (r) => {
             setData({ next: r.data.next, posts: r.data.results });
@@ -16,6 +16,8 @@ const Home = () => {
         return () => {
             setData({ next: null, posts: [] });
         };
+        setOnPostLike(null);
+        setOnPostSave(null);
     }, []);
 
     return (
