@@ -1,7 +1,7 @@
-import { Comment } from "@mui/icons-material";
 import { Dialog } from "@mui/material";
 import React, { useEffect, useState } from "react";
 import usePostActionContext from "../../contexts/PostActionContext";
+import CommentCard from "./CommentCard";
 import CommentForm from "./CommentForm";
 
 const CommentsModal = ({ id, open, close }) => {
@@ -14,8 +14,17 @@ const CommentsModal = ({ id, open, close }) => {
 
     const handleSubmit = (e) => {
         e.preventDefault();
+        const success = (response) => {
+            setComments((prev) => {
+                return {
+                    ...prev,
+                    comments: [response.data, ...prev.comments],
+                };
+            });
+            e.target.content.value = "";
+        };
         const formData = new FormData(e.target);
-        createComment(id, formData, console.log, console.log);
+        createComment(id, formData, success, console.log);
     };
 
     useEffect(() => {
@@ -37,8 +46,7 @@ const CommentsModal = ({ id, open, close }) => {
         return () => {
             window.removeEventListener("resize", checkWindowSize);
         };
-    });
-
+    }, []);
     return (
         <Dialog
             open={open}
@@ -47,9 +55,21 @@ const CommentsModal = ({ id, open, close }) => {
             PaperProps={{ style: { padding: "0px" } }}
             fullScreen={fullScreen}
         >
-            <div className="max-w-md mx-auto w-screen h-[90vh] flex flex-col p-2 gap-2">
+            <div className="max-w-md mx-auto w-screen h-[90vh] flex flex-col p-2 gap-2 overflow-hidden">
                 <CommentForm handleSubmit={handleSubmit} />
-                <div></div>
+                <div className="overflow-y-scroll h-full pb-12">
+                    {comments.map((comment) => {
+                        return (
+                            <CommentCard
+                                content={comment.content}
+                                creator_name={comment.creator.username}
+                                creator_profile_pic={comment.creator.profile_pic}
+                                creator_id={comment.creator.id}
+                                key={comment.id}
+                            />
+                        );
+                    })}
+                </div>
             </div>
         </Dialog>
     );

@@ -68,7 +68,7 @@ class CommentsListAPIView(ListAPIView):
 
     def get_queryset(self):
         post_id = self.kwargs.get('pk')
-        return Comment.objects.filter(post__id=post_id)
+        return Comment.objects.filter(post__id=post_id).order_by("-created")
 
 
 class CommentCreateApiView(CreateAPIView):

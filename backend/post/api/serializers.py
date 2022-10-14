@@ -20,7 +20,6 @@ class CommentSerializer(serializers.ModelSerializer):
         exclude = ('post',)
 
     def create(self, validated_data):
-        print(self.context)
         post_id = self.context.get('post_id')
         post = Post.objects.get(id=post_id)
         validated_data['post'] = post
