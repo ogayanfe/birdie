@@ -8,7 +8,7 @@ export const PageContextProvider = ({ children }) => {
         next: null,
         posts: [],
     });
-    const { likePost: _likepost } = usePostActionContext();
+    const { _likePost, _savePost } = usePostActionContext();
 
     const likePost = (id) => {
         const success = (response) => {
@@ -18,13 +18,25 @@ export const PageContextProvider = ({ children }) => {
                 return { ...prev, posts: newPost };
             });
         };
-        _likepost(id, success);
+        _likePost(id, success);
+    };
+
+    const savePost = (id) => {
+        const success = (response) => {
+            setData((prev) => {
+                const update = response.data;
+                const newPost = prev.posts.map((post) => (post.id === update.id ? update : post));
+                return { ...prev, posts: newPost };
+            });
+        };
+        _savePost(id, success);
     };
 
     const context = {
         data: data,
         setData: setData,
         likePost: likePost,
+        savePost: savePost,
     };
     return <pageContext.Provider value={context}>{children}</pageContext.Provider>;
 };

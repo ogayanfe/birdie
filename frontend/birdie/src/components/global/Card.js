@@ -22,7 +22,7 @@ const Card = (props) => {
         is_saved,
         is_commented,
     } = props;
-    const { likePost } = usePageContext();
+    const { likePost, savePost } = usePageContext();
     return (
         <div className="w-[598px] max-w-[95%] p-3 gap-2 grid grid-cols-[49px,_auto] bg-gray-50 mt-4 rounded-md">
             <div>
@@ -71,13 +71,14 @@ const Card = (props) => {
                         ) : (
                             <iconify-icon icon="icon-park-outline:like">Like</iconify-icon>
                         )}
-                        <span style={is_saved ? { color: "red" } : null}>{likes}</span>
+                        <span style={liked ? { color: "red" } : null}>{likes}</span>
                     </button>
                     <button className="flex justify-center gap-4 items-center w-full h-full">
                         <iconify-icon icon="carbon:data-share">share</iconify-icon>
                         <span>{shares}</span>
                     </button>
                     <button
+                        onClick={() => savePost(id)}
                         className="flex justify-center gap-4 items-center w-full h-full"
                         style={is_saved ? { color: "blue" } : null}
                     >

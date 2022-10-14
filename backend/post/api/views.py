@@ -118,10 +118,10 @@ class SaveUnsavePostAPIView(APIView):
 
     def post(self, request, pk):
         post = get_object_or_404(Post, pk=pk)
-        post_saved_by = post.saved_by
-        if post_saved_by.filter(id=self.request.user.id).exists():
-            post_saved_by.remove(self.request.user)
+        post_saves = post.saves
+        if post_saves.filter(id=self.request.user.id).exists():
+            post_saves.remove(self.request.user)
         else:
-            post_saved_by.add(self.request.user)
+            post_saves.add(self.request.user)
         data = PostSerializer(post, context={"request": self.request}).data
         return Response(data)
