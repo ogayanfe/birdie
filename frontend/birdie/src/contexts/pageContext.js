@@ -9,12 +9,17 @@ export const PageContextProvider = ({ children }) => {
         posts: [],
     });
     const { _likePost, _savePost } = usePostActionContext();
+    // function to be called to filter posts when liked
+    const [onPostLike, setOnPostLike] = useState(null);
+    // function to be called to filter posts when saved
+    const [onPostSave, setOnPostSave] = useState(null);
 
     const likePost = (id) => {
         const success = (response) => {
             setData((prev) => {
                 const update = response.data;
-                const newPost = prev.posts.map((post) => (post.id === update.id ? update : post));
+                let newPost = prev.posts.map((post) => (post.id === update.id ? update : post));
+                if (onPostLike) newPost = onPostLike(newPost);
                 return { ...prev, posts: newPost };
             });
         };
@@ -25,7 +30,8 @@ export const PageContextProvider = ({ children }) => {
         const success = (response) => {
             setData((prev) => {
                 const update = response.data;
-                const newPost = prev.posts.map((post) => (post.id === update.id ? update : post));
+                let newPost = prev.posts.map((post) => (post.id === update.id ? update : post));
+                if (onPostSave) newPost = onPostSave(newPost);
                 return { ...prev, posts: newPost };
             });
         };
@@ -37,6 +43,8 @@ export const PageContextProvider = ({ children }) => {
         setData: setData,
         likePost: likePost,
         savePost: savePost,
+        setOnPostLike: setOnPostLike,
+        setOnPostSave: setOnPostSave,
     };
     return <pageContext.Provider value={context}>{children}</pageContext.Provider>;
 };

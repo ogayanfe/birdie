@@ -6,12 +6,15 @@ import usePageContext from "../../contexts/pageContext";
 
 const Liked = () => {
     const { getPosts } = usePostActionContext();
-    const { data, setData } = usePageContext();
+    const { data, setData, setOnPostLike } = usePageContext();
     useEffect(() => {
         const success = (r) => {
             setData({ next: r.data.next, posts: r.data.results });
         };
         getPosts("liked", success, console.log);
+        setOnPostLike(() => (newPosts) => {
+            return newPosts.filter((post) => post.is_liked === true);
+        });
         return () => {
             setData({ next: null, posts: [] });
         };
