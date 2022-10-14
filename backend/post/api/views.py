@@ -9,7 +9,7 @@ from rest_framework.generics import (
 )
 
 from post.models import Post, Comment
-from .serializers import PostSerializer, PostCommentSerializer, CommentSerializer, CreatorSerializer
+from .serializers import PostSerializer, CommentSerializer, CreatorSerializer
 from rest_framework.views import APIView
 from rest_framework.response import Response
 

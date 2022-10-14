@@ -43,13 +43,22 @@ export const PostActionContextProvider = ({ children }) => {
             onSuccess(response);
         } else onFailure(response);
     };
-    // const savePost
+
+    const createComment = async (id, formData, onSuccess, onFailure) => {
+        let response;
+        response = await axiosInstance.post(`post/${id}/comments/create/`, formData);
+        if (response.status >= 200 && response.status < 400) {
+            onSuccess(response);
+        } else onFailure(response);
+    };
+
     const contextValue = {
         createPost: createPost,
         getComments: getComments,
         getPosts: getPosts,
         _likePost: likePost,
         _savePost: savePost,
+        createComment: createComment,
     };
 
     return <postActionContext.Provider value={contextValue}>{children}</postActionContext.Provider>;

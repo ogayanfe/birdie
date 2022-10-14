@@ -78,11 +78,3 @@ class PostSerializer(serializers.ModelSerializer):
         user = self.context.get("request").user
         validated_data["creator"] = validated_data.get('creator', user)
         return super().create(validated_data)
-
-
-class PostCommentSerializer(serializers.ModelSerializer):
-    comments = CommentSerializer(many=True)
-
-    class Meta:
-        model = Post
-        fields = ("comments",)
