@@ -1,3 +1,4 @@
+import { Comment } from "@mui/icons-material";
 import { Dialog } from "@mui/material";
 import React, { useEffect, useState } from "react";
 import usePostActionContext from "../../contexts/PostActionContext";
@@ -12,17 +13,18 @@ const CommentsModal = ({ id, open, close }) => {
     useEffect(() => {
         const success = (response) => {
             setComments({
-                next: null, // forgot to add paginization to post comments
-                comments: response.data.comments,
+                next: response.data.next,
+                comments: response.data.results,
             });
         };
         getComments(id, success, console.log);
     }, [id, setComments, getComments]);
+
     return (
         <Dialog open={open} onClose={close}>
             CommentsModal
             {comments.map((comment) => {
-                return <li>Comment</li>;
+                return <li>{Comment}</li>;
             })}
         </Dialog>
     );

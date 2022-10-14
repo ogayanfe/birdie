@@ -17,8 +17,8 @@ const Card = (props) => {
         likes,
         saves,
         user,
-        owner_id,
         liked,
+        creator_id,
         is_saved,
         is_commented,
     } = props;
@@ -32,7 +32,7 @@ const Card = (props) => {
             <div>
                 <div className="flex h-5 mb-2">
                     <div className="text-sm col text-[#0F1419] capitalize">
-                        {user_id === owner_id ? "You" : user}
+                        {user_id === creator_id ? "You" : user}
                     </div>
                     <div className="text-[#5B7083] text-sm">. 23s</div>
                 </div>

@@ -1,3 +1,4 @@
+from turtle import pos
 from django.shortcuts import get_object_or_404
 from rest_framework.generics import (
     ListAPIView,
@@ -62,9 +63,12 @@ class PostDeleteAPIView(RetrieveDestroyAPIView):
         return qs
 
 
-class PostCommentsListAPIView(RetrieveAPIView):
-    serializer_class = PostCommentSerializer
-    queryset = Post.objects
+class CommentsListAPIView(ListAPIView):
+    serializer_class = CommentSerializer
+
+    def get_queryset(self):
+        post_id = self.kwargs.get('pk')
+        return Comment.objects.filter(post__id=post_id)
 
 
 class CommentCreateApiView(CreateAPIView):
