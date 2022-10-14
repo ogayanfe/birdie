@@ -1,13 +1,17 @@
 import React from "react";
+import usePageContext from "../../contexts/pageContext";
 import Card from "./Card";
 
 const CardContainer = (props) => {
-    const { posts } = props;
+    const {
+        data: { posts },
+    } = usePageContext();
     return (
         <>
             {posts.map((post) => {
                 return (
                     <Card
+                        id={post.id}
                         key={post.id + new Date().toString()}
                         user={post.creator.username}
                         card_content={post.content}

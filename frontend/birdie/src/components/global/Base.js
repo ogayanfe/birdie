@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import { Outlet } from "react-router-dom";
+import { PageContextProvider } from "../../contexts/pageContext";
 import Header from "./Header";
 import SideNav from "./SideNav";
 
@@ -18,11 +19,16 @@ const Base = () => {
             <div className="flex-grow h-screen w-[calc(100%_-_3.5rem)] xxl:w-full relative flex flex-col ml-14 lg:ml-0 ">
                 <Header />
                 <main className="w-full h-full flex-grow mt-14 overflow-y-scroll pb-14 border-t-4">
-                    <Outlet />
+                    <PageContextProvider>
+                        <Outlet />
+                    </PageContextProvider>
                 </main>
             </div>
             {showSidebar && (
-                <div className="fixed w-screen h-screen lg:hidden bg-black opacity-50"></div>
+                <div
+                    className="fixed w-screen h-screen lg:hidden bg-black opacity-50"
+                    onClick={() => setShowSidebar(false)}
+                ></div>
             )}
         </div>
     );

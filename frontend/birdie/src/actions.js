@@ -20,7 +20,7 @@ export function getAxiosInstance() {
 export async function createPost({ request, params }) {
     const axiosInstance = getAxiosInstance();
     const formData = await request.formData();
-    const updates = Object.fromEntries(formData);
+    // const updates = Object.fromEntries(formData);
     axiosInstance.post("/post/create/", formData).then((res) => console.log(res));
     return redirect("");
 }

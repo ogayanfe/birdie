@@ -1,12 +1,14 @@
 import React from "react";
 import { Avatar } from "@mui/material";
 import useUserContext from "../../contexts/UserContext";
+import usePageContext from "../../contexts/pageContext";
 
 const Card = (props) => {
     const {
         user: { user_id },
     } = useUserContext();
     const {
+        id,
         avatar,
         card_content,
         card_image,
@@ -20,6 +22,7 @@ const Card = (props) => {
         is_saved,
         is_commented,
     } = props;
+    const { likePost } = usePageContext();
     return (
         <div className="w-[598px] max-w-[95%] p-3 gap-2 grid grid-cols-[49px,_auto] bg-gray-50 mt-4 rounded-md">
             <div>
@@ -59,7 +62,10 @@ const Card = (props) => {
                         )}
                         <span style={is_commented ? { color: "blue" } : null}>{comments}</span>
                     </button>
-                    <button className="flex justify-center gap-4 items-center w-full h-full ">
+                    <button
+                        className="flex justify-center gap-4 items-center w-full h-full "
+                        onClick={() => likePost(id)}
+                    >
                         {liked ? (
                             <iconify-icon icon="flat-color-icons:like">Like</iconify-icon>
                         ) : (

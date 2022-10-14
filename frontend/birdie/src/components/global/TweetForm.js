@@ -1,10 +1,15 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import { Avatar, Modal } from "@mui/material";
 import useUserContext from "../../contexts/UserContext";
-import { Form } from "react-router-dom";
 import { Box } from "@mui/system";
+import usePostActionContext from "../../contexts/PostActionContext";
+import usePageContext from "../../contexts/pageContext";
 
 const TweetForm = () => {
+    const { setData: setParentData } = usePageContext();
+    const { createPost } = usePostActionContext();
+    const [previewImage, setPreviewImage] = useState(false);
+    const [file, setFile] = useState({ name: "No file chosen yet", file: null });
     const {
         user: { user_name: username },
     } = useUserContext();
@@ -13,18 +18,34 @@ const TweetForm = () => {
         e.preventDefault();
         document.querySelector("#post-image-field").click();
     };
+    const submitForm = (e) => {
+        e.preventDefault();
+        const formElement = e.target;
+        const success = (r) => {
+            setParentData((prev) => {
+                return { ...prev, posts: [r.data, ...prev.posts] };
+            });
+        };
+        createPost(new FormData(formElement), success, console.log);
+    };
 
-    const [previewImage, setPreviewImage] = useState(false);
-    const [file, setFile] = useState({ name: "No file chosen yet", file: null });
+    React.useEffect(() => {
+        const formElement = document.querySelector("#tweet-form");
+        formElement.addEventListener("submit", submitForm);
+        return () => {
+            formElement.removeEventListener("submit", submitForm);
+        };
+    });
     return (
         <div className="w-[95%] max-w-[598px] grid-cols-[49px,_auto] h-28 grid p-3  border-b-4 gap-1 bg-gray-100 mt-2">
             <div>
                 <Avatar alt="post">{username.at(0).toUpperCase()}</Avatar>
             </div>
-            <Form
+            <form
                 className="flex flex-col gap-3 justify-between"
                 action="/"
                 method="post"
+                id="tweet-form"
                 encType="multipart/form-data"
             >
                 <div>
@@ -64,7 +85,7 @@ const TweetForm = () => {
                             {file.file ? (
                                 <img
                                     src={file.file}
-                                    alt="post image preview"
+                                    alt="selected file preview"
                                     className="h-ful 80vw max-w-[95vw] max-h-[70vh] rounded-lg object-contain"
                                 ></img>
                             ) : (
@@ -96,7 +117,7 @@ const TweetForm = () => {
                         Post
                     </button>
                 </div>
-            </Form>
+            </form>
         </div>
     );
 };
