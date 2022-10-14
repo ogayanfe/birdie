@@ -3,6 +3,7 @@ import CardContainer from "../global/CardContainer";
 import TweetForm from "../global/TweetForm";
 import usePostActionContext from "../../contexts/PostActionContext";
 import usePageContext from "../../contexts/pageContext";
+import CommentsModal from "../global/CommentsModal";
 
 const Home = () => {
     const { getPosts } = usePostActionContext();

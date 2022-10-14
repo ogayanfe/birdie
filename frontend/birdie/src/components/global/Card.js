@@ -1,7 +1,8 @@
-import React from "react";
+import React, { useState } from "react";
 import { Avatar } from "@mui/material";
 import useUserContext from "../../contexts/UserContext";
 import usePageContext from "../../contexts/pageContext";
+import CommentsModal from "./CommentsModal";
 
 const Card = (props) => {
     const {
@@ -14,7 +15,6 @@ const Card = (props) => {
         card_image,
         comments,
         likes,
-        shares,
         saves,
         user,
         owner_id,
@@ -23,6 +23,7 @@ const Card = (props) => {
         is_commented,
     } = props;
     const { likePost, savePost } = usePageContext();
+    const [viewComment, setViewComment] = useState(false);
     return (
         <div className="w-[598px] max-w-[95%] p-3 gap-2 grid grid-cols-[49px,_auto] bg-gray-50 mt-4 rounded-md">
             <div>
@@ -52,7 +53,10 @@ const Card = (props) => {
                 )}
                 <br />
                 <nav className="w-full grid grid-cols-3">
-                    <button className="flex justify-center gap-4 items-center w-full h-full ">
+                    <button
+                        className="flex justify-center gap-4 items-center w-full h-full"
+                        onClick={() => setViewComment(true)}
+                    >
                         {is_commented ? (
                             <iconify-icon icon="bi:chat-fill" style={{ color: "#1960D2" }}>
                                 Comments
@@ -62,6 +66,13 @@ const Card = (props) => {
                         )}
                         <span style={is_commented ? { color: "blue" } : null}>{comments}</span>
                     </button>
+                    {viewComment && (
+                        <CommentsModal
+                            id={id}
+                            open={viewComment}
+                            close={() => setViewComment(false)}
+                        />
+                    )}
                     <button
                         className="flex justify-center gap-4 items-center w-full h-full "
                         onClick={() => likePost(id)}
