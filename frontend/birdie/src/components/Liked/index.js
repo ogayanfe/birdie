@@ -12,6 +12,9 @@ const Liked = () => {
             setData({ next: r.data.next, posts: r.data.results });
         };
         getPosts("liked", success, console.log);
+        return () => {
+            setData({ next: null, posts: [] });
+        };
     }, []);
 
     return (

@@ -6,7 +6,7 @@ import usePostActionContext from "../../contexts/PostActionContext";
 import usePageContext from "../../contexts/pageContext";
 
 const TweetForm = () => {
-    const { setData: setParentData } = usePageContext();
+    const { setData } = usePageContext();
     const { createPost } = usePostActionContext();
     const [previewImage, setPreviewImage] = useState(false);
     const [file, setFile] = useState({ name: "No file chosen yet", file: null });
@@ -22,9 +22,12 @@ const TweetForm = () => {
         e.preventDefault();
         const formElement = e.target;
         const success = (r) => {
-            setParentData((prev) => {
+            setData((prev) => {
                 return { ...prev, posts: [r.data, ...prev.posts] };
             });
+            formElement.content.value = "";
+            formElement.image.value = "";
+            setFile((prev) => ({ ...prev, file: null }));
         };
         createPost(new FormData(formElement), success, console.log);
     };

@@ -12,6 +12,9 @@ const Home = () => {
             setData({ next: r.data.next, posts: r.data.results });
         };
         getPosts("all", success, console.log);
+        return () => {
+            setData({ next: null, posts: [] });
+        };
     }, []);
 
     return (

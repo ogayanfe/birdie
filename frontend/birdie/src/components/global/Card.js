@@ -51,7 +51,7 @@ const Card = (props) => {
                     </div>
                 )}
                 <br />
-                <nav className="w-full grid grid-cols-4">
+                <nav className="w-full grid grid-cols-3">
                     <button className="flex justify-center gap-4 items-center w-full h-full ">
                         {is_commented ? (
                             <iconify-icon icon="bi:chat-fill" style={{ color: "#1960D2" }}>
@@ -73,10 +73,7 @@ const Card = (props) => {
                         )}
                         <span style={liked ? { color: "red" } : null}>{likes}</span>
                     </button>
-                    <button className="flex justify-center gap-4 items-center w-full h-full">
-                        <iconify-icon icon="carbon:data-share">share</iconify-icon>
-                        <span>{shares}</span>
-                    </button>
+
                     <button
                         onClick={() => savePost(id)}
                         className="flex justify-center gap-4 items-center w-full h-full"
