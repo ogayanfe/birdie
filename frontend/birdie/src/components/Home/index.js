@@ -1,8 +1,8 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect } from "react";
 import CardContainer from "../global/CardContainer";
 import TweetForm from "../global/TweetForm";
 import usePostActionContext from "../../contexts/PostActionContext";
-import usePageContext, { PageContextProvider } from "../../contexts/pageContext";
+import usePageContext from "../../contexts/pageContext";
 
 const Home = () => {
     const { getPosts } = usePostActionContext();

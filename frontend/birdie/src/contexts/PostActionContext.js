@@ -28,6 +28,8 @@ export const PostActionContextProvider = ({ children }) => {
             onSuccess(response);
         } else onFailure(response);
     };
+
+    // const savePost
     const contextValue = {
         createPost: createPost,
         getPosts: getPosts,
