@@ -11,9 +11,8 @@ const TweetForm = () => {
     const [previewImage, setPreviewImage] = useState(false);
     const [file, setFile] = useState({ name: "No file chosen yet", file: null });
     const {
-        user: { user_name: username },
+        profileData: { username, profile_pic },
     } = useUserContext();
-
     const chooseImageFile = (e) => {
         e.preventDefault();
         document.querySelector("#post-image-field").click();
@@ -42,7 +41,9 @@ const TweetForm = () => {
     return (
         <div className="w-[95%] max-w-[598px] grid-cols-[49px,_auto] h-28 grid p-3  border-b-4 gap-1 bg-gray-100 mt-2">
             <div>
-                <Avatar alt="post">{username.at(0).toUpperCase()}</Avatar>
+                <Avatar alt="post" src={profile_pic}>
+                    {username && username.at(0).toUpperCase()}
+                </Avatar>
             </div>
             <form
                 className="flex flex-col gap-3 justify-between"

@@ -2,6 +2,7 @@ from rest_framework_simplejwt.serializers import TokenObtainPairSerializer
 from rest_framework import serializers
 from post.api.serializers import CreatorSerializer, PostSerializer
 from accounts.models import User
+from django.contrib.humanize.templatetags.humanize import naturalday
 
 
 class MyTokenObtainPairSerializer(TokenObtainPairSerializer):
@@ -18,8 +19,9 @@ class MyTokenObtainPairSerializer(TokenObtainPairSerializer):
 
 
 class UserSerializer(serializers.ModelSerializer):
-    following = CreatorSerializer(many=True, read_only=True)
-    posts = PostSerializer(many=True, read_only=True)
+    followers = serializers.SerializerMethodField()
+    following = serializers.SerializerMethodField()
+    date_joined = serializers.SerializerMethodField()
 
     class Meta:
         model = User
@@ -30,13 +32,23 @@ class UserSerializer(serializers.ModelSerializer):
             'email',
             'profile_pic',
             'following',
-            'posts',
+            'followers',
+            'cover_pic',
         ]
         extra_kwargs = {
             'date_joined': {
                 'read_only': True,
             }
         }
+
+    def get_followers(self, user):
+        return self.Meta.model.objects.filter(following__id=user.id).count()
+
+    def get_following(self, user):
+        return user.following.count()
+
+    def get_date_joined(self, user):
+        return naturalday(user.date_joined)
 
 
 class SignupSerializer(serializers.ModelSerializer):

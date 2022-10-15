@@ -1,3 +1,4 @@
+from re import T
 from django.db import models
 from django.contrib.auth.models import AbstractUser
 import hashlib
@@ -16,7 +17,16 @@ def profile_path(user, filename: str) -> str:
     return f"images/profile/{directory_name}/{hash}.{extension}"
 
 
+def cover_image_path(user, filename: str):
+    extension = filename.split(".").pop()
+    directory_name = f"{user.username}_{user.id}"
+    hash = hashlib.md5(str(time.time()).encode()).hexdigest()
+    return f"images/profile/cover/{directory_name}/{hash}.{extension}"
+
+
 class User(AbstractUser):
     profile_pic = models.ImageField(
         upload_to=profile_path, validators=(validate_image,), null=True)
     following = models.ManyToManyField('self')
+    cover_pic = models.ImageField(
+        upload_to=cover_image_path, null=True, default="images/cover/coverphoto.jpg")

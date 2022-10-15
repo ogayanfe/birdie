@@ -4,7 +4,10 @@ import useUserContext from "../../contexts/UserContext";
 import { useLocation } from "react-router-dom";
 
 const Header = (props) => {
-    const { user } = useUserContext();
+    const {
+        user,
+        profileData: { username, profile_pic },
+    } = useUserContext();
     const { isError } = props;
     const location = useLocation();
     let cur = location.pathname.split("/").at(1);
@@ -28,11 +31,11 @@ const Header = (props) => {
                         <span className="fixed -top-[1000px] xm:static">Create</span>
                         <iconify-icon icon="ant-design:plus-outlined">create</iconify-icon>
                     </button>
-                    <Avatar src={user && user.profile_pic} alt={user && user.user_name}>
-                        {user && user.user_name.at(0).toUpperCase()}
+                    <Avatar src={user && profile_pic} alt={user && username}>
+                        {username && username.at(0).toUpperCase()}
                     </Avatar>
                     <p className="text-purple-400 text-lg xm:static fixed -top-36 capitalize">
-                        {user && user.user_name}
+                        {user && username}
                     </p>
                 </div>
             </div>

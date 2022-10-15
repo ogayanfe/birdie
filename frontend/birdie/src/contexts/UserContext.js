@@ -1,4 +1,4 @@
-import React, { createContext, useContext, useState } from "react";
+import React, { createContext, useContext, useState, useEffect } from "react";
 import jwtDecode from "jwt-decode";
 import axios from "axios";
 
@@ -9,6 +9,13 @@ function UserContextProvider({ children }) {
     const [user, setUser] = useState(
         userTokensFromStorage && jwtDecode(userTokensFromStorage.access)
     );
+    const [profileData, setProfileData] = useState({
+        username: "",
+        date_joined: "",
+        profile_pic: "",
+        following: "",
+        follower: "",
+    });
     const [tokens, setTokens] = useState(userTokensFromStorage);
     const axiosInstance = axios.create({
         baseURL: "http://localhost:8000/api",
@@ -45,7 +52,16 @@ function UserContextProvider({ children }) {
         login: login,
         axiosInstance: axiosInstance,
         logout: logout,
+        profileData: profileData,
+        setProfileData: setProfileData,
     };
+    useEffect(() => {
+        const fetchData = async () => {
+            const response = await axiosInstance.get("accounts/info/");
+            setProfileData(response.data);
+        };
+        fetchData();
+    }, []);
 
     return <userContext.Provider value={authcontext}>{children}</userContext.Provider>;
 }
