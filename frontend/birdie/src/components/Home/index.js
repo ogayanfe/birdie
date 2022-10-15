@@ -3,11 +3,10 @@ import CardContainer from "../global/CardContainer";
 import TweetForm from "../global/TweetForm";
 import usePostActionContext from "../../contexts/PostActionContext";
 import usePageContext from "../../contexts/pageContext";
-import CommentsModal from "../global/CommentsModal";
 
 const Home = () => {
     const { getPosts } = usePostActionContext();
-    const { setData, setOnPostLike, setOnPostSave } = usePageContext();
+    const { setData } = usePageContext();
     useEffect(() => {
         const success = (r) => {
             setData({ next: r.data.next, posts: r.data.results });
@@ -16,7 +15,7 @@ const Home = () => {
         return () => {
             setData({ next: null, posts: [] });
         };
-    }, []);
+    }, [getPosts, setData]);
 
     return (
         <div className="flex flex-col items-center w-full">
