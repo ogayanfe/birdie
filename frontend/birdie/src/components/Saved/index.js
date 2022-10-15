@@ -15,9 +15,9 @@ const Liked = () => {
         setOnPostSave(() => (newPosts) => {
             return newPosts.filter((post) => post.is_saved === true);
         });
-        setOnPostLike(null);
         return () => {
             setData({ next: null, posts: [] });
+            setOnPostSave(null);
         };
     }, []);
 

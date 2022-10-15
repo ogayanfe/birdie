@@ -16,8 +16,6 @@ const Home = () => {
         return () => {
             setData({ next: null, posts: [] });
         };
-        setOnPostLike(null);
-        setOnPostSave(null);
     }, []);
 
     return (
