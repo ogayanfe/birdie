@@ -30,3 +30,6 @@ class User(AbstractUser):
     following = models.ManyToManyField('self')
     cover_pic = models.ImageField(
         upload_to=cover_image_path, null=True, default="images/cover/coverphoto.jpg")
+
+    def media_posts(self):
+        return self.posts.exclude(image='')

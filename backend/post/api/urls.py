@@ -28,5 +28,4 @@ urlpatterns = (
     path('<int:pk>/save/', SaveUnsavePostAPIView.as_view(),),
     path("update/<int:pk>", PostUpdateAPIView.as_view(),),
     path("delete/<int:pk>", PostDeleteAPIView.as_view(),)
-
 )

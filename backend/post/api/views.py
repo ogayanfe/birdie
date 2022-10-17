@@ -24,6 +24,10 @@ class PostListAPIView(ListAPIView):
             return user.saved_post.all().order_by("-created")
         elif filter == "liked":
             return user.liked_post.all().order_by("-created")
+        elif filter == 'user':
+            return user.posts.all().order_by("-created")
+        elif filter == 'media':
+            return user.media_posts()
         else:
             return Post.objects.user_post(user).order_by("-created")
 
