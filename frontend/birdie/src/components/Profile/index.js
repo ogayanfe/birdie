@@ -13,8 +13,8 @@ const Profile = () => {
     };
     const { username, profile_pic, followers, following, date_joined, cover_pic } = profileData;
     return (
-        <div className="w-[599px] max-w-[98%] mt-2 mx-auto">
-            <div className="bg-gray-100 border-b-4">
+        <div className="w-[599px] max-w-[99%] mt-0 mx-auto">
+            <div className="bg-gray-100">
                 <div className="h-[270px] w-full relative">
                     <div className="h-[200px]">
                         <img
@@ -37,7 +37,7 @@ const Profile = () => {
                     <div className="capitalize text-sm text-[#5B7083]">joined {date_joined}</div>
                     <div className="text-[#5b7083] text-sm flex gap-1">
                         <div>
-                            <span className="text-black">{followers}</span>
+                            <span className="text-black">{followers} </span>
                             {followers > 1 ? "followers" : "follower"}
                         </div>
                         <span className="text-black">.</span>
@@ -46,24 +46,22 @@ const Profile = () => {
                         </div>
                     </div>
                 </div>
-                <div className="w-full sticky p-2">
-                    <Tabs
-                        value={currentTab}
-                        onChange={handleChange}
-                        variant="fullWidth"
-                        aria-label="basic tabs example"
-                        className="sticky top-0"
-                        centered
-                        // textColor="secondary"
-                        // indicatorColor="secondary"
-                    >
-                        <Tab label="Posts" value={1} />
-                        <Tab label="Comments" value={2} />
-                        <Tab label="media" value={3} />
-                    </Tabs>
-                </div>
             </div>
-            <div>
+            <div className="w-full sticky top-0 z-50 mt-3 bg-gray-100 border-b-4 p-3 ">
+                <Tabs
+                    value={currentTab}
+                    onChange={handleChange}
+                    variant="fullWidth"
+                    aria-label="basic tabs example"
+                    centered
+                    component="nav"
+                >
+                    <Tab label="Posts" value={1} />
+                    <Tab label="Comments" value={2} />
+                    <Tab label="media" value={3} />
+                </Tabs>
+            </div>
+            <div className="w-full pl-4 mx-auto">
                 {currentTab === 1 && <ProfilePostContainer />}
                 {currentTab === 2 && <PostComments />}
                 {currentTab === 3 && <MediaPostContainer />}
