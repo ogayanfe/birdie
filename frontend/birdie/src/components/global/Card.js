@@ -26,20 +26,20 @@ const Card = (props) => {
     const { likePost, savePost } = usePageContext();
     const [viewComment, setViewComment] = useState(false);
     return (
-        <div className="w-[598px] max-w-[95%] p-3 gap-2 grid grid-cols-[49px,_auto] bg-gray-50 mt-4 rounded-md">
+        <div className="w-[598px] max-w-[95%] p-3 gap-2 grid grid-cols-[49px,_auto] bg-gray-50 mt-4 rounded-md dark:bg-[#000208]">
             <div>
                 <Avatar src={avatar}>{user.at(0).toUpperCase()}</Avatar>
             </div>
             <div>
                 <div className="flex h-5 mb-2">
-                    <div className="text-sm col text-[#0F1419] capitalize">
+                    <div className="text-sm col text-[#0F1419] capitalize dark:text-gray-200">
                         {user_id === creator_id ? "You" : user}
                     </div>
-                    <div className="text-[#5B7083] text-[.8rem]">
+                    <div className="text-[#5B7083] text-[.8rem] dark:text-gray-400">
                         <span className="m-2">.</span> {created}
                     </div>
                 </div>
-                <div className="text-[#0F1419] text-[0.8rem]">
+                <div className="text-[#0F1419] text-[0.8rem] dark:text-white">
                     {card_content}
                     <a href="#readmore" className="text-blue-400 pl-1 hover:text-gray-400">
                         show more
@@ -57,17 +57,17 @@ const Card = (props) => {
                 <br />
                 <nav className="w-full grid grid-cols-3">
                     <button
-                        className="flex justify-center gap-4 items-center w-full h-full"
+                        className={`flex justify-center gap-4 items-center w-full h-full ${
+                            is_commented ? "text-blue-500" : "dark:text-gray-200"
+                        }`}
                         onClick={() => setViewComment(true)}
                     >
                         {is_commented ? (
-                            <iconify-icon icon="bi:chat-fill" style={{ color: "#1960D2" }}>
-                                Comments
-                            </iconify-icon>
+                            <iconify-icon icon="bi:chat-fill">Comments</iconify-icon>
                         ) : (
                             <iconify-icon icon="fa:comment-o">Comments</iconify-icon>
                         )}
-                        <span style={is_commented ? { color: "blue" } : null}>{comments}</span>
+                        <span>{comments}</span>
                     </button>
                     {viewComment && (
                         <CommentsModal
@@ -77,7 +77,9 @@ const Card = (props) => {
                         />
                     )}
                     <button
-                        className="flex justify-center gap-4 items-center w-full h-full "
+                        className={`flex justify-center gap-4 items-center w-full h-full ${
+                            liked ? "text-red-500" : "dark:text-gray-400"
+                        }`}
                         onClick={() => likePost(id)}
                     >
                         {liked ? (
@@ -85,13 +87,14 @@ const Card = (props) => {
                         ) : (
                             <iconify-icon icon="icon-park-outline:like">Like</iconify-icon>
                         )}
-                        <span style={liked ? { color: "red" } : null}>{likes}</span>
+                        <span>{likes}</span>
                     </button>
 
                     <button
                         onClick={() => savePost(id)}
-                        className="flex justify-center gap-4 items-center w-full h-full"
-                        style={is_saved ? { color: "blue" } : null}
+                        className={`flex justify-center gap-4 items-center w-full h-full ${
+                            is_saved ? "text-blue-500" : "dark:text-gray-400"
+                        }`}
                     >
                         <iconify-icon icon="bi:save">Save</iconify-icon>
                         <span>{saves}</span>

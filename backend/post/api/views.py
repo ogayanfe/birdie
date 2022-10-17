@@ -7,9 +7,8 @@ from rest_framework.generics import (
     RetrieveAPIView,
     RetrieveDestroyAPIView
 )
-
 from post.models import Post, Comment
-from .serializers import PostSerializer, CommentSerializer, CreatorSerializer
+from .serializers import PostSerializer, CommentSerializer
 from rest_framework.views import APIView
 from rest_framework.response import Response
 

@@ -8,7 +8,7 @@ const Base = () => {
     const [showSidebar, setShowSidebar] = useState(false);
 
     return (
-        <div className="flex flex-row w-screen relative h-screen xxl:grid xxl:grid-cols-[30%,_auto]">
+        <div className="flex flex-row w-screen relative h-screen xxl:grid xxl:grid-cols-[30%,_auto] dark:bg-black">
             <div
                 className={` ${
                     showSidebar ? "w-64" : "w-14"
@@ -18,7 +18,7 @@ const Base = () => {
             </div>
             <div className="flex-grow h-screen w-[calc(100%_-_3.5rem)] xxl:w-full relative flex flex-col ml-14 lg:ml-0 ">
                 <Header />
-                <main className="w-full h-full flex-grow mt-14 overflow-y-scroll pb-14 border-t-4">
+                <main className="w-full h-full flex-grow mt-14 overflow-y-scroll pb-14 border-t-4 dark:border-gray-900">
                     <PageContextProvider>
                         <Outlet />
                     </PageContextProvider>

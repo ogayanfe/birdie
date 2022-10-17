@@ -39,7 +39,7 @@ const TweetForm = () => {
         };
     });
     return (
-        <div className="w-[95%] max-w-[598px] grid-cols-[49px,_auto] h-28 grid p-3  border-b-4 gap-1 bg-gray-100 mt-2">
+        <div className="w-[95%] max-w-[598px] grid-cols-[49px,_auto] h-28 grid p-3  border-b-4 gap-1 bg-gray-100 mt-2 dark:bg-black dark:bg-opacity-90 dark:shadow-xl dark:border-gray-800">
             <div>
                 <Avatar alt="post" src={profile_pic}>
                     {username && username.at(0).toUpperCase()}
@@ -61,7 +61,7 @@ const TweetForm = () => {
                         name="content"
                         id="main-tweet-form"
                         placeholder="Say Something?"
-                        className="border-none p-2 text-[#5B7083] bg-white w-full  rounded-lg focus:outline-none text-sm"
+                        className="border-none p-2 text-[#5B7083] bg-white w-full  rounded-lg focus:outline-none text-sm dark:bg-gray-900 dark:text-gray-300"
                     />
                     <label htmlFor="post-image-field" className="fixed -top-[10000px]">
                         Select post image
