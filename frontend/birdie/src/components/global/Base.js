@@ -12,7 +12,7 @@ const Base = () => {
             <div
                 className={` ${
                     showSidebar ? "w-64" : "w-14"
-                } max-w-3/4 z-10  lg:w-96 transition-all xxl:w-full duration-700 absolute h-screen lg:static`}
+                } max-w-3/4 z-50  lg:w-96 transition-all xxl:w-full duration-700 absolute h-screen lg:static`}
             >
                 <SideNav setShowSidebar={setShowSidebar} open={showSidebar} />
             </div>
@@ -26,7 +26,7 @@ const Base = () => {
             </div>
             {showSidebar && (
                 <div
-                    className="fixed w-screen h-screen lg:hidden bg-black opacity-50"
+                    className="fixed w-screen h-screen lg:hidden bg-black opacity-50 z-40"
                     onClick={() => setShowSidebar(false)}
                 ></div>
             )}

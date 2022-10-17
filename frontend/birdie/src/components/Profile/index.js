@@ -56,7 +56,7 @@ const Profile = () => {
                     </div>
                 </div>
             </div>
-            <div className="w-full sticky top-0 z-50 mt-3 bg-gray-100 border-b-4 p-3 dark:bg-[#030108] dark:border-gray-900">
+            <div className="w-full sticky top-0 z-10 mt-3 bg-gray-100 border-b-4 p-3 dark:bg-[#030108] dark:border-gray-900">
                 <Tabs
                     value={currentTab}
                     onChange={handleChange}
