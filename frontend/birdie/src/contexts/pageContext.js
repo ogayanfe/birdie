@@ -1,9 +1,11 @@
-import { useState, useContext, createContext } from "react";
+import { useState, useContext, createContext, useEffect } from "react";
 import usePostActionContext from "./PostActionContext";
+import useUserContext from "./UserContext";
 
 export const pageContext = createContext();
 
 export const PageContextProvider = ({ children }) => {
+    const { axiosInstance } = useUserContext();
     const [data, setData] = useState({
         next: null,
         posts: [],
@@ -13,7 +15,6 @@ export const PageContextProvider = ({ children }) => {
     const [onPostLike, setOnPostLike] = useState(null);
     // function to be called to filter posts when saved
     const [onPostSave, setOnPostSave] = useState(null);
-
     const likePost = (id) => {
         const success = (response) => {
             setData((prev) => {
@@ -53,6 +54,14 @@ export const PageContextProvider = ({ children }) => {
         _createComment(id, formData, success, onFailure);
     };
 
+    const getNextItems = async (next, onSuccess, onFailure = console.log) => {
+        const response = await axiosInstance.get(`${next}`);
+        if (response.status >= 200 && response.status < 400) {
+            console.log(response);
+            onSuccess(response);
+        } else onFailure(response);
+    };
+
     const context = {
         data: data,
         setData: setData,
@@ -61,7 +70,10 @@ export const PageContextProvider = ({ children }) => {
         setOnPostLike: setOnPostLike,
         setOnPostSave: setOnPostSave,
         createComment: createComment,
+        getNextItems: getNextItems,
+        getNextUrl: () => data.next,
     };
+
     return <pageContext.Provider value={context}>{children}</pageContext.Provider>;
 };
 

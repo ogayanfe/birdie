@@ -12,7 +12,9 @@ const CardContainer = (props) => {
                 return (
                     <Card
                         id={post.id}
-                        key={post.id + new Date().toString()}
+                        // Trying to randomize the key has much has possible to prevent conflict
+                        // when dealing with newly requested posts from paginization
+                        key={post.id + new Date().toJSON() + Math.random() ** Math.random()}
                         user={post.creator.username}
                         card_content={post.content}
                         card_image={post.image}
