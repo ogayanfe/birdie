@@ -8,9 +8,9 @@ import Profile from "./components/Profile";
 import SignIn from "./components/Auth/SignIn";
 import LoginRequiredRoute from "./components/global/ProtectedRoute";
 import Logout from "./components/Auth/Logout";
-import PostMethod from "./components/global/PostMethod";
 import ErrorPage from "./components/global/ErrorPage";
 import Liked from "./components/Liked";
+import PostDetail from "./components/global/PostDetail";
 
 const App = createBrowserRouter(
     createRoutesFromElements(
@@ -23,6 +23,7 @@ const App = createBrowserRouter(
                     <Route path="chat/" element={<Chat />} />
                     <Route path="profile/" element={<Profile />} />
                     <Route path="logout/" element={<Logout />} />
+                    <Route path="post/:postId" element={<PostDetail />} />
                 </Route>
             </Route>
             <Route path="signin/" element={<SignIn />} />
