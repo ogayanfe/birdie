@@ -72,7 +72,7 @@ const Profile = () => {
                     <Tab label="media" value={3} theme={darkTheme ? tabDarkTheme : null} />
                 </Tabs>
             </div>
-            <div className="w-full pl-4 mx-auto">
+            <div className="w-full mx-auto">
                 {currentTab === 1 && <ProfilePostContainer />}
                 {currentTab === 2 && <PostComments />}
                 {currentTab === 3 && <MediaPostContainer />}

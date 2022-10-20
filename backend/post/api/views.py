@@ -49,11 +49,7 @@ class PostUpdateAPIView(RetrieveUpdateAPIView):
 class PostRetrieveAPIView(RetrieveAPIView):
     model = Post
     serializer_class = PostSerializer
-
-    def get_queryset(self):
-        user = self.request.user
-        qs = self.model.objects.filter(creator=user)
-        return qs
+    queryset = Post.objects.all()
 
 
 class PostDeleteAPIView(RetrieveDestroyAPIView):
@@ -66,12 +62,17 @@ class PostDeleteAPIView(RetrieveDestroyAPIView):
         return qs
 
 
-class CommentsListAPIView(ListAPIView):
+class PostCommentsListAPIView(ListAPIView):
     serializer_class = CommentSerializer
 
     def get_queryset(self):
         post_id = self.kwargs.get('pk')
         return Comment.objects.filter(post__id=post_id).order_by("-created")
+
+
+class CommentsListAPIView(ListAPIView):
+    serializer_class = CommentSerializer
+    queryset = Comment.objects.all().order_by("-created")
 
 
 class CommentCreateApiView(CreateAPIView):

@@ -15,6 +15,11 @@ class CreatorSerializer(serializers.ModelSerializer):
 class CommentSerializer(serializers.ModelSerializer):
     creator = CreatorSerializer(read_only=True)
     created = serializers.SerializerMethodField(read_only=True)
+    post_id = serializers.SerializerMethodField()
+    post_content = serializers.SerializerMethodField()
+    post_creator_profile = serializers.SerializerMethodField()
+    post_creator = serializers.SerializerMethodField()
+    post_created = serializers.SerializerMethodField()
 
     class Meta:
         model = Comment
@@ -29,6 +34,21 @@ class CommentSerializer(serializers.ModelSerializer):
 
     def get_created(self, comment):
         return naturaltime(comment.created)
+
+    def get_post_id(self, comment):
+        return comment.post.id
+
+    def get_post_content(self, comment):
+        return comment.post.content
+
+    def get_post_creator_profile(self, comment):
+        return comment.post.creator.profile_pic.url
+
+    def get_post_creator(self, comment):
+        return comment.post.creator.username
+
+    def get_post_created(self, comment):
+        return naturaltime(comment.post.created)
 
 
 class PostSerializer(serializers.ModelSerializer):

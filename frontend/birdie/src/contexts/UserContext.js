@@ -33,7 +33,6 @@ function UserContextProvider({ children }) {
             .then((response) => {
                 data = response.data;
                 if (response.status === 200) {
-                    console.log(jwtDecode(data.refresh));
                     setUser(jwtDecode(data.access));
                     setTokens(data);
                     localStorage.setItem("userTokens", JSON.stringify(data));

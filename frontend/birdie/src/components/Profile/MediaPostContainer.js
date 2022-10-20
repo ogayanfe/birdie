@@ -13,12 +13,6 @@ const MediaPostContainer = () => {
             setData({ next: response.data.next, posts: response.data.results });
         };
         getPosts("media", success, console.log);
-        return () => {
-            setData({
-                next: null,
-                posts: [],
-            });
-        };
     }, [getPosts, setData]);
     const checkScrollHeight = (element) => {
         const success = (response) => {
@@ -39,7 +33,6 @@ const MediaPostContainer = () => {
     };
     useEffect(() => {
         const element = container.current.parentNode.parentNode.parentNode;
-        console.log(element);
         const checkHeight = () => checkScrollHeight(element);
         element.addEventListener("scroll", checkHeight);
         return () => element.removeEventListener("scroll", checkHeight);
