@@ -1,5 +1,5 @@
 from rest_framework_simplejwt.views import TokenObtainPairView
-from rest_framework.generics import CreateAPIView, UpdateAPIView
+from rest_framework.generics import CreateAPIView, UpdateAPIView, ListAPIView
 from rest_framework_simplejwt.tokens import RefreshToken
 from .serializers import MyTokenObtainPairSerializer, UserSerializer, SignupSerializer
 from accounts.models import User
@@ -54,6 +54,15 @@ class UserDetailAPIView(RetrieveAPIView):
         obj = get_object_or_404(self.model, id=user.id)
         self.check_object_permissions(self.request, obj)
         return obj
+
+
+class FollowingListView(ListAPIView):
+    serializer_class = UserSerializer
+
+    def get_queryset(self):
+        user_id = self.kwargs.get("id")
+        user = User.objects.get(id=user_id)
+        return user.following.all()
 
 
 class FollowUnfollowUserAPIView(APIView):

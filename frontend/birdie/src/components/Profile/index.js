@@ -5,6 +5,7 @@ import PostComments from "./PostComments";
 import ProfilePostContainer from "./ProfilePostContainer";
 import MediaPostContainer from "./MediaPostContainer";
 import useThemeContext from "../../contexts/themeContext";
+import ProfileUsers from "./ProfileUsers";
 
 const tabDarkTheme = createTheme({
     palette: {
@@ -41,7 +42,7 @@ const Profile = () => {
                     </button>
                 </div>
                 <div className="p-4 flex flex-col gap-1">
-                    <p className="capitalize text-black text-lg">@{username}</p>
+                    <p className="capitalize text-black text-lg dark:text-gray-400">@{username}</p>
                     <div className="capitalize text-sm text-[#5B7083]">joined {date_joined}</div>
                     <div className="text-[#5b7083] text-sm flex gap-1">
                         <div>
@@ -60,9 +61,8 @@ const Profile = () => {
                 <Tabs
                     value={currentTab}
                     onChange={handleChange}
-                    variant="fullWidth"
+                    variant="scrollable"
                     aria-label="basic tabs example"
-                    centered
                     theme={tabDarkTheme}
                     component="nav"
                     style={darkTheme ? { background: "#030108" } : null}
@@ -70,12 +70,14 @@ const Profile = () => {
                     <Tab label="Posts" value={1} theme={darkTheme ? tabDarkTheme : null} />
                     <Tab label="Comments" value={2} theme={darkTheme ? tabDarkTheme : null} />
                     <Tab label="media" value={3} theme={darkTheme ? tabDarkTheme : null} />
+                    <Tab label="users" value={4} theme={darkTheme ? tabDarkTheme : null} />
                 </Tabs>
             </div>
-            <div className="w-full mx-auto">
+            <div className="w-full mx-auto pl-4">
                 {currentTab === 1 && <ProfilePostContainer />}
                 {currentTab === 2 && <PostComments />}
                 {currentTab === 3 && <MediaPostContainer />}
+                {currentTab === 4 && <ProfileUsers />}
             </div>
         </div>
     );
