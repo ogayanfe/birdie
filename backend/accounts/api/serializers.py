@@ -1,6 +1,5 @@
 from rest_framework_simplejwt.serializers import TokenObtainPairSerializer
 from rest_framework import serializers
-from post.api.serializers import CreatorSerializer, PostSerializer
 from accounts.models import User
 from django.contrib.humanize.templatetags.humanize import naturalday
 

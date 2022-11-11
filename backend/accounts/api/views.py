@@ -56,13 +56,22 @@ class UserDetailAPIView(RetrieveAPIView):
         return obj
 
 
-class FollowingListView(ListAPIView):
+class FollowingListAPIView(ListAPIView):
     serializer_class = UserSerializer
 
     def get_queryset(self):
         user_id = self.kwargs.get("id")
         user = User.objects.get(id=user_id)
         return user.following.all()
+
+
+class FollowerListAPIView(ListAPIView):
+    serializer_class = UserSerializer
+
+    def get_queryset(self):
+        user_id = self.kwargs.get("id")
+        user = User.objects.get(id=user_id)
+        return User.objects.filter(following__icontains='following')
 
 
 class FollowUnfollowUserAPIView(APIView):

@@ -32,6 +32,9 @@ const PostCommentCard = (props) => {
                 className="text-[.8rem] text-gray-500 mt-2 hover:text-blue-500"
             >
                 {post_content.slice(0, 100)} {post_content > 100 && <span> ...</span>}
+                <span aria-hidden={true} className="text-sm">
+                    <iconify-icon icon="bx:link-alt"></iconify-icon>
+                </span>
             </Link>
             <p className="text-[.8rem] flex  flex-col mt-2 text-gray-900 ">
                 <span className="dark:text-gray-200">You - {content}</span>

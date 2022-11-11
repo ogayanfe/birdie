@@ -70,14 +70,16 @@ const Profile = () => {
                     <Tab label="Posts" value={1} theme={darkTheme ? tabDarkTheme : null} />
                     <Tab label="Comments" value={2} theme={darkTheme ? tabDarkTheme : null} />
                     <Tab label="media" value={3} theme={darkTheme ? tabDarkTheme : null} />
-                    <Tab label="users" value={4} theme={darkTheme ? tabDarkTheme : null} />
+                    <Tab label="following" value={4} theme={darkTheme ? tabDarkTheme : null} />
+                    <Tab label="followers" value={5} theme={darkTheme ? tabDarkTheme : null} />
                 </Tabs>
             </div>
             <div className="w-full mx-auto pl-4">
                 {currentTab === 1 && <ProfilePostContainer />}
                 {currentTab === 2 && <PostComments />}
                 {currentTab === 3 && <MediaPostContainer />}
-                {currentTab === 4 && <ProfileUsers />}
+                {currentTab === 4 && <ProfileUsers users="following" />}
+                {currentTab === 5 && <ProfileUsers users="followers" />}
             </div>
         </div>
     );

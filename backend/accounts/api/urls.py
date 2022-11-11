@@ -6,7 +6,8 @@ from .views import (
     UserDetailAPIView,
     SignupAPIView,
     ProfileUpdateAPIView,
-    FollowingListView
+    FollowingListAPIView,
+    FollowerListAPIView
 )
 
 
@@ -15,7 +16,8 @@ urlpatterns = [
     path('token/refresh/', TokenRefreshView.as_view(), name='token_refresh'),
     path("info/", UserDetailAPIView.as_view()),
     path("signup/", SignupAPIView.as_view()),
-    path("<int:id>/following/", FollowingListView.as_view()),
+    path("<int:id>/following/", FollowingListAPIView.as_view()),
+    path("<int:id>/follower/", FollowerListAPIView.as_view()),
     path("profile/update/", ProfileUpdateAPIView.as_view()),
     path("follow/<int:pk>/", FollowUnfollowUserAPIView.as_view()),
     path('api/token/blacklist/', TokenBlacklistView.as_view(),
