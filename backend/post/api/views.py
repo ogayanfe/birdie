@@ -11,6 +11,7 @@ from post.models import Post, Comment
 from .serializers import PostSerializer, CommentSerializer
 from rest_framework.views import APIView
 from rest_framework.response import Response
+from rest_framework.pagination import PageNumberPagination
 
 
 class PostListAPIView(ListAPIView):
@@ -27,6 +28,10 @@ class PostListAPIView(ListAPIView):
             return user.posts.all().order_by("-created")
         elif filter == 'media':
             return user.media_posts()
+        elif filter == "explore":
+            def _(post):
+                return post.likes.count() + post.saves.count() + post.comments.count()
+            return sorted(Post.objects.all().order_by("-created"), key=_, reverse=True)
         else:
             return Post.objects.user_post(user).order_by("-created")
 

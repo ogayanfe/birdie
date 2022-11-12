@@ -5,7 +5,7 @@ import TweetForm from "../global/TweetForm";
 import usePostActionContext from "../../contexts/PostActionContext";
 import usePageContext from "../../contexts/pageContext";
 
-const Home = () => {
+const Explore = () => {
     const { getPosts } = usePostActionContext();
     const { setData, getNextItems, getNextUrl } = usePageContext();
     const container = useRef();
@@ -13,7 +13,7 @@ const Home = () => {
         const success = (r) => {
             setData({ next: r.data.next, posts: r.data.results });
         };
-        getPosts("", success, console.log);
+        getPosts("explore", success, console.log);
         return () => {
             setData({ next: null, posts: [] });
         };
@@ -49,4 +49,4 @@ const Home = () => {
     );
 };
 
-export default Home;
+export default Explore;

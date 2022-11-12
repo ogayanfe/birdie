@@ -1,30 +1,25 @@
-import React, { useEffect, useState, useRef } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import CardContainer from "../global/CardContainer";
+import KeyboardDoubleArrowDownIcon from "@mui/icons-material/KeyboardDoubleArrowDown";
 import TweetForm from "../global/TweetForm";
 import usePostActionContext from "../../contexts/PostActionContext";
 import usePageContext from "../../contexts/pageContext";
 
-const Liked = () => {
+const Saved = () => {
     const { getPosts } = usePostActionContext();
-    const { data, setData, setOnPostSave, getNextItems, getNextUrl } = usePageContext();
+    const { setData, getNextItems, getNextUrl } = usePageContext();
     const container = useRef();
-    const [retrivingPost, setRetrivingPost] = useState(false);
-
     useEffect(() => {
         const success = (r) => {
             setData({ next: r.data.next, posts: r.data.results });
         };
         getPosts("saved", success, console.log);
-        setOnPostSave(() => (newPosts) => {
-            return newPosts.filter((post) => post.is_saved === true);
-        });
         return () => {
             setData({ next: null, posts: [] });
-            setOnPostSave(null);
         };
-    }, []);
+    }, [getPosts, setData]);
 
-    const checkScrollHeight = (element) => {
+    const retrieveNextPost = () => {
         const success = (response) => {
             setData((prev) => {
                 return {
@@ -32,28 +27,26 @@ const Liked = () => {
                     posts: [...prev.posts, ...response.data.results],
                 };
             });
-            setRetrivingPost(false);
         };
-        if (element.offsetHeight + element.scrollTop >= element.scrollHeight) {
-            const nextUrl = getNextUrl();
-            if (retrivingPost || !nextUrl) return;
-            setRetrivingPost(true);
-            getNextItems(nextUrl, success);
-        }
+        const nextUrl = getNextUrl();
+        if (!nextUrl) return;
+        getNextItems(nextUrl, success);
     };
-
-    useEffect(() => {
-        const element = container.current.parentNode;
-        const checkHeight = () => checkScrollHeight(element);
-        element.addEventListener("scroll", checkHeight);
-        return () => element.removeEventListener("scroll", checkHeight);
-    });
     return (
-        <div className="flex flex-col items-center w-full" ref={container}>
+        <div className="flex flex-col items-center w-full" ref={container} id="demo">
             <TweetForm />
             <CardContainer />
+            {getNextUrl() && (
+                <button
+                    className="text-purple-500 m-10 text-3xl p-1 flex justify-center items-center gap-1"
+                    onClick={retrieveNextPost}
+                >
+                    more
+                    <KeyboardDoubleArrowDownIcon />
+                </button>
+            )}
         </div>
     );
 };
 
-export default Liked;
+export default Saved;
