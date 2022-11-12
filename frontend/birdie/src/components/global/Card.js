@@ -26,7 +26,7 @@ const Card = (props) => {
     const { likePost, savePost } = usePageContext();
     const [viewComment, setViewComment] = useState(false);
     return (
-        <div className="w-[598px] max-w-[95%] p-3 gap-2 grid grid-cols-[49px,_auto] bg-gray-50 mt-4 rounded-md dark:bg-[#000208]">
+        <div className="w-[598px] max-w-[95%] p-3 gap-2 grid grid-cols-[49px,_auto] bg-gray-50 mt-4 rounded-md dark:bg-[#000208] post-card">
             <div>
                 <Avatar src={avatar}>{user.at(0).toUpperCase()}</Avatar>
             </div>

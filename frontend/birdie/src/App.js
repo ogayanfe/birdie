@@ -3,7 +3,7 @@ import { Route, createBrowserRouter, createRoutesFromElements } from "react-rout
 import Base from "./components/global/Base";
 import Home from "./components/Home";
 import Saved from "./components/Saved";
-import Chat from "./components/Chat";
+import Explore from "./components/Explore";
 import Profile from "./components/Profile";
 import SignIn from "./components/Auth/SignIn";
 import LoginRequiredRoute from "./components/global/ProtectedRoute";
@@ -20,7 +20,7 @@ const App = createBrowserRouter(
                     <Route path="" element={<Home />} />
                     <Route path="likes/" element={<Liked />} />
                     <Route path="saved/" element={<Saved />} />
-                    <Route path="chat/" element={<Chat />} />
+                    <Route path="explore/" element={<Explore />} />
                     <Route path="profile/" element={<Profile />} />
                     <Route path="logout/" element={<Logout />} />
                     <Route path="post/:postId" element={<PostDetail />} />
