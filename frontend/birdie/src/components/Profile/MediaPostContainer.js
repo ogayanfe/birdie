@@ -13,6 +13,7 @@ const MediaPostContainer = () => {
             setData({ next: response.data.next, posts: response.data.results });
         };
         getPosts("media", success, console.log);
+        return () => setData({ next: null, posts: [] });
     }, [getPosts, setData]);
     const checkScrollHeight = (element) => {
         const success = (response) => {

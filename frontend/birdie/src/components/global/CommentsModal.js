@@ -57,7 +57,7 @@ const CommentsModal = ({ id, open, close }) => {
             PaperProps={{ style: { padding: "0px" } }}
             fullScreen={fullScreen}
         >
-            <div className="max-w-md mx-auto w-screen h-[90vh]  dark:bg-black flex flex-col p-2 gap-2 overflow-hidden">
+            <div className="max-w-md mx-auto w-screen h-screen  dark:bg-black flex flex-col p-2 gap-2 overflow-hidden dark:border-2 dark:border-gray-900">
                 <CommentForm handleSubmit={handleSubmit} />
                 <div className="overflow-y-scroll h-full pb-12">
                     {comments.map((comment) => {
@@ -73,6 +73,9 @@ const CommentsModal = ({ id, open, close }) => {
                         );
                     })}
                 </div>
+                <button className="bg-purple-400 text-purple-100" onClick={close}>
+                    Close
+                </button>
             </div>
         </Dialog>
     );

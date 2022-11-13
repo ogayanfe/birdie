@@ -13,6 +13,7 @@ const ProfilePostContainer = () => {
             setData({ next: response.data.next, posts: response.data.results });
         };
         getPosts("user", success, console.log);
+        return () => setData({ next: null, posts: [] });
     }, [getPosts, setData]);
     const checkScrollHeight = (element) => {
         const success = (response) => {
