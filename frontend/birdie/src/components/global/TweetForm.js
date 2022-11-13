@@ -107,16 +107,16 @@ const TweetForm = () => {
                             const file = URL.createObjectURL(e.target.files[0]);
                             setFile({
                                 file: file,
-                                name: file.name,
+                                name: e.target.value.split("\\").pop(),
                             });
                         }}
                     />
-                    {previewImage ? (
-                        file.file ? (
-                            <ImagePreview file={file.file} removeImage={(e) => clearFile(e)} />
-                        ) : (
-                            <div className="text-gray-500 mt-2 pl-2">No file chosen</div>
-                        )
+                    <div className="text-gray-600 dark:text-gray-300 mt-2 pl-2">
+                        Chosen File: {file.name}
+                    </div>
+
+                    {previewImage && file.file ? (
+                        <ImagePreview file={file.file} removeImage={(e) => clearFile(e)} />
                     ) : null}
                 </div>
                 <div>

@@ -21,12 +21,21 @@ const Card = (props) => {
         creator_id,
         is_saved,
         is_commented,
+        is_following_user,
+        is_followed_by_user,
         created,
     } = props;
+    console.log(is_followed_by_user == is_following_user);
+    const followButtonText =
+        is_followed_by_user && !is_following_user
+            ? "follow back"
+            : is_following_user
+            ? "unfollow"
+            : "follow";
     const { likePost, savePost } = usePageContext();
     const [viewComment, setViewComment] = useState(false);
     return (
-        <div className="w-[598px] max-w-[95%] p-3 gap-2 grid grid-cols-[49px,_auto] bg-gray-50 mt-4 rounded-md dark:bg-[#000208] post-card">
+        <div className="w-[598px] max-w-[95%] p-3 gap-2 grid grid-cols-[49px,_auto] bg-gray-50 mt-4 rounded-md dark:bg-[#000208] post-card relative">
             <div>
                 <Avatar src={avatar}>{user.at(0).toUpperCase()}</Avatar>
             </div>
@@ -38,13 +47,13 @@ const Card = (props) => {
                     <div className="text-[#5B7083] text-[.8rem] dark:text-gray-400">
                         <span className="m-2">.</span> {created}
                     </div>
+                    {user_id !== creator_id && (
+                        <button className="absolute right-0 top-0 m-4 border-2 p-1 px-2 h-7 rounded-full text-purple-500 text-[.7rem] border-purple-500">
+                            {followButtonText}
+                        </button>
+                    )}
                 </div>
-                <div className="text-[#0F1419] text-[0.8rem] dark:text-white">
-                    {card_content}
-                    <a href="#readmore" className="text-blue-400 pl-1 hover:text-gray-400">
-                        show more
-                    </a>
-                </div>
+                <div className="text-[#0F1419] text-[0.8rem] dark:text-white">{card_content}</div>
                 {card_image && (
                     <div className="my-2 ">
                         <img

@@ -60,6 +60,8 @@ class PostSerializer(serializers.ModelSerializer):
     comments = serializers.SerializerMethodField()
     saves = serializers.SerializerMethodField()
     created = serializers.SerializerMethodField(read_only=True)
+    is_following_user = serializers.SerializerMethodField(read_only=True)
+    is_followed_by_user = serializers.SerializerMethodField(read_only=True)
 
     class Meta:
         model = Post
@@ -75,6 +77,8 @@ class PostSerializer(serializers.ModelSerializer):
             'saves',
             'is_saved',
             'is_commented',
+            'is_following_user',
+            'is_followed_by_user'
         )
 
     def get_created(self, post):
@@ -94,6 +98,16 @@ class PostSerializer(serializers.ModelSerializer):
 
     def get_likes(self, post):
         return post.likes.count()
+
+    def get_is_following_user(self, post):
+        creator = post.creator
+        user = self.context.get("request").user
+        return user.following.filter(id=creator.id).exists()
+
+    def get_is_followed_by_user(self, post):
+        creator = post.creator
+        user = self.context.get("request").user
+        return creator.following.filter(id=user.id).exists()
 
     def get_comments(self, post):
         return post.comments.count()
