@@ -46,13 +46,13 @@ const TweetForm = () => {
             });
             formElement.content.value = "";
             formElement.image.value = "";
-            setFile((prev) => ({ ...prev, file: null }));
+            clearFile();
         };
         createPost(new FormData(formElement), success, console.log);
     };
 
     const clearFile = (e) => {
-        e.preventDefault();
+        e && e.preventDefault();
         fileInputRef.value = null;
         setFile({
             name: "",
