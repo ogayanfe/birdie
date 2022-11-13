@@ -49,7 +49,7 @@ const Card = (props) => {
                     <div className="my-2 ">
                         <img
                             src={card_image}
-                            className="h-ful max-h-[70vh] w-full rounded-xl object-cover"
+                            className="h-ful max-h-[65vh] w-full rounded-xl object-cover"
                             alt="posts"
                         />
                     </div>
