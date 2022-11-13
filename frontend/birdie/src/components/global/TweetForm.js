@@ -1,15 +1,32 @@
-import React, { useState } from "react";
-import { Avatar, Modal } from "@mui/material";
+import React, { useState, useRef } from "react";
+import { Avatar } from "@mui/material";
 import useUserContext from "../../contexts/UserContext";
-import { Box } from "@mui/system";
 import usePostActionContext from "../../contexts/PostActionContext";
 import usePageContext from "../../contexts/pageContext";
+
+const ImagePreview = ({ file, removeImage }) => {
+    return (
+        <div className="w-full float-right relative mt-3">
+            <img
+                src={file}
+                alt="selected file preview"
+                className="w-full rounded-lg object-cover max-h-[60vh]"
+            ></img>
+            <button
+                className="w-full h-full p-3  rounded-lg lg:text-2xl absolute top-0 left-0 bg-gray-900 opacity-0 hover:opacity-80 text-white transition-all"
+                onClick={removeImage}
+            >
+                Remove Image
+            </button>
+        </div>
+    );
+};
 
 const TweetForm = () => {
     const { setData } = usePageContext();
     const { createPost } = usePostActionContext();
-    const [previewImage, setPreviewImage] = useState(false);
-    const [file, setFile] = useState({ name: "No file chosen yet", file: null });
+    const [previewImage, setPreviewImage] = useState(true);
+    const [file, setFile] = useState({ name: "", file: null });
     const {
         profileData: { username, profile_pic },
     } = useUserContext();
@@ -17,6 +34,9 @@ const TweetForm = () => {
         e.preventDefault();
         document.querySelector("#post-image-field").click();
     };
+
+    const fileInputRef = useRef();
+
     const submitForm = (e) => {
         e.preventDefault();
         const formElement = e.target;
@@ -31,6 +51,15 @@ const TweetForm = () => {
         createPost(new FormData(formElement), success, console.log);
     };
 
+    const clearFile = (e) => {
+        e.preventDefault();
+        fileInputRef.value = null;
+        setFile({
+            name: "",
+            file: null,
+        });
+    };
+
     React.useEffect(() => {
         const formElement = document.querySelector("#tweet-form");
         formElement.addEventListener("submit", submitForm);
@@ -39,7 +68,7 @@ const TweetForm = () => {
         };
     });
     return (
-        <div className="w-[95%] max-w-[598px] grid-cols-[49px,_auto] h-28 grid p-3  border-b-4 gap-1 bg-gray-100 mt-2 dark:bg-black dark:bg-opacity-90 dark:shadow-xl dark:border-gray-800">
+        <div className="w-[95%] max-w-[598px] grid-cols-[49px,_auto] h-min-content grid p-3  border-b-4 gap-1 bg-gray-100 mt-2 dark:bg-black dark:bg-opacity-90 dark:shadow-xl dark:border-gray-800">
             <div>
                 <Avatar alt="post" src={profile_pic}>
                     {username && username.at(0).toUpperCase()}
@@ -61,6 +90,7 @@ const TweetForm = () => {
                         name="content"
                         id="main-tweet-form"
                         placeholder="Say Something?"
+                        required
                         className="border-none p-2 text-[#5B7083] bg-white w-full  rounded-lg focus:outline-none text-sm dark:bg-gray-900 dark:text-gray-300"
                     />
                     <label htmlFor="post-image-field" className="fixed -top-[10000px]">
@@ -72,6 +102,7 @@ const TweetForm = () => {
                         name="image"
                         id="post-image-field"
                         className="fixed -top-[10000px]"
+                        ref={fileInputRef}
                         onChange={(e) => {
                             const file = URL.createObjectURL(e.target.files[0]);
                             setFile({
@@ -80,27 +111,13 @@ const TweetForm = () => {
                             });
                         }}
                     />
-                    <Modal
-                        open={previewImage}
-                        onClose={() => setPreviewImage(false)}
-                        className="flex items-center justify-center"
-                    >
-                        <Box className="">
-                            {file.file ? (
-                                <img
-                                    src={file.file}
-                                    alt="selected file preview"
-                                    className="h-ful 80vw max-w-[95vw] max-h-[70vh] rounded-lg object-contain"
-                                ></img>
-                            ) : (
-                                <div className="bg-black text-purple-100 md:p-20 p-[3rem] flex rounded-sm justify-center capitalize items-center">
-                                    <span className="md:text-3xl text-xl text-center">
-                                        Preview chosen file here
-                                    </span>
-                                </div>
-                            )}
-                        </Box>
-                    </Modal>
+                    {previewImage ? (
+                        file.file ? (
+                            <ImagePreview file={file.file} removeImage={(e) => clearFile(e)} />
+                        ) : (
+                            <div className="text-gray-500 mt-2 pl-2">No file chosen</div>
+                        )
+                    ) : null}
                 </div>
                 <div>
                     <button className="m-2 text-purple-500 text-2xl" onClick={chooseImageFile}>
@@ -110,11 +127,17 @@ const TweetForm = () => {
                         className="m-2 text-purple-500 text-2xl"
                         onClick={(e) => {
                             e.preventDefault();
-                            setPreviewImage(true);
+                            setPreviewImage((prev) => !prev);
                         }}
                     >
-                        <iconify-icon icon="icon-park-outline:preview-open">
-                            preview Image
+                        <iconify-icon
+                            icon={
+                                previewImage
+                                    ? "ant-design:eye-invisible-filled"
+                                    : "icon-park-outline:preview-open"
+                            }
+                        >
+                            Toggle image preview
                         </iconify-icon>
                     </button>
                     <button className="bg-purple-400 text-purple-50 float-right px-2 h-8 rounded-full w-20">
