@@ -25,7 +25,6 @@ const Card = (props) => {
         is_followed_by_user,
         created,
     } = props;
-    console.log(is_followed_by_user == is_following_user);
     const followButtonText =
         is_followed_by_user && !is_following_user
             ? "follow back"
