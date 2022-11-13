@@ -26,6 +26,8 @@ const CardContainer = (props) => {
                         creator_id={post.creator.id}
                         is_saved={post.is_saved}
                         is_commented={post.is_commented}
+                        is_following_user={post.is_following_user}
+                        is_followed_by_user={post.is_followed_by_user}
                         created={post.created}
                     />
                 );
