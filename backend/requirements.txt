@@ -2,7 +2,6 @@ asgiref==3.5.2
 autopep8==1.7.0
 Django==4.1.1
 django-cors-headers==3.13.0
-django-restframework==0.0.1
 djangorestframework==3.14.0
 djangorestframework-simplejwt==5.2.1
 Pillow==9.2.0
