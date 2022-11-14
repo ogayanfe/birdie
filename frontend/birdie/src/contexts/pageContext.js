@@ -1,4 +1,4 @@
-import { useState, useContext, createContext, useEffect } from "react";
+import { useState, useContext, createContext } from "react";
 import usePostActionContext from "./PostActionContext";
 import useUserContext from "./UserContext";
 
@@ -72,6 +72,7 @@ export const PageContextProvider = ({ children }) => {
         createComment: createComment,
         getNextItems: getNextItems,
         getNextUrl: () => data.next,
+        maxFileSizeKb: 200, // Max image size in kilobyte
     };
 
     return <pageContext.Provider value={context}>{children}</pageContext.Provider>;
