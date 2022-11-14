@@ -19,7 +19,7 @@ urlpatterns = [
     path("<int:id>/following/", FollowingListAPIView.as_view()),
     path("<int:id>/follower/", FollowerListAPIView.as_view()),
     path("profile/update/", ProfileUpdateAPIView.as_view()),
-    path("follow/<int:pk>/", FollowUnfollowUserAPIView.as_view()),
+    path("follow_unfollow/<int:pk>/", FollowUnfollowUserAPIView.as_view()),
     path('api/token/blacklist/', TokenBlacklistView.as_view(),
          name='token_blacklist'),
 ]

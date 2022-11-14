@@ -20,7 +20,7 @@ const CommentForm = ({ handleSubmit }) => {
                 <input
                     type="text"
                     name="content"
-                    className="block w-full bg-white p-2 focus:outline-none rounded-lg text-gray-700 text-sm dark:bg-gray-900 dark:text-300"
+                    className="block w-full bg-white p-2 focus:outline-none rounded-lg text-gray-700 text-sm dark:bg-gray-900 dark:text-gray-300"
                     placeholder="Type comment here"
                 />
                 <button
