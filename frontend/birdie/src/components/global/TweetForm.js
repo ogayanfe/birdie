@@ -10,7 +10,7 @@ const ImagePreview = ({ file, removeImage }) => {
             <img
                 src={file}
                 alt="selected file preview"
-                className="w-full rounded-lg object-cover max-h-[60vh]"
+                className="w-full rounded-lg object-cover max-h-[50vh]"
             ></img>
             <button
                 className="w-full h-full p-3  rounded-lg lg:text-2xl absolute top-0 left-0 bg-gray-900 opacity-0 hover:opacity-80 text-white transition-all"
@@ -23,10 +23,10 @@ const ImagePreview = ({ file, removeImage }) => {
 };
 
 const TweetForm = () => {
-    const { setData } = usePageContext();
+    const { setData, maxFileSizeKb } = usePageContext();
     const { createPost } = usePostActionContext();
     const [previewImage, setPreviewImage] = useState(true);
-    const [file, setFile] = useState({ name: "", file: null });
+    const [file, setFile] = useState({ name: "", file: null, sizeKb: 0 });
     const {
         profileData: { username, profile_pic },
     } = useUserContext();
@@ -39,6 +39,12 @@ const TweetForm = () => {
 
     const submitForm = (e) => {
         e.preventDefault();
+        if (file.sizeKb > maxFileSizeKb) {
+            alert(
+                `File to large, maximum size is ${maxFileSizeKb} kb. Your file is ${file.sizeKb} kb`
+            );
+            return;
+        }
         const formElement = e.target;
         const success = (r) => {
             setData((prev) => {
@@ -52,11 +58,16 @@ const TweetForm = () => {
     };
 
     const clearFile = (e) => {
-        e && e.preventDefault();
+        if (e) {
+            e.preventDefault();
+            const remove = window.confirm(`Clear ${file.name} from form?`);
+            if (!remove) return;
+        }
         fileInputRef.value = null;
         setFile({
             name: "",
             file: null,
+            sizeKb: 0,
         });
     };
 
@@ -107,6 +118,7 @@ const TweetForm = () => {
                             const file = URL.createObjectURL(e.target.files[0]);
                             setFile({
                                 file: file,
+                                sizeKb: Math.round(e.target.files[0].size / 1024),
                                 name: e.target.value.split("\\").pop(),
                             });
                         }}
@@ -114,6 +126,19 @@ const TweetForm = () => {
                     <div className="text-gray-600 dark:text-gray-300 mt-2 pl-2">
                         Chosen File: {file.name}
                     </div>
+
+                    {file.file && (
+                        <div
+                            className={`mt-2 px-2 w-max  ${
+                                file.sizeKb > maxFileSizeKb
+                                    ? "text-red-600 dark:text-red-400"
+                                    : "text-gray-600 dark:text-gray-300 "
+                            }`}
+                        >
+                            Size: {file.sizeKb} kb / {maxFileSizeKb} kb (
+                            {file.sizeKb <= maxFileSizeKb ? "Ok" : "To Large"})
+                        </div>
+                    )}
 
                     {previewImage && file.file ? (
                         <ImagePreview file={file.file} removeImage={(e) => clearFile(e)} />
