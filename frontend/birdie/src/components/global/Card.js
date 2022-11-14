@@ -25,12 +25,6 @@ const Card = (props) => {
         is_followed_by_user,
         created,
     } = props;
-    const followButtonText =
-        is_followed_by_user && !is_following_user
-            ? "follow back"
-            : is_following_user
-            ? "unfollow"
-            : "follow";
     const { likePost, savePost } = usePageContext();
     const [viewComment, setViewComment] = useState(false);
     return (
@@ -46,10 +40,10 @@ const Card = (props) => {
                     <div className="text-[#5B7083] text-[.8rem] dark:text-gray-400">
                         <span className="m-2">.</span> {created}
                     </div>
-                    {user_id !== creator_id && (
-                        <button className="absolute right-0 top-0 m-4 border-2 p-1 px-2 h-7 rounded-full text-purple-500 text-[.7rem] border-purple-500">
-                            {followButtonText}
-                        </button>
+                    {id !== creator_id && is_following_user && (
+                        <div className="text-[#5B7083] text-[.8rem] dark:text-gray-400">
+                            <span className="m-2">.</span> following
+                        </div>
                     )}
                 </div>
                 <div className="text-[#0F1419] text-[0.8rem] dark:text-white">{card_content}</div>
