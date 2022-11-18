@@ -2,6 +2,11 @@ import React, { useState } from "react";
 import useUserContext from "../../contexts/UserContext";
 import { Navigate, Link } from "react-router-dom";
 
+const demoUser = {
+    username: "DemoUser",
+    password: "randompassword",
+};
+
 export default function SignIn() {
     const { login, user } = useUserContext();
     const [formData, setFormData] = useState({
@@ -23,13 +28,15 @@ export default function SignIn() {
 
     const loginInHasDemo = (e) => {
         e.preventDefault();
-        alert("Loging In As A Demo User");
+        setFormData(demoUser);
+        // Using a setTimeOut to wait a bit so the passwords are revealed to the user before submitting the form
+        setTimeout(() => login(demoUser, () => alert("Invalid Login Credentials")), 100);
     };
 
     if (user) return <Navigate to="/" />;
     return (
         <main className="w-screen h-screen flex items-center justify-center">
-            <div className="w-[90vw] bg-gray-100 max-w-lg p-6 h-max-content rounded-lgz border-l-4">
+            <div className="w-[90vw] bg-purple-50 max-w-lg p-6 h-max-content rounded-lgz border-l-4">
                 <h1 className="text-2xl text-purple-500 flex justify-center gap-1 items-center m-2">
                     <span className="text-3xl">
                         <iconify-icon icon="game-icons:hummingbird"></iconify-icon>
@@ -43,6 +50,7 @@ export default function SignIn() {
                         autoFocus
                         name="username"
                         required
+                        value={formData.username}
                         className="rounded-lg p-2 text-sm"
                         onChange={handleChange}
                         placeholder="username"
@@ -55,6 +63,7 @@ export default function SignIn() {
                         name="password"
                         id="signup-password"
                         required
+                        value={formData.password}
                         onChange={handleChange}
                         placeholder="password"
                     />
@@ -69,10 +78,10 @@ export default function SignIn() {
                             Login
                         </button>
                         <button
-                            className="bg-blue-500 text-purple-100 rounded-lg px-2 w-20 py-1"
+                            className="bg-blue-500 text-purple-100 rounded-lg px-2 w-max-content py-1"
                             onClick={loginInHasDemo}
                         >
-                            Demo
+                            Login As Demo User
                         </button>
                     </div>
                 </form>
