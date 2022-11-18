@@ -41,7 +41,7 @@ class UserSerializer(serializers.ModelSerializer):
         }
 
     def get_followers(self, user):
-        return self.Meta.model.objects.filter(following__id=user.id).count()
+        return user.followers.count()
 
     def get_following(self, user):
         return user.following.count()
