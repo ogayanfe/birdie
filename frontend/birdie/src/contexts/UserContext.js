@@ -4,18 +4,19 @@ import axios from "axios";
 
 const userContext = createContext();
 
+const defaultProfileData = {
+    username: "",
+    date_joined: "",
+    profile_pic: "",
+    following: "",
+    follower: "",
+};
 function UserContextProvider({ children }) {
     const userTokensFromStorage = JSON.parse(localStorage.getItem("userTokens"));
     const [user, setUser] = useState(
         userTokensFromStorage && jwtDecode(userTokensFromStorage.access)
     );
-    const [profileData, setProfileData] = useState({
-        username: "",
-        date_joined: "",
-        profile_pic: "",
-        following: "",
-        follower: "",
-    });
+    const [profileData, setProfileData] = useState(defaultProfileData);
     const [tokens, setTokens] = useState(userTokensFromStorage);
     const axiosInstance = axios.create({
         baseURL: "http://localhost:8000/api",
@@ -25,6 +26,7 @@ function UserContextProvider({ children }) {
     });
 
     const fetchUserData = async () => {
+        console.log("fetching");
         const response = await axiosInstance.get("accounts/info/");
         setProfileData(response.data);
     };
@@ -41,18 +43,17 @@ function UserContextProvider({ children }) {
                     setUser(jwtDecode(data.access));
                     setTokens(data);
                     localStorage.setItem("userTokens", JSON.stringify(data));
-                    fetchUserData();
                 }
             })
             .catch((err) => {
-                console.log(err);
-                alert("Invalid Login Credentials");
+                onfailure();
             });
     };
 
     const logout = () => {
         setUser(null);
         setTokens(null);
+        setProfileData(defaultProfileData);
         localStorage.clear();
     };
 
@@ -67,7 +68,7 @@ function UserContextProvider({ children }) {
 
     useEffect(() => {
         fetchUserData();
-    }, []);
+    }, [tokens]);
 
     return <userContext.Provider value={authcontext}>{children}</userContext.Provider>;
 }
