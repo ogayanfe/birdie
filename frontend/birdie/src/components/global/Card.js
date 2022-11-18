@@ -3,6 +3,7 @@ import { Avatar } from "@mui/material";
 import useUserContext from "../../contexts/UserContext";
 import usePageContext from "../../contexts/pageContext";
 import CommentsModal from "./CommentsModal";
+import { Link } from "react-router-dom";
 
 const Card = (props) => {
     const {
@@ -34,8 +35,10 @@ const Card = (props) => {
             </div>
             <div>
                 <div className="flex h-5 mb-2">
-                    <div className="text-sm col text-[#0F1419] capitalize dark:text-gray-200">
-                        {user_id === creator_id ? "You" : user}
+                    <div className="text-sm col text-[#0F1419] capitalize dark:text-purple-200 hover:text-purple-500">
+                        <Link to={user_id === creator_id ? "/profile" : `/user/${creator_id}/`}>
+                            {user_id === creator_id ? "You" : user}
+                        </Link>
                     </div>
                     <div className="text-[#5B7083] text-[.8rem] dark:text-gray-400">
                         <span className="m-2">.</span> {created}

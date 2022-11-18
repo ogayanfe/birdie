@@ -50,10 +50,21 @@ class UserDetailAPIView(RetrieveAPIView):
     serializer_class = UserSerializer
 
     def get_object(self):
-        user = self.request.user
-        obj = get_object_or_404(self.model, id=user.id)
-        self.check_object_permissions(self.request, obj)
-        return obj
+        pk = self.kwargs.get("id", self.request.user.id)
+        user = get_object_or_404(self.model, id=pk)
+        self.check_object_permissions(self.request, user)
+        return user
+
+    def retrieve(self, request, *args, **kwargs):
+        instance = self.get_object()
+        serializer = self.get_serializer(instance)
+        data = serializer.data
+        id = self.kwargs.get('id', None)
+        if id:
+            user = self.request.user
+            data["is_following"] = user.following.filter(
+                id=id).exists()
+        return Response(data)
 
 
 class FollowingListAPIView(ListAPIView):

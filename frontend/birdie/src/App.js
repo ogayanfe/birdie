@@ -11,6 +11,7 @@ import Logout from "./components/Auth/Logout";
 import ErrorPage from "./components/global/ErrorPage";
 import Liked from "./components/Liked";
 import PostDetail from "./components/global/PostDetail";
+import OtherUserDetail from "./components/OtherUserDetail";
 
 const App = createBrowserRouter(
     createRoutesFromElements(
@@ -24,6 +25,7 @@ const App = createBrowserRouter(
                     <Route path="profile/" element={<Profile />} />
                     <Route path="logout/" element={<Logout />} />
                     <Route path="post/:postId" element={<PostDetail />} />
+                    <Route path="user/:userId" element={<OtherUserDetail />} />
                 </Route>
             </Route>
             <Route path="signin/" element={<SignIn />} />
