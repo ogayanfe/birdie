@@ -71,13 +71,13 @@ class FollowerListAPIView(ListAPIView):
     def get_queryset(self):
         user_id = self.kwargs.get("id")
         user = User.objects.get(id=user_id)
-        return User.objects.filter(following__icontains='following')
+        return user.followers.all()
 
 
 class FollowUnfollowUserAPIView(APIView):
 
     def post(self, request, pk):
-        user = self.request.user
+        user = request.user
         other_user = get_object_or_404(User, pk=pk)
         followed = False
         if user == other_user:
@@ -85,11 +85,14 @@ class FollowUnfollowUserAPIView(APIView):
                 'message': "Cannot follow yourself"
             }, status=status.HTTP_403_FORBIDDEN)
         user_following = user.following
+        other_user_followers = other_user.followers
         if user_following.filter(id=other_user.id).exists():
             user_following.remove(other_user)
+            other_user_followers.remove(user)
         else:
             followed = True
             user_following.add(other_user)
+            other_user_followers.add(user)
         data = SignupSerializer(user).data
         data['followed'] = followed
         data['followers'] = user_following.count()

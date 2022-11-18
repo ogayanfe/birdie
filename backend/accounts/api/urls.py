@@ -17,7 +17,7 @@ urlpatterns = [
     path("info/", UserDetailAPIView.as_view()),
     path("signup/", SignupAPIView.as_view()),
     path("<int:id>/following/", FollowingListAPIView.as_view()),
-    path("<int:id>/follower/", FollowerListAPIView.as_view()),
+    path("<int:id>/followers/", FollowerListAPIView.as_view()),
     path("profile/update/", ProfileUpdateAPIView.as_view()),
     path("follow_unfollow/<int:pk>/", FollowUnfollowUserAPIView.as_view()),
     path('api/token/blacklist/', TokenBlacklistView.as_view(),

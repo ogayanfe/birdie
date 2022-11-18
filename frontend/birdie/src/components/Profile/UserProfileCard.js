@@ -15,7 +15,7 @@ const UserProfileCard = (props) => {
                 </div>
             </div>
             <button className="float-right m-4 border-2 p-1 px-2 rounded-full text-purple-500 text-[.7rem] border-purple-500">
-                Unfollow
+                View Profile
             </button>
         </div>
     );
