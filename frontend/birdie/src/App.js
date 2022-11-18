@@ -12,6 +12,7 @@ import ErrorPage from "./components/global/ErrorPage";
 import Liked from "./components/Liked";
 import PostDetail from "./components/global/PostDetail";
 import OtherUserDetail from "./components/OtherUserDetail";
+import SignUp from "./components/Auth/Signup";
 
 const App = createBrowserRouter(
     createRoutesFromElements(
@@ -29,6 +30,7 @@ const App = createBrowserRouter(
                 </Route>
             </Route>
             <Route path="signin/" element={<SignIn />} />
+            <Route path="signup/" element={<SignUp />} />
         </>
     )
 );

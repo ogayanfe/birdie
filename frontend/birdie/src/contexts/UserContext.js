@@ -24,7 +24,12 @@ function UserContextProvider({ children }) {
         },
     });
 
-    const login = (data) => {
+    const fetchUserData = async () => {
+        const response = await axiosInstance.get("accounts/info/");
+        setProfileData(response.data);
+    };
+
+    const login = (data, onfailure) => {
         axiosInstance
             .post("/accounts/token/", {
                 username: data.username,
@@ -36,7 +41,12 @@ function UserContextProvider({ children }) {
                     setUser(jwtDecode(data.access));
                     setTokens(data);
                     localStorage.setItem("userTokens", JSON.stringify(data));
+                    fetchUserData();
                 }
+            })
+            .catch((err) => {
+                console.log(err);
+                alert("Invalid Login Credentials");
             });
     };
 
@@ -54,12 +64,9 @@ function UserContextProvider({ children }) {
         profileData: profileData,
         setProfileData: setProfileData,
     };
+
     useEffect(() => {
-        const fetchData = async () => {
-            const response = await axiosInstance.get("accounts/info/");
-            setProfileData(response.data);
-        };
-        fetchData();
+        fetchUserData();
     }, []);
 
     return <userContext.Provider value={authcontext}>{children}</userContext.Provider>;
