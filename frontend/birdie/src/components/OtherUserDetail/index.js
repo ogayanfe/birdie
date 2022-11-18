@@ -1,11 +1,8 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Tab, Tabs, createTheme } from "@mui/material";
-import useUserContext from "../../contexts/UserContext";
-import PostComments from "./PostComments";
-import ProfilePostContainer from "./ProfilePostContainer";
-import MediaPostContainer from "./MediaPostContainer";
 import useThemeContext from "../../contexts/themeContext";
-import ProfileUsers from "./ProfileUsers";
+import useUserContext from "../../contexts/UserContext";
+import { useParams } from "react-router-dom";
 
 const tabDarkTheme = createTheme({
     palette: {
@@ -14,14 +11,34 @@ const tabDarkTheme = createTheme({
 });
 
 const Profile = () => {
-    const { profileData } = useUserContext();
+    const { userId } = useParams();
+    const [profileData, setProfileData] = useState({});
     const [currentTab, setCurrentTab] = useState(1);
     const { darkTheme } = useThemeContext();
     const handleChange = (x, value) => {
         setCurrentTab(value);
     };
-    console.log(profileData);
-    const { username, profile_pic, followers, following, date_joined, cover_pic } = profileData;
+    const { axiosInstance } = useUserContext();
+
+    useEffect(() => {
+        axiosInstance
+            .get(`/accounts/${userId}/info/`)
+            .then((response) => setProfileData(response.data));
+    }, [axiosInstance]);
+
+    const _profileData = {
+        cover_pic: "http://localhost:8000/media/images/cover/coverphoto.jpg",
+        date_joined: "Oct. 5, 2022",
+        email: "",
+        followers: 0,
+        following: 0,
+        id: 1,
+        profile_pic:
+            "http://localhost:8000/media/images/profile/ayanfe_1/2c8c2b5ec21db8ee49d9fb3ab28406db.jpeg",
+        username: "ayanfe",
+    };
+    const { username, profile_pic, followers, following, date_joined, cover_pic, is_following } =
+        profileData;
     return (
         <div className="w-[599px] max-w-[99%] mt-1 mx-auto">
             <div className="bg-gray-100 dark:bg-[#030108]">
@@ -39,7 +56,7 @@ const Profile = () => {
                         className="rounded-full w-[136px] h-[136px] absolute top-1/2 left-2 border-4 border-purple-500"
                     ></img>
                     <button className="float-right m-4 border-2 p-1 px-2 rounded-full text-purple-500 text-sm border-purple-500">
-                        Edit profile
+                        {is_following ? "unfollow" : "follow"}
                     </button>
                 </div>
                 <div className="p-4 flex flex-col gap-1">
@@ -72,14 +89,13 @@ const Profile = () => {
                     <Tab label="Comments" value={2} theme={darkTheme ? tabDarkTheme : null} />
                     <Tab label="media" value={3} theme={darkTheme ? tabDarkTheme : null} />
                     <Tab label="following" value={4} theme={darkTheme ? tabDarkTheme : null} />
-                    <Tab label="Settings" value={5} theme={darkTheme ? tabDarkTheme : null} />
                 </Tabs>
             </div>
             <div className="w-full mx-auto pl-4">
-                {currentTab === 1 && <ProfilePostContainer />}
-                {currentTab === 2 && <PostComments />}
-                {currentTab === 3 && <MediaPostContainer />}
-                {currentTab === 4 && <ProfileUsers />}
+                {currentTab === 1 && <div>Posts</div>}
+                {currentTab === 2 && <div>Comments</div>}
+                {currentTab === 3 && <div>Media</div>}
+                {currentTab === 4 && <div>Following</div>}
             </div>
         </div>
     );
