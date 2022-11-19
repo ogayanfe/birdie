@@ -73,7 +73,7 @@ export default function SignUp() {
                     </p>
                     <div>
                         <button className="bg-purple-600 text-purple-100 rounded-full px-2 w-20 py-1 float-right mt-2">
-                            Create
+                            Signup
                         </button>
                     </div>
                 </form>
