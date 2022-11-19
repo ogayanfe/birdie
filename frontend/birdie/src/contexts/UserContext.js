@@ -49,15 +49,18 @@ function UserContextProvider({ children }) {
             });
     };
 
-    const signup = (validatedData) => {
-        axiosInstance.post("/accounts/signup/", validatedData).then((response) => {
-            if (response.status < 400 && response.status >= 200) {
-                const { tokens } = response.data;
-                setUser(jwtDecode(tokens.access));
-                setTokens(tokens);
-                localStorage.setItem("userTokens", JSON.stringify(tokens));
-            }
-        });
+    const signup = (validatedData, onFailure) => {
+        axiosInstance
+            .post("/accounts/signup/", validatedData)
+            .then((response) => {
+                if (response.status < 400 && response.status >= 200) {
+                    const { tokens } = response.data;
+                    setUser(jwtDecode(tokens.access));
+                    setTokens(tokens);
+                    localStorage.setItem("userTokens", JSON.stringify(tokens));
+                }
+            })
+            .catch((error) => onFailure(error));
     };
 
     const logout = () => {

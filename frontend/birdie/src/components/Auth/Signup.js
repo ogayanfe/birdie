@@ -21,7 +21,12 @@ export default function SignUp() {
     function handleSubmit(e) {
         e.preventDefault();
         if (formData.password !== formData.passwordConfirm) setPasswordError(true);
-        else signup(formData);
+        else {
+            signup(formData, (error) => {
+                const data = error.response.data;
+                alert(data.username);
+            });
+        }
     }
 
     const handleChange = (e) => {
