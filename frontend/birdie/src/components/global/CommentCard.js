@@ -15,7 +15,7 @@ const CommentCard = (props) => {
                     src={creator_profile_pic}
                     alt={creator_name}
                 >
-                    A
+                    {creator_name.at(0).toUpperCase()}
                 </Avatar>
             </div>
             <div className="flex-grow">

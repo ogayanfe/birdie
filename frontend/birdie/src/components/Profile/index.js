@@ -20,7 +20,6 @@ const Profile = () => {
     const handleChange = (x, value) => {
         setCurrentTab(value);
     };
-    console.log(profileData);
     const { username, profile_pic, followers, following, date_joined, cover_pic } = profileData;
     return (
         <div className="w-[599px] max-w-[99%] mt-1 mx-auto">
@@ -33,11 +32,17 @@ const Profile = () => {
                             className="w-full h-full object-cover"
                         ></img>
                     </div>
-                    <img
-                        src={profile_pic}
-                        alt={username}
-                        className="rounded-full w-[136px] h-[136px] absolute top-1/2 left-2 border-4 border-purple-500"
-                    ></img>
+                    {profile_pic ? (
+                        <img
+                            src={profile_pic}
+                            alt={username}
+                            className="rounded-full w-[136px] h-[136px] absolute top-1/2 left-2 border-4 border-purple-500"
+                        ></img>
+                    ) : (
+                        <div className="rounded-full w-[136px] h-[136px] flex items-center justify-center text-white text-5xl absolute top-1/2 left-2 border-4 bg-[#bdbdbd]">
+                            G
+                        </div>
+                    )}
                     <button className="float-right m-4 border-2 p-1 px-2 rounded-full text-purple-500 text-sm border-purple-500">
                         Edit profile
                     </button>

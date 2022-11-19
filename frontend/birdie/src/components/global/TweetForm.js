@@ -133,11 +133,11 @@ const TweetForm = () => {
                             className={`mt-2 px-2 w-max  ${
                                 file.sizeKb > maxFileSizeKb
                                     ? "text-red-600 dark:text-red-400"
-                                    : "text-gray-600 dark:text-gray-300 "
+                                    : "text-green-600 dark:text-green-300 "
                             }`}
                         >
                             Size: {file.sizeKb} kb / {maxFileSizeKb} kb (
-                            {file.sizeKb <= maxFileSizeKb ? "Ok" : "To Large"})
+                            {file.sizeKb <= maxFileSizeKb ? "Ok" : "Too Large"})
                         </div>
                     )}
 
@@ -151,6 +151,7 @@ const TweetForm = () => {
                     </button>
                     <button
                         className="m-2 text-purple-500 text-2xl"
+                        disabled={!file.file}
                         onClick={(e) => {
                             e.preventDefault();
                             setPreviewImage((prev) => !prev);

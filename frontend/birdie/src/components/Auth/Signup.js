@@ -3,7 +3,7 @@ import useUserContext from "../../contexts/UserContext";
 import { Navigate, Link } from "react-router-dom";
 
 export default function SignUp() {
-    const { user } = useUserContext();
+    const { user, signup } = useUserContext();
     const [formData, setFormData] = useState({
         username: "",
         password: "",
@@ -12,7 +12,7 @@ export default function SignUp() {
 
     function handleSubmit(e) {
         e.preventDefault();
-        alert("Not Implemented Yet");
+        signup(formData);
     }
 
     const handleChange = (e) => {
@@ -68,7 +68,7 @@ export default function SignUp() {
                     <p className="mt-3">
                         Already have an account,{" "}
                         <Link to="/signin" className="underline text-blue-600">
-                            Sign In
+                            Login
                         </Link>
                     </p>
                     <div>

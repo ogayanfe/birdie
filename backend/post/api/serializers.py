@@ -42,7 +42,8 @@ class CommentSerializer(serializers.ModelSerializer):
         return comment.post.content
 
     def get_post_creator_profile(self, comment):
-        return comment.post.creator.profile_pic.url
+        creator = comment.post.creator
+        return creator.profile_pic.url if creator.profile_pic else None
 
     def get_post_creator(self, comment):
         return comment.post.creator.username
