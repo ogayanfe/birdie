@@ -26,7 +26,6 @@ function UserContextProvider({ children }) {
     });
 
     const fetchUserData = async () => {
-        console.log("fetching");
         const response = await axiosInstance.get("accounts/info/");
         setProfileData(response.data);
     };
@@ -38,8 +37,8 @@ function UserContextProvider({ children }) {
                 password: data.password,
             })
             .then((response) => {
-                data = response.data;
                 if (response.status === 200) {
+                    data = response.data;
                     setUser(jwtDecode(data.access));
                     setTokens(data);
                     localStorage.setItem("userTokens", JSON.stringify(data));
@@ -48,6 +47,17 @@ function UserContextProvider({ children }) {
             .catch((err) => {
                 onfailure();
             });
+    };
+
+    const signup = (validatedData) => {
+        axiosInstance.post("/accounts/signup/", validatedData).then((response) => {
+            if (response.status < 400 && response.status >= 200) {
+                const { tokens } = response.data;
+                setUser(jwtDecode(tokens.access));
+                setTokens(tokens);
+                localStorage.setItem("userTokens", JSON.stringify(tokens));
+            }
+        });
     };
 
     const logout = () => {
@@ -62,6 +72,7 @@ function UserContextProvider({ children }) {
         login: login,
         axiosInstance: axiosInstance,
         logout: logout,
+        signup: signup,
         profileData: profileData,
         setProfileData: setProfileData,
     };
