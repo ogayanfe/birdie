@@ -15,6 +15,7 @@ const ImagePreview = ({ file, removeImage }) => {
             <button
                 className="w-full h-full p-3  rounded-lg lg:text-2xl absolute top-0 left-0 bg-gray-900 opacity-0 hover:opacity-80 text-white transition-all"
                 onClick={removeImage}
+                type="button"
             >
                 Remove Image
             </button>
@@ -165,7 +166,10 @@ const TweetForm = () => {
                             Toggle image preview
                         </iconify-icon>
                     </button>
-                    <button className="bg-purple-400 text-purple-50 float-right px-2 h-8 rounded-full w-20">
+                    <button
+                        className="bg-purple-400 text-purple-50 float-right px-2 h-8 rounded-full w-20"
+                        type="submit"
+                    >
                         Post
                     </button>
                 </div>
