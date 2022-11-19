@@ -77,7 +77,10 @@ class PostCommentsListAPIView(ListAPIView):
 
 class CommentsListAPIView(ListAPIView):
     serializer_class = CommentSerializer
-    queryset = Comment.objects.all().order_by("-created")
+
+    def get_queryset(self):
+        user = self.request.user
+        return Comment.objects.filter(creator=user.id).order_by("-created")
 
 
 class CommentCreateApiView(CreateAPIView):
