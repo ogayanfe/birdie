@@ -6,6 +6,7 @@ import ProfilePostContainer from "./ProfilePostContainer";
 import MediaPostContainer from "./MediaPostContainer";
 import useThemeContext from "../../contexts/themeContext";
 import ProfileUsers from "./ProfileUsers";
+import { useSearchParams } from "react-router-dom";
 
 const tabDarkTheme = createTheme({
     palette: {
@@ -15,12 +16,13 @@ const tabDarkTheme = createTheme({
 
 const Profile = () => {
     const { profileData } = useUserContext();
-    const [currentTab, setCurrentTab] = useState(1);
+    const [queryParams, setQueryParams] = useSearchParams();
     const { darkTheme } = useThemeContext();
     const handleChange = (x, value) => {
-        setCurrentTab(value);
+        setQueryParams({ tab: value });
     };
     const { username, profile_pic, followers, following, date_joined, cover_pic } = profileData;
+    const currentTab = queryParams.get("tab") || "posts";
     return (
         <div className="w-[599px] max-w-[99%] mt-1 mx-auto">
             <div className="bg-gray-100 dark:bg-[#030108]">
@@ -73,18 +75,30 @@ const Profile = () => {
                     component="nav"
                     style={darkTheme ? { background: "#030108" } : null}
                 >
-                    <Tab label="Posts" value={1} theme={darkTheme ? tabDarkTheme : null} />
-                    <Tab label="Comments" value={2} theme={darkTheme ? tabDarkTheme : null} />
-                    <Tab label="media" value={3} theme={darkTheme ? tabDarkTheme : null} />
-                    <Tab label="following" value={4} theme={darkTheme ? tabDarkTheme : null} />
-                    <Tab label="Settings" value={5} theme={darkTheme ? tabDarkTheme : null} />
+                    <Tab label="Posts" value="posts" theme={darkTheme ? tabDarkTheme : null} />
+                    <Tab
+                        label="Comments"
+                        value="comments"
+                        theme={darkTheme ? tabDarkTheme : null}
+                    />
+                    <Tab label="media" value="media" theme={darkTheme ? tabDarkTheme : null} />
+                    <Tab
+                        label="following"
+                        value="following"
+                        theme={darkTheme ? tabDarkTheme : null}
+                    />
+                    <Tab
+                        label="Settings"
+                        value="settings"
+                        theme={darkTheme ? tabDarkTheme : null}
+                    />
                 </Tabs>
             </div>
             <div className="w-full mx-auto pl-4">
-                {currentTab === 1 && <ProfilePostContainer />}
-                {currentTab === 2 && <PostComments />}
-                {currentTab === 3 && <MediaPostContainer />}
-                {currentTab === 4 && <ProfileUsers />}
+                {currentTab === "posts" && <ProfilePostContainer />}
+                {currentTab === "comments" && <PostComments />}
+                {currentTab === "media" && <MediaPostContainer />}
+                {currentTab === "following" && <ProfileUsers />}
             </div>
         </div>
     );
