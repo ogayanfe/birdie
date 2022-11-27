@@ -57,7 +57,6 @@ export const PageContextProvider = ({ children }) => {
     const getNextItems = async (next, onSuccess, onFailure = console.log) => {
         const response = await axiosInstance.get(`${next}`);
         if (response.status >= 200 && response.status < 400) {
-            console.log(response);
             onSuccess(response);
         } else onFailure(response);
     };

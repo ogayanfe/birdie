@@ -13,7 +13,7 @@ const Explore = () => {
         const success = (r) => {
             setData({ next: r.data.next, posts: r.data.results });
         };
-        getPosts("explore", success, console.log);
+        getPosts("explore", success);
         return () => {
             setData({ next: null, posts: [] });
         };

@@ -1,12 +1,12 @@
-import React, { useEffect, useRef, useState } from "react";
+import React, { useEffect, useRef } from "react";
 import usePageContext from "../../contexts/pageContext";
 import usePostActionContext from "../../contexts/PostActionContext";
+import KeyboardDoubleArrowDownIcon from "@mui/icons-material/KeyboardDoubleArrowDown";
 import CardContainer from "../global/CardContainer";
 
 const ProfilePostContainer = () => {
     const { setData, getNextItems, getNextUrl } = usePageContext();
     const { getPosts } = usePostActionContext();
-    const [retrivingPost, setRetrivingPost] = useState(false);
     const container = useRef();
     useEffect(() => {
         const success = (response) => {
@@ -15,7 +15,8 @@ const ProfilePostContainer = () => {
         getPosts("user", success, console.log);
         return () => setData({ next: null, posts: [] });
     }, [getPosts, setData]);
-    const checkScrollHeight = (element) => {
+
+    const retrieveNextPost = () => {
         const success = (response) => {
             setData((prev) => {
                 return {
@@ -23,25 +24,24 @@ const ProfilePostContainer = () => {
                     posts: [...prev.posts, ...response.data.results],
                 };
             });
-            setRetrivingPost(false);
         };
-        if (element.offsetHeight + element.scrollTop >= element.scrollHeight) {
-            const nextUrl = getNextUrl();
-            if (retrivingPost || !nextUrl) return;
-            setRetrivingPost(true);
-            getNextItems(nextUrl, success);
-        }
+        const nextUrl = getNextUrl();
+        if (!nextUrl) return;
+        getNextItems(nextUrl, success);
     };
-    useEffect(() => {
-        const element = container.current.parentNode.parentNode.parentNode;
-        const checkHeight = () => checkScrollHeight(element);
-        element.addEventListener("scroll", checkHeight);
-        return () => element.removeEventListener("scroll", checkHeight);
-    });
 
     return (
-        <div ref={container}>
+        <div ref={container} className="flex flex-col items-center w-full">
             <CardContainer />
+            {getNextUrl() && (
+                <button
+                    className="text-purple-500 m-10 text-2xl p-1 flex justify-center items-center gap-1"
+                    onClick={retrieveNextPost}
+                >
+                    more
+                    <KeyboardDoubleArrowDownIcon />
+                </button>
+            )}
         </div>
     );
 };

@@ -40,7 +40,7 @@ const Profile = () => {
                         ></img>
                     ) : (
                         <div className="rounded-full w-[136px] h-[136px] flex items-center justify-center text-white text-5xl absolute top-1/2 left-2 border-4 bg-[#bdbdbd]">
-                            G
+                            {username && username.at(0).toUpperCase()}
                         </div>
                     )}
                     <button className="float-right m-4 border-2 p-1 px-2 rounded-full text-purple-500 text-sm border-purple-500">

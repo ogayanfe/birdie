@@ -4,10 +4,11 @@ import usePageContext from "../../contexts/pageContext";
 import usePostActionContext from "../../contexts/PostActionContext";
 import CommentCard from "./CommentCard";
 import CommentForm from "./CommentForm";
+import KeyboardDoubleArrowDownIcon from "@mui/icons-material/KeyboardDoubleArrowDown";
 
 const CommentsModal = ({ id, open, close }) => {
     const { getComments } = usePostActionContext();
-    const { createComment } = usePageContext();
+    const { createComment, getNextItems } = usePageContext();
     const [{ comments, next }, setComments] = useState({
         next: null,
         comments: [],
@@ -26,7 +27,7 @@ const CommentsModal = ({ id, open, close }) => {
             e.target.content.value = "";
         };
         const formData = new FormData(e.target);
-        createComment(id, formData, success, console.log);
+        createComment(id, formData, success);
     };
 
     useEffect(() => {
@@ -43,12 +44,27 @@ const CommentsModal = ({ id, open, close }) => {
             setFullScreen(true);
         } else setFullScreen(false);
     };
+
     useEffect(() => {
         window.addEventListener("resize", checkWindowSize);
         return () => {
             window.removeEventListener("resize", checkWindowSize);
         };
     }, []);
+
+    const retrieveNextComments = () => {
+        const success = (response) => {
+            setComments((prev) => {
+                return {
+                    next: response.data.next,
+                    comments: [...prev.comments, ...response.data.results],
+                };
+            });
+        };
+        if (!next) return;
+        getNextItems(next, success);
+    };
+
     return (
         <Dialog
             open={open}
@@ -72,6 +88,17 @@ const CommentsModal = ({ id, open, close }) => {
                             />
                         );
                     })}
+                    {next && (
+                        <div className="flex flex-col items-center w-full">
+                            <button
+                                className="text-purple-500 m-10 text-2xl p-1 flex justify-center items-center gap-1"
+                                onClick={retrieveNextComments}
+                            >
+                                more
+                                <KeyboardDoubleArrowDownIcon />
+                            </button>
+                        </div>
+                    )}
                 </div>
                 <button className="bg-purple-400 text-purple-100" onClick={close}>
                     Close

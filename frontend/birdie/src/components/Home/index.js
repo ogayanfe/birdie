@@ -1,9 +1,9 @@
 import React, { useEffect, useRef, useState } from "react";
 import CardContainer from "../global/CardContainer";
-import KeyboardDoubleArrowDownIcon from "@mui/icons-material/KeyboardDoubleArrowDown";
 import TweetForm from "../global/TweetForm";
 import usePostActionContext from "../../contexts/PostActionContext";
 import usePageContext from "../../contexts/pageContext";
+import KeyboardDoubleArrowDownIcon from "@mui/icons-material/KeyboardDoubleArrowDown";
 
 const Home = () => {
     const { getPosts } = usePostActionContext();
