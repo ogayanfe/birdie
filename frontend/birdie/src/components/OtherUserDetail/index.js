@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import { Tab, Tabs, createTheme } from "@mui/material";
 import useThemeContext from "../../contexts/themeContext";
 import useUserContext from "../../contexts/UserContext";
-import { useParams } from "react-router-dom";
+import { useParams, useSearchParams } from "react-router-dom";
 
 const tabDarkTheme = createTheme({
     palette: {
@@ -13,10 +13,10 @@ const tabDarkTheme = createTheme({
 const Profile = () => {
     const { userId } = useParams();
     const [profileData, setProfileData] = useState({});
-    const [currentTab, setCurrentTab] = useState(1);
+    const [queryParams, setQueryParams] = useSearchParams();
     const { darkTheme } = useThemeContext();
     const handleChange = (x, value) => {
-        setCurrentTab(value);
+        setQueryParams({ tab: value });
     };
     const { axiosInstance } = useUserContext();
 
@@ -26,20 +26,9 @@ const Profile = () => {
             .then((response) => setProfileData(response.data));
     }, [axiosInstance]);
 
-    const _profileData = {
-        cover_pic: "http://localhost:8000/media/images/cover/coverphoto.jpg",
-        date_joined: "Oct. 5, 2022",
-        email: "",
-        followers: 0,
-        following: 0,
-        id: 1,
-        profile_pic:
-            "http://localhost:8000/media/images/profile/ayanfe_1/2c8c2b5ec21db8ee49d9fb3ab28406db.jpeg",
-        username: "ayanfe",
-    };
     const { username, profile_pic, followers, following, date_joined, cover_pic, is_following } =
         profileData;
-    console.log(profileData);
+    const currentTab = queryParams.get("tab") || "posts";
     return (
         <div className="w-[599px] max-w-[99%] mt-1 mx-auto">
             <div className="bg-gray-100 dark:bg-[#030108]">
@@ -92,17 +81,25 @@ const Profile = () => {
                     component="nav"
                     style={darkTheme ? { background: "#030108" } : null}
                 >
-                    <Tab label="Posts" value={1} theme={darkTheme ? tabDarkTheme : null} />
-                    <Tab label="Comments" value={2} theme={darkTheme ? tabDarkTheme : null} />
-                    <Tab label="media" value={3} theme={darkTheme ? tabDarkTheme : null} />
-                    <Tab label="following" value={4} theme={darkTheme ? tabDarkTheme : null} />
+                    <Tab label="Posts" value="posts" theme={darkTheme ? tabDarkTheme : null} />
+                    <Tab
+                        label="Comments"
+                        value="comments"
+                        theme={darkTheme ? tabDarkTheme : null}
+                    />
+                    <Tab label="media" value="media" theme={darkTheme ? tabDarkTheme : null} />
+                    <Tab
+                        label="following"
+                        value="following"
+                        theme={darkTheme ? tabDarkTheme : null}
+                    />
                 </Tabs>
             </div>
             <div className="w-full mx-auto pl-4">
-                {currentTab === 1 && <div>Posts</div>}
-                {currentTab === 2 && <div>Comments</div>}
-                {currentTab === 3 && <div>Media</div>}
-                {currentTab === 4 && <div>Following</div>}
+                {currentTab === "posts" && <div>Posts</div>}
+                {currentTab === "comments" && <div>Comments</div>}
+                {currentTab === "media" && <div>Media</div>}
+                {currentTab === "following" && <div>Following</div>}
             </div>
         </div>
     );

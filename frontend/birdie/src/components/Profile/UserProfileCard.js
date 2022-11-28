@@ -1,8 +1,9 @@
 import { Avatar } from "@mui/material";
 import React from "react";
+import { Link } from "react-router-dom";
 
 const UserProfileCard = (props) => {
-    const { profile_pic, username, followers } = props;
+    const { id, profile_pic, username, followers } = props;
     return (
         <div className="mt-2 pl-3 p-2 bg-gray-50 w-full flex gap-2 items-center rounded-lg dark:bg-[#030108]">
             <Avatar src={profile_pic ? profile_pic : null} alt={username}>
@@ -14,9 +15,12 @@ const UserProfileCard = (props) => {
                     {followers === 1 ? "1 follower" : followers + " followers"}
                 </div>
             </div>
-            <button className="float-right m-4 border-2 p-1 px-2 rounded-full text-purple-500 text-[.7rem] border-purple-500">
+            <Link
+                to={`/user/${id}/`}
+                className="float-right m-4 border-2 hover:bg-purple-500 hover:border-purple-100 hover:text-purple-100 p-1 px-2 rounded-full text-purple-500 text-[.7rem] border-purple-500"
+            >
                 View Profile
-            </button>
+            </Link>
         </div>
     );
 };
