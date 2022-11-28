@@ -3,6 +3,7 @@ import { Tab, Tabs, createTheme } from "@mui/material";
 import useThemeContext from "../../contexts/themeContext";
 import useUserContext from "../../contexts/UserContext";
 import { useParams, useSearchParams } from "react-router-dom";
+import usePageContext from "../../contexts/pageContext";
 
 const tabDarkTheme = createTheme({
     palette: {
@@ -12,6 +13,7 @@ const tabDarkTheme = createTheme({
 
 const Profile = () => {
     const { userId } = useParams();
+    const { followUser } = usePageContext();
     const [profileData, setProfileData] = useState({});
     const [queryParams, setQueryParams] = useSearchParams();
     const { darkTheme } = useThemeContext();
@@ -24,11 +26,30 @@ const Profile = () => {
         axiosInstance
             .get(`/accounts/${userId}/info/`)
             .then((response) => setProfileData(response.data));
-    }, [axiosInstance]);
+    }, [axiosInstance, userId]);
 
-    const { username, profile_pic, followers, following, date_joined, cover_pic, is_following } =
-        profileData;
+    const {
+        id,
+        username,
+        profile_pic,
+        followers,
+        following,
+        date_joined,
+        cover_pic,
+        is_following,
+    } = profileData;
     const currentTab = queryParams.get("tab") || "posts";
+
+    const handleFollowUnfollow = () => {
+        const success = (response) => {
+            const { followers } = response.data;
+            setProfileData((prev) => ({ ...prev, followers: followers }));
+        };
+        const failure = () => {
+            alert("Could not complete action, check internet connection");
+        };
+        followUser(id, success, failure);
+    };
     return (
         <div className="w-[599px] max-w-[99%] mt-1 mx-auto">
             <div className="bg-gray-100 dark:bg-[#030108]">
@@ -51,7 +72,10 @@ const Profile = () => {
                             {username && username.at(0).toUpperCase()}
                         </div>
                     )}
-                    <button className="float-right m-4 border-2 p-1 px-2 rounded-full text-purple-500 text-sm border-purple-500">
+                    <button
+                        onClick={handleFollowUnfollow}
+                        className="float-right m-4 border-2 p-1 px-2 rounded-full text-purple-500 text-sm border-purple-500"
+                    >
                         {is_following ? "unfollow" : "follow"}
                     </button>
                 </div>

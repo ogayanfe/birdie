@@ -61,6 +61,16 @@ export const PageContextProvider = ({ children }) => {
         } else onFailure(response);
     };
 
+    const followUser = (id, success, onFailure) => {
+        axiosInstance
+            .post(`/accounts/follow_unfollow/${id}/`)
+            .then((response) => {
+                success(response);
+            })
+            .catch((e) => onFailure(e));
+    };
+    const unFollowUser = () => {};
+
     const context = {
         data: data,
         setData: setData,
@@ -71,6 +81,8 @@ export const PageContextProvider = ({ children }) => {
         createComment: createComment,
         getNextItems: getNextItems,
         getNextUrl: () => data.next,
+        followUser: followUser,
+        unFollowUser: unFollowUser,
         maxFileSizeKb: 200, // Max image size in kilobyte
     };
 
