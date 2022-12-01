@@ -89,8 +89,8 @@ const Profile = () => {
                         theme={darkTheme ? tabDarkTheme : null}
                     />
                     <Tab
-                        label="Settings"
-                        value="settings"
+                        label="Update Profile"
+                        value="update"
                         theme={darkTheme ? tabDarkTheme : null}
                     />
                 </Tabs>
@@ -100,7 +100,7 @@ const Profile = () => {
                 {currentTab === "comments" && <PostComments />}
                 {currentTab === "media" && <MediaPostContainer />}
                 {currentTab === "following" && <ProfileUsers />}
-                {currentTab === "settings" && <Settings />}
+                {currentTab === "update" && <Settings />}
             </div>
         </div>
     );

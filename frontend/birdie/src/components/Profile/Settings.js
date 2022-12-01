@@ -1,13 +1,60 @@
-import React from "react";
+import React, { useState } from "react";
 import useUserContext from "../../contexts/UserContext";
+import usePageContext from "../../contexts/pageContext";
+import { useEffect } from "react";
 
 const Settings = () => {
     const { profileData } = useUserContext();
+    const { maxFileSizeKb } = usePageContext();
     const { profile_pic, username, cover_pic } = profileData;
 
+    const defaultFileValues = {
+        profile_pic: { name: "", file: null, sizeKb: 0 },
+        cover_pic: { name: "", file: null, sizeKb: 0 },
+    };
+    const [editUsername, setEditUsername] = useState(false);
+    const [formValues, setFormValues] = useState({
+        username: username,
+        ...defaultFileValues,
+    });
+    const clearField = (field) => {
+        const fieldFileIdMapping = {
+            profile_pic: "profilePicUpdate",
+            cover_pic: "coverPicUpdate",
+        };
+        setFormValues((prev) => {
+            return { ...prev, [field]: defaultFileValues[field] };
+        });
+        const fieldId = fieldFileIdMapping[field];
+        document.getElementById(fieldId).value = "";
+    };
     const handleEditClick = (name) => {
         document.querySelector(`#${name}`).click();
     };
+
+    const handleChange = (e) => {
+        setFormValues((prev) => {
+            return { ...prev, [e.target.name]: e.target.value };
+        });
+    };
+
+    const handleFileChange = (e) => {
+        const file = URL.createObjectURL(e.target.files[0]);
+        setFormValues((prev) => {
+            return {
+                ...prev,
+                [e.target.name]: {
+                    file: file,
+                    sizeKb: Math.round(e.target.files[0].size / 1024),
+                    name: e.target.value.split("\\").pop(),
+                },
+            };
+        });
+    };
+
+    useEffect(() => {
+        setFormValues((prev) => ({ ...prev, username: username }));
+    }, [editUsername, username]);
 
     return (
         <div className="bg-gray-50 w-full p-7 mt-3 border-b-4 dark:bg-[#030108]">
@@ -18,7 +65,7 @@ const Settings = () => {
             >
                 <div className="flex gap-3 flex-col w-full relative">
                     <label
-                        for="profilePicUpdate"
+                        htmlFor="profilePicUpdate"
                         className="dark:text-gray-200 font-medium tracking-wide"
                     >
                         Profile Picture
@@ -26,19 +73,49 @@ const Settings = () => {
                     <input
                         type="file"
                         name="profile_pic"
+                        accept="image/*"
                         id="profilePicUpdate"
                         className="fixed -top-[20000px]"
+                        onChange={handleFileChange}
                     />
-                    <button
-                        type="button"
-                        className="text-purple-500 text-lg absolute right-3 px-1 py-[.2rem] rounded hover:bg-gray-200 hover:dark:bg-gray-900"
-                        onClick={() => handleEditClick("profilePicUpdate")}
-                    >
-                        Edit
-                    </button>
+                    <div className="flex gap-3 absolute right-3">
+                        <button
+                            type="button"
+                            onClick={() => handleEditClick("profilePicUpdate")}
+                            className="text-purple-500  hover:bg-gray-200 hover:dark:bg-gray-900 py-[.2rem] px-1 text-large rounded"
+                        >
+                            Edit
+                        </button>
+                        {formValues.profile_pic.file && (
+                            <button
+                                type="button"
+                                onClick={() => clearField("profile_pic")}
+                                className="bg-red-400 text-red-50  hover:dark:bg-gray-900 text-sm px-1 text-large rounded"
+                            >
+                                Clear
+                            </button>
+                        )}
+                    </div>
+
+                    {formValues.profile_pic.file && (
+                        <div
+                            className={`w-max  ${
+                                formValues.profile_pic.sizeKb > maxFileSizeKb
+                                    ? "text-red-600 dark:text-red-400"
+                                    : "text-green-600 dark:text-green-300 "
+                            }`}
+                        >
+                            Size: {formValues.profile_pic.sizeKb} kb / {maxFileSizeKb} kb (
+                            {formValues.profile_pic.sizeKb <= maxFileSizeKb ? "Ok" : "Too Large"})
+                        </div>
+                    )}
                     <div className="w-full flex items-center justify-center">
                         <img
-                            src={profile_pic}
+                            src={
+                                formValues.profile_pic.file
+                                    ? formValues.profile_pic.file
+                                    : profile_pic
+                            }
                             alt={username}
                             className="rounded-full w-[136px] h-[136px]  border-4 border-purple-500"
                         ></img>
@@ -46,7 +123,7 @@ const Settings = () => {
                 </div>
                 <div className="flex gap-3 flex-col w-full relative">
                     <label
-                        for="coverPicUpdate"
+                        htmlFor="coverPicUpdate"
                         className="dark:text-gray-200 font-medium tracking-wide"
                     >
                         Cover Image
@@ -55,37 +132,83 @@ const Settings = () => {
                         type="file"
                         name="cover_pic"
                         className="fixed -top-[20000px]"
+                        accept="image/*"
                         id="coverPicUpdate"
+                        onChange={handleFileChange}
                     />
-                    <button
-                        type="button"
-                        className="text-purple-500 text-lg absolute right-3 px-1 font-medium py-[.2rem] rounded hover:bg-gray-200 hover:dark:bg-gray-900"
-                        onClick={() => handleEditClick("coverPicUpdate")}
-                    >
-                        Edit
-                    </button>
+
+                    <div className="flex gap-3 absolute right-3">
+                        <button
+                            type="button"
+                            onClick={() => handleEditClick("coverPicUpdate")}
+                            className="text-purple-500  hover:bg-gray-200 hover:dark:bg-gray-900 py-[.2rem] px-1 text-large rounded"
+                        >
+                            Edit
+                        </button>
+                        {formValues.cover_pic.file && (
+                            <button
+                                type="button"
+                                onClick={() => clearField("cover_pic")}
+                                className="bg-red-400 text-red-50 text-sm  hover:dark:bg-gray-900 px-1 text-large rounded"
+                            >
+                                Clear
+                            </button>
+                        )}
+                    </div>
+
+                    {formValues.cover_pic.file && (
+                        <div
+                            className={` w-max  ${
+                                formValues.cover_pic.sizeKb > maxFileSizeKb
+                                    ? "text-red-600 dark:text-red-400"
+                                    : "text-green-600 dark:text-green-300 "
+                            }`}
+                        >
+                            Size: {formValues.cover_pic.sizeKb} kb / {maxFileSizeKb} kb (
+                            {formValues.cover_pic.sizeKb <= maxFileSizeKb ? "Ok" : "Too Large"})
+                        </div>
+                    )}
                     <div className="w-full flex items-center justify-center p-2 rounded">
                         <img
-                            src={cover_pic}
-                            alt="Profile Cover Image"
+                            src={formValues.cover_pic.file ? formValues.cover_pic.file : cover_pic}
+                            alt="Profile Cover"
                             className="w-4/5 rounded-lg object-cover max-h-[40vh]"
                         ></img>
                     </div>
                 </div>
-                <div className="flex gap-3 items-center">
+                <div className="flex gap-1 flex-col justify-center relative">
                     <label
-                        for
-                        id="usernameUpdate"
+                        htmlFor="usernameUpdate"
                         className="dark:text-gray-200 font-medium tracking-wide"
                     >
                         Username
                     </label>
-                    <input
-                        type="text"
-                        name="username"
-                        id="usernameUpdate"
-                        className="border-none p-2 text-gray-900 bg-gray-300 w-full  rounded-lg focus:outline-none text-sm dark:bg-gray-900 dark:text-gray-300"
-                    />
+                    <div className="flex gap-3 absolute top-0 right-3">
+                        <button
+                            type="button"
+                            onClick={() => setEditUsername((prev) => !prev)}
+                            className="text-purple-500 hover:bg-gray-200 hover:dark:bg-gray-900 py-[.2rem] px-1 text-large rounded capitalize"
+                        >
+                            {editUsername ? "cancel" : "edit"}
+                        </button>
+                    </div>
+                    <div className="w-2 h-2"></div>
+                    {editUsername ? (
+                        <input
+                            type="text"
+                            name="username"
+                            placeholder="Username"
+                            id="usernameUpdate"
+                            className="border-none p-2 text-gray-900 bg-gray-300 w-full  rounded-lg focus:outline-none text-sm dark:bg-gray-900 dark:text-gray-300"
+                            autoFocus
+                            onChange={handleChange}
+                            value={formValues.username}
+                        />
+                    ) : (
+                        <div className="border-none p-2 text-gray-900 bg-gray-300 w-full  rounded-lg focus:outline-none text-sm dark:bg-gray-900 dark:text-gray-300">
+                            @{username}
+                        </div>
+                    )}
                 </div>
                 <div className="flex items-center justify-end w-full">
                     <button
