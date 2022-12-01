@@ -7,6 +7,7 @@ import MediaPostContainer from "./MediaPostContainer";
 import useThemeContext from "../../contexts/themeContext";
 import ProfileUsers from "./ProfileUsers";
 import { useSearchParams } from "react-router-dom";
+import Settings from "./Settings";
 
 const tabDarkTheme = createTheme({
     palette: {
@@ -94,11 +95,12 @@ const Profile = () => {
                     />
                 </Tabs>
             </div>
-            <div className="w-full mx-auto pl-4">
+            <div className="w-full mx-auto">
                 {currentTab === "posts" && <ProfilePostContainer />}
                 {currentTab === "comments" && <PostComments />}
                 {currentTab === "media" && <MediaPostContainer />}
                 {currentTab === "following" && <ProfileUsers />}
+                {currentTab === "settings" && <Settings />}
             </div>
         </div>
     );

@@ -14,9 +14,13 @@ const CommentForm = ({ handleSubmit }) => {
                 </Avatar>
             </div>
             <form className="flex-1 flex flex-col focus:outline-0 gap-4" onSubmit={handleSubmit}>
+                <label for="commentText" className="fixed -top-[200000px]">
+                    Comment
+                </label>
                 <input
                     type="text"
                     name="content"
+                    id="commentText"
                     className="block w-full bg-white p-2 focus:outline-none rounded-lg text-gray-700 text-sm dark:bg-gray-900 dark:text-gray-300"
                     placeholder="Type comment here"
                 />
