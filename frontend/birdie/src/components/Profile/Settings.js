@@ -3,9 +3,16 @@ import useUserContext from "../../contexts/UserContext";
 import usePageContext from "../../contexts/pageContext";
 import { useEffect } from "react";
 
+const validUsernamePattern = /^[\w.@+-]+$/;
+
+function validateUsername(username) {
+    if (!username || username.at(-1) === " ") return false;
+    return Boolean(username.match(validUsernamePattern));
+}
+
 const Settings = () => {
-    const { profileData } = useUserContext();
-    const { maxFileSizeKb, updateInfo } = usePageContext();
+    const { profileData, updateInfo } = useUserContext();
+    const { maxFileSizeKb } = usePageContext();
     const { profile_pic, username, cover_pic } = profileData;
 
     const defaultFileValues = {
@@ -56,11 +63,22 @@ const Settings = () => {
 
     const submitForm = (e) => {
         e.preventDefault();
+        if (!validateUsername(formValues.username)) {
+            alert("You have provided an invalid username");
+            return;
+        }
         const formElement = e.target;
         const success = () => {
             alert("Changes will take effect next time you load the page");
         };
-        updateInfo(new FormData(formElement), success, console.log);
+
+        const failure = (e) => {
+            const errorMessages = e.response.data;
+            const field = Object.keys(errorMessages)[0];
+            alert(errorMessages[field][0]);
+        };
+
+        updateInfo(new FormData(formElement), success, failure);
     };
 
     useEffect(() => {
@@ -123,15 +141,21 @@ const Settings = () => {
                         </div>
                     )}
                     <div className="w-full flex items-center justify-center">
-                        <img
-                            src={
-                                formValues.profile_pic.file
-                                    ? formValues.profile_pic.file
-                                    : profile_pic
-                            }
-                            alt={username}
-                            className="rounded-full w-[136px] h-[136px]  border-4 border-purple-500"
-                        ></img>
+                        {formValues.profile_pic.file || profile_pic ? (
+                            <img
+                                src={
+                                    formValues.profile_pic.file
+                                        ? formValues.profile_pic.file
+                                        : profile_pic
+                                }
+                                alt={username}
+                                className="rounded-full w-[136px] h-[136px]  border-4 border-purple-500"
+                            ></img>
+                        ) : (
+                            <div className="rounded-full w-[136px] h-[136px] flex items-center justify-center text-white text-5xl border-4 bg-[#bdbdbd]">
+                                {username && username.at(0).toUpperCase()}
+                            </div>
+                        )}
                     </div>
                 </div>
                 <div className="flex gap-3 flex-col w-full relative">

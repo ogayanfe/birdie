@@ -18,6 +18,7 @@ export default function SignUp() {
     });
     const [usernameError, setUsernameError] = useState(false);
     const [passwordError, setPasswordError] = useState(false);
+
     function handleSubmit(e) {
         e.preventDefault();
         if (formData.password !== formData.passwordConfirm) setPasswordError(true);

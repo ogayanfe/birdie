@@ -70,15 +70,6 @@ export const PageContextProvider = ({ children }) => {
             .catch((e) => onFailure(e));
     };
 
-    const updateInfo = async (formData, onSuccess, onFailure) => {
-        let response;
-        console.log("Got Here");
-        response = await axiosInstance.patch("accounts/profile/update/", formData);
-        if (response.status >= 200 && response.status < 400) {
-            onSuccess(response);
-        } else onFailure(response);
-    };
-
     const context = {
         data: data,
         setData: setData,
@@ -90,7 +81,6 @@ export const PageContextProvider = ({ children }) => {
         getNextItems: getNextItems,
         getNextUrl: () => data.next,
         followUser: followUser,
-        updateInfo: updateInfo,
         maxFileSizeKb: 200, // Max image size in kilobyte
     };
 

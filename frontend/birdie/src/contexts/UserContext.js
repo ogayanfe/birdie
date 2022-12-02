@@ -63,6 +63,17 @@ function UserContextProvider({ children }) {
             .catch((error) => onFailure(error));
     };
 
+    const updateInfo = async (formData, onSuccess, onFailure) => {
+        axiosInstance
+            .patch("accounts/profile/update/", formData)
+            .then((response) => {
+                onSuccess(response);
+            })
+            .catch((e) => {
+                onFailure(e);
+            });
+    };
+
     const logout = () => {
         setUser(null);
         setTokens(null);
@@ -75,6 +86,7 @@ function UserContextProvider({ children }) {
         login: login,
         axiosInstance: axiosInstance,
         logout: logout,
+        updateInfo: updateInfo,
         signup: signup,
         profileData: profileData,
         setProfileData: setProfileData,
