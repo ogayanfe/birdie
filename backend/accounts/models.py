@@ -4,7 +4,6 @@ from django.contrib.auth.models import AbstractUser
 import hashlib
 import time
 from django.utils.translation import gettext as _
-from .validators import validate_image
 
 
 def profile_path(user, filename: str) -> str:
@@ -26,7 +25,7 @@ def cover_image_path(user, filename: str):
 
 class User(AbstractUser):
     profile_pic = models.ImageField(
-        upload_to=profile_path, validators=(validate_image,), null=True)
+        upload_to=profile_path, null=True)
     following = models.ManyToManyField('self')
     cover_pic = models.ImageField(
         upload_to=cover_image_path, null=True, default="images/cover/coverphoto.jpg")

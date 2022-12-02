@@ -5,7 +5,7 @@ import { useEffect } from "react";
 
 const Settings = () => {
     const { profileData } = useUserContext();
-    const { maxFileSizeKb } = usePageContext();
+    const { maxFileSizeKb, updateInfo } = usePageContext();
     const { profile_pic, username, cover_pic } = profileData;
 
     const defaultFileValues = {
@@ -27,9 +27,11 @@ const Settings = () => {
         });
         const fieldId = fieldFileIdMapping[field];
         document.getElementById(fieldId).value = "";
+        document.getElementById(fieldId).disabled = true;
     };
     const handleEditClick = (name) => {
         document.querySelector(`#${name}`).click();
+        document.querySelector(`#${name}`).disabled = false;
     };
 
     const handleChange = (e) => {
@@ -52,6 +54,15 @@ const Settings = () => {
         });
     };
 
+    const submitForm = (e) => {
+        e.preventDefault();
+        const formElement = e.target;
+        const success = () => {
+            alert("Changes will take effect next time you load the page");
+        };
+        updateInfo(new FormData(formElement), success, console.log);
+    };
+
     useEffect(() => {
         setFormValues((prev) => ({ ...prev, username: username }));
     }, [editUsername, username]);
@@ -59,6 +70,7 @@ const Settings = () => {
     return (
         <div className="bg-gray-50 w-full p-7 mt-3 border-b-4 dark:bg-[#030108]">
             <form
+                onSubmit={submitForm}
                 className="flex flex-col gap-7 justify-between"
                 id="tweet-form"
                 encType="multipart/form-data"
@@ -72,6 +84,7 @@ const Settings = () => {
                     </label>
                     <input
                         type="file"
+                        disabled
                         name="profile_pic"
                         accept="image/*"
                         id="profilePicUpdate"
@@ -130,6 +143,7 @@ const Settings = () => {
                     </label>
                     <input
                         type="file"
+                        disabled
                         name="cover_pic"
                         className="fixed -top-[20000px]"
                         accept="image/*"

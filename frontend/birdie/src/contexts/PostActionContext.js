@@ -5,6 +5,7 @@ export const postActionContext = createContext();
 
 export const PostActionContextProvider = ({ children }) => {
     const { axiosInstance } = useUserContext();
+
     const createPost = async (formData, onSuccess, onFailure) => {
         let response;
         response = await axiosInstance.post("post/create/", formData);
@@ -28,6 +29,7 @@ export const PostActionContextProvider = ({ children }) => {
             onSuccess(response);
         } else onFailure(response);
     };
+
     const savePost = async (id, onSuccess, onFailure = console.error) => {
         let response;
         response = await axiosInstance.post(`post/${id}/save/`);
