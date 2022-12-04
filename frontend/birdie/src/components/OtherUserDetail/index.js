@@ -7,6 +7,7 @@ import usePageContext from "../../contexts/pageContext";
 import Posts from "./Posts";
 import Media from "./Media";
 import Following from "./Following";
+import { Navigate } from "react-router-dom";
 
 const tabDarkTheme = createTheme({
     palette: {
@@ -24,7 +25,10 @@ const Profile = () => {
     const handleChange = (x, value) => {
         setQueryParams({ tab: value });
     };
-    const { axiosInstance } = useUserContext();
+    const {
+        axiosInstance,
+        profileData: { id: curId },
+    } = useUserContext();
 
     useEffect(() => {
         axiosInstance
@@ -68,6 +72,7 @@ const Profile = () => {
         };
     }, []);
 
+    if (curId === id) return <Navigate to="/profile" />;
     return (
         <div className="w-[599px] max-w-[99%] mt-1 mx-auto">
             <div className="bg-gray-100 dark:bg-[#030108]">
