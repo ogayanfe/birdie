@@ -86,7 +86,7 @@ const Settings = () => {
     }, [editUsername, username]);
 
     return (
-        <div className="bg-gray-50 w-full p-7 mt-3 border-b-4 dark:bg-[#030108]">
+        <div className="bg-gray-50 w-full p-7 mt-3 border-b-4 dark:bg-[#030108] dark:border-gray-900">
             <form
                 onSubmit={submitForm}
                 className="flex flex-col gap-7 justify-between"

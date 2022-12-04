@@ -4,6 +4,8 @@ import useThemeContext from "../../contexts/themeContext";
 import useUserContext from "../../contexts/UserContext";
 import { useParams, useSearchParams } from "react-router-dom";
 import usePageContext from "../../contexts/pageContext";
+import Posts from "./Posts";
+import Media from "./Media";
 
 const tabDarkTheme = createTheme({
     palette: {
@@ -46,7 +48,7 @@ const Profile = () => {
             setProfileData((prev) => ({ ...prev, followers: followers }));
         };
         const failure = () => {
-            alert("Could not complete action, check internet connection");
+            alert("Could not complete action, check internet connection and refresh");
         };
         followUser(id, success, failure);
     };
@@ -99,18 +101,13 @@ const Profile = () => {
                 <Tabs
                     value={currentTab}
                     onChange={handleChange}
-                    variant="scrollable"
+                    variant="fullWidth"
                     aria-label="basic tabs example"
                     theme={tabDarkTheme}
                     component="nav"
                     style={darkTheme ? { background: "#030108" } : null}
                 >
                     <Tab label="Posts" value="posts" theme={darkTheme ? tabDarkTheme : null} />
-                    <Tab
-                        label="Comments"
-                        value="comments"
-                        theme={darkTheme ? tabDarkTheme : null}
-                    />
                     <Tab label="media" value="media" theme={darkTheme ? tabDarkTheme : null} />
                     <Tab
                         label="following"
@@ -120,9 +117,8 @@ const Profile = () => {
                 </Tabs>
             </div>
             <div className="w-full mx-auto pl-4">
-                {currentTab === "posts" && <div>Posts</div>}
-                {currentTab === "comments" && <div>Comments</div>}
-                {currentTab === "media" && <div>Media</div>}
+                {currentTab === "posts" && <Posts />}
+                {currentTab === "media" && <Media />}
                 {currentTab === "following" && <div>Following</div>}
             </div>
         </div>

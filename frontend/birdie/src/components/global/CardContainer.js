@@ -6,9 +6,11 @@ const CardContainer = (props) => {
     const {
         data: { posts },
     } = usePageContext();
+    let results = posts;
+    if (props.posts) results = props.posts;
     return (
         <>
-            {posts.map((post) => {
+            {results.map((post) => {
                 return (
                     <Card
                         id={post.id}

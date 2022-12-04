@@ -1,4 +1,3 @@
-from turtle import pos
 from django.shortcuts import get_object_or_404
 from rest_framework.generics import (
     ListAPIView,
@@ -11,7 +10,8 @@ from post.models import Post, Comment
 from .serializers import PostSerializer, CommentSerializer
 from rest_framework.views import APIView
 from rest_framework.response import Response
-from rest_framework.pagination import PageNumberPagination
+from accounts.models import User
+from typing import Any
 
 
 class PostListAPIView(ListAPIView):
@@ -27,13 +27,26 @@ class PostListAPIView(ListAPIView):
         elif filter == 'user':
             return user.posts.all().order_by("-created")
         elif filter == 'media':
-            return user.media_posts()
+            return user.media_posts().order_by("-created")
         elif filter == "explore":
             def _(post):
                 return post.likes.count() + post.saves.count() + post.comments.count()
             return sorted(Post.objects.all().order_by("-created"), key=_, reverse=True)
         else:
             return Post.objects.user_post(user).order_by("-created")
+
+
+class UserPostListAPIView(ListAPIView):
+    serializer_class = PostSerializer
+    kwargs: dict[str, Any]
+
+    def get_queryset(self):
+        filter = self.request.query_params.get('filter', None)
+        pk = self.kwargs.get("id")
+        user: User = get_object_or_404(User, id=pk)
+        if filter == 'media':
+            return user.media_posts().order_by("-created")
+        return user.posts.all().order_by("-created")
 
 
 class PostCreateAPIView(CreateAPIView):

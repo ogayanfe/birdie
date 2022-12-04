@@ -39,6 +39,7 @@ const CommentsModal = ({ id, open, close }) => {
         };
         getComments(id, success, console.log);
     }, [id, setComments, getComments]);
+
     const checkWindowSize = () => {
         if (window.innerWidth < 520) {
             setFullScreen(true);

@@ -10,6 +10,7 @@ from .views import (
     CommentDestroyApiView,
     CommentUpdateApiView,
     CommentRetrieveAPIView,
+    UserPostListAPIView,
     LikeUnlikePostAPIView,
     SaveUnsavePostAPIView,
     CommentsListAPIView,
@@ -19,6 +20,7 @@ from .views import (
 urlpatterns = (
     path("<int:pk>/", PostRetrieveAPIView.as_view()),
     path("all/", PostListAPIView.as_view()),
+    path("user/<int:id>/all/", UserPostListAPIView.as_view()),
     path("<int:pk>/comments/", PostCommentsListAPIView.as_view()),
     path("<int:pk>/comments/create/", CommentCreateApiView.as_view()),
     path("comments/delete/<int:pk>/", CommentDestroyApiView.as_view()),
