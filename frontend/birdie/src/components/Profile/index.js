@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React from "react";
 import { Tab, Tabs, createTheme } from "@mui/material";
 import useUserContext from "../../contexts/UserContext";
 import PostComments from "./PostComments";
@@ -46,9 +46,6 @@ const Profile = () => {
                             {username && username.at(0).toUpperCase()}
                         </div>
                     )}
-                    <button className="float-right m-4 border-2 p-1 px-2 rounded-full text-purple-500 text-sm border-purple-500">
-                        Edit profile
-                    </button>
                 </div>
                 <div className="p-4 flex flex-col gap-1">
                     <p className="capitalize text-black text-lg dark:text-gray-400">@{username}</p>

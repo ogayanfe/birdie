@@ -6,6 +6,7 @@ import { useParams, useSearchParams } from "react-router-dom";
 import usePageContext from "../../contexts/pageContext";
 import Posts from "./Posts";
 import Media from "./Media";
+import Following from "./Following";
 
 const tabDarkTheme = createTheme({
     palette: {
@@ -16,6 +17,7 @@ const tabDarkTheme = createTheme({
 const Profile = () => {
     const { userId } = useParams();
     const { followUser } = usePageContext();
+    const [tabFullWidth, setTabFullWidth] = useState(true);
     const [profileData, setProfileData] = useState({});
     const [queryParams, setQueryParams] = useSearchParams();
     const { darkTheme } = useThemeContext();
@@ -52,6 +54,20 @@ const Profile = () => {
         };
         followUser(id, success, failure);
     };
+
+    const checkWindowSize = () => {
+        if (window.innerWidth < 400) {
+            setTabFullWidth(false);
+        } else setTabFullWidth(true);
+    };
+
+    useEffect(() => {
+        window.addEventListener("resize", checkWindowSize);
+        return () => {
+            window.removeEventListener("resize", checkWindowSize);
+        };
+    }, []);
+
     return (
         <div className="w-[599px] max-w-[99%] mt-1 mx-auto">
             <div className="bg-gray-100 dark:bg-[#030108]">
@@ -101,7 +117,7 @@ const Profile = () => {
                 <Tabs
                     value={currentTab}
                     onChange={handleChange}
-                    variant="fullWidth"
+                    variant={tabFullWidth ? "fullWidth" : "scrollable"}
                     aria-label="basic tabs example"
                     theme={tabDarkTheme}
                     component="nav"
@@ -119,7 +135,7 @@ const Profile = () => {
             <div className="w-full mx-auto pl-4">
                 {currentTab === "posts" && <Posts />}
                 {currentTab === "media" && <Media />}
-                {currentTab === "following" && <div>Following</div>}
+                {currentTab === "following" && <Following />}
             </div>
         </div>
     );

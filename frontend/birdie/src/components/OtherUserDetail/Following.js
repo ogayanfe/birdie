@@ -1,19 +1,18 @@
 import React, { useState, useEffect } from "react";
+import { useParams } from "react-router-dom";
 import useUserContext from "../../contexts/UserContext";
-import UserProfileCard from "./UserProfileCard";
+import UserProfileCard from "../Profile/UserProfileCard";
 
-const ProfileUsers = () => {
+const Following = () => {
+    const { userId } = useParams();
     const [{ followers }, setFollowers] = useState({
         next: null,
         followers: [],
     });
-    const {
-        axiosInstance,
-        user: { user_id },
-    } = useUserContext();
+    const { axiosInstance } = useUserContext();
     useEffect(() => {
         axiosInstance
-            .get(`/accounts/${user_id}/following/`)
+            .get(`/accounts/${userId}/following/`)
             .then((response) => {
                 setFollowers({
                     next: response.data.next,
@@ -31,4 +30,4 @@ const ProfileUsers = () => {
     );
 };
 
-export default ProfileUsers;
+export default Following;
