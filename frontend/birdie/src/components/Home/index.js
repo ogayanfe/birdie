@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from "react";
+import React, { useEffect, useRef } from "react";
 import CardContainer from "../global/CardContainer";
 import TweetForm from "../global/TweetForm";
 import usePostActionContext from "../../contexts/PostActionContext";
@@ -32,6 +32,7 @@ const Home = () => {
         if (!nextUrl) return;
         getNextItems(nextUrl, success);
     };
+
     return (
         <div className="flex flex-col items-center w-full" ref={container} id="demo">
             <TweetForm />
