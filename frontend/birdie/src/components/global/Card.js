@@ -5,19 +5,26 @@ import usePageContext from "../../contexts/pageContext";
 import CommentsModal from "./CommentsModal";
 import { Link } from "react-router-dom";
 
-const CardOptionsComponent = ({ onClose }) => {
+const CardOptionsComponent = ({ onClose, deletePost, edit }) => {
     useEffect(() => {
         window.addEventListener("click", onClose);
         return () => window.removeEventListener("click", onClose);
     }, [onClose]);
+
     return (
         <div className="flex flex-col items-start rounded-sm text-sm w-20 shadow dark:text-gray-500 bg-gray-100 dark:bg-[#000208] shadow-gray-600">
-            <button className="flex gap-2 justify-between p-1 w-full hover:bg-[#fff] dark:hover:bg-[#1b1b1b]">
+            <button
+                className="flex gap-2 justify-between p-1 w-full hover:bg-[#fff] dark:hover:bg-[#1b1b1b]"
+                onClick={edit}
+            >
                 <span>Edit</span>
                 <iconify-icon icon="material-symbols:edit"></iconify-icon>
             </button>
             <div className="w-full h-[.1rem] bg-gray-400 my-1"></div>
-            <button className="flex gap-2 justify-between p-1 w-full hover:bg-[#fff] dark:hover:bg-[#1b1b1b]">
+            <button
+                className="flex gap-2 justify-between p-1 w-full hover:bg-[#fff] dark:hover:bg-[#1b1b1b]"
+                onClick={deletePost}
+            >
                 <span>Delete</span>
                 <iconify-icon icon="material-symbols:delete-rounded"></iconify-icon>
             </button>
@@ -45,9 +52,22 @@ const Card = (props) => {
         is_following_user,
         created,
     } = props;
-    const { likePost, savePost } = usePageContext();
+    const { likePost, savePost, deletePost } = usePageContext();
     const [viewComment, setViewComment] = useState(false);
     const [openOptions, setOpenOptions] = useState(false);
+
+    const handleDelete = (e) => {
+        const del = window.confirm("Delete post?");
+        if (!del) {
+            alert("Not deleted");
+            return;
+        }
+        const success = (response) => {
+            alert("Successfully completed action");
+        };
+        const failure = console.log;
+        deletePost(id, success, failure);
+    };
 
     return (
         <div className="w-[598px] max-w-[95%] p-3 gap-2 grid grid-cols-[49px,_auto] bg-gray-50 mt-4 rounded-md dark:bg-[#000208] post-card relative">
@@ -81,23 +101,28 @@ const Card = (props) => {
                     </div>
                 )}
                 <br />
-                <div className="absolute top-2 right-1">
-                    <button
-                        className="text-black p-1 dark:text-white hover:border-2"
-                        onClick={(e) => {
-                            e.stopPropagation();
-                            setOpenOptions((prev) => !prev);
-                        }}
-                    >
-                        <span className="fixed left-[30000000px]">toggle options</span>
-                        <iconify-icon icon="simple-line-icons:options-vertical"></iconify-icon>
-                    </button>
-                    {openOptions ? (
-                        <div className="right-8 absolute top-1">
-                            <CardOptionsComponent onClose={() => setOpenOptions(false)} />
-                        </div>
-                    ) : null}
-                </div>
+                {user_id === creator_id && (
+                    <div className="absolute top-2 right-1">
+                        <button
+                            className="text-black p-1 dark:text-white hover:border-2"
+                            onClick={(e) => {
+                                e.stopPropagation();
+                                setOpenOptions((prev) => !prev);
+                            }}
+                        >
+                            <span className="fixed left-[30000000px]">toggle options</span>
+                            <iconify-icon icon="simple-line-icons:options-vertical"></iconify-icon>
+                        </button>
+                        {openOptions ? (
+                            <div className="right-8 absolute top-1">
+                                <CardOptionsComponent
+                                    onClose={() => setOpenOptions(false)}
+                                    deletePost={handleDelete}
+                                />
+                            </div>
+                        ) : null}
+                    </div>
+                )}
                 <nav className="w-full grid grid-cols-3">
                     <button
                         className={`flex justify-center gap-4 items-center w-full h-full ${

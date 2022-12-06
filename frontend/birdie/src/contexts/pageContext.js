@@ -69,12 +69,24 @@ export const PageContextProvider = ({ children }) => {
             })
             .catch((e) => onFailure(e));
     };
-
+    const deletePost = (id, onSuccess, onFailure) => {
+        axiosInstance
+            .delete(`/post/delete/${id}/`)
+            .then((response) => {
+                setData((prev) => {
+                    const newPosts = prev.posts.filter((post) => post.id !== id);
+                    return { ...prev, posts: newPosts };
+                });
+                onSuccess(response);
+            })
+            .catch((e) => onFailure(e));
+    };
     const context = {
         data: data,
         setData: setData,
         likePost: likePost,
         savePost: savePost,
+        deletePost: deletePost,
         setOnPostLike: setOnPostLike,
         setOnPostSave: setOnPostSave,
         createComment: createComment,
