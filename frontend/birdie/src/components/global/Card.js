@@ -2,13 +2,13 @@ import React, { useState, useEffect } from "react";
 import { Avatar } from "@mui/material";
 import useUserContext from "../../contexts/UserContext";
 import usePageContext from "../../contexts/pageContext";
-import CommentsModal from "./CommentsModal";
+import { CommentsModal, EditPostModal } from "./Modals";
 import { Link } from "react-router-dom";
 
-const CardOptionsComponent = ({ onClose, deletePost, edit }) => {
+const CardOptionsComponent = ({ deletePost, edit, onClose }) => {
     useEffect(() => {
         window.addEventListener("click", onClose);
-        return () => window.removeEventListener("click", onClose);
+        return () => window.addEventListener("click", onClose);
     }, [onClose]);
 
     return (
@@ -36,6 +36,8 @@ const Card = (props) => {
     const {
         user: { user_id },
     } = useUserContext();
+    const [showEditPostModal, setShowEditPostModal] = useState(false);
+
     const {
         id,
         avatar,
@@ -102,26 +104,37 @@ const Card = (props) => {
                 )}
                 <br />
                 {user_id === creator_id && (
-                    <div className="absolute top-2 right-1">
-                        <button
-                            className="text-black p-1 dark:text-white hover:border-2"
-                            onClick={(e) => {
-                                e.stopPropagation();
-                                setOpenOptions((prev) => !prev);
-                            }}
-                        >
-                            <span className="fixed left-[30000000px]">toggle options</span>
-                            <iconify-icon icon="simple-line-icons:options-vertical"></iconify-icon>
-                        </button>
-                        {openOptions ? (
-                            <div className="right-8 absolute top-1">
-                                <CardOptionsComponent
-                                    onClose={() => setOpenOptions(false)}
-                                    deletePost={handleDelete}
-                                />
-                            </div>
-                        ) : null}
-                    </div>
+                    <>
+                        <div className="absolute top-2 right-1">
+                            <button
+                                className="text-black p-1 dark:text-white hover:border-2"
+                                onClick={(e) => {
+                                    e.stopPropagation();
+                                    setOpenOptions((prev) => !prev);
+                                }}
+                            >
+                                <span className="fixed left-[30000000px]">toggle options</span>
+                                <iconify-icon icon="simple-line-icons:options-vertical"></iconify-icon>
+                            </button>
+                            {openOptions ? (
+                                <div className="right-8 absolute top-1">
+                                    <CardOptionsComponent
+                                        onClose={() => setOpenOptions(false)}
+                                        deletePost={handleDelete}
+                                        id={id}
+                                        edit={() => setShowEditPostModal(true)}
+                                    />
+                                </div>
+                            ) : null}
+                        </div>
+                        {showEditPostModal && (
+                            <EditPostModal
+                                id={id}
+                                onClose={() => setShowEditPostModal(false)}
+                                open={showEditPostModal}
+                            />
+                        )}
+                    </>
                 )}
                 <nav className="w-full grid grid-cols-3">
                     <button

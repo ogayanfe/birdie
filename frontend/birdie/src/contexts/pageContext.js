@@ -81,6 +81,10 @@ export const PageContextProvider = ({ children }) => {
             })
             .catch((e) => onFailure(e));
     };
+
+    const getCardInfoFromData = (id) => {
+        return data.posts.filter((post) => post.id === id);
+    };
     const context = {
         data: data,
         setData: setData,
@@ -88,6 +92,7 @@ export const PageContextProvider = ({ children }) => {
         savePost: savePost,
         deletePost: deletePost,
         setOnPostLike: setOnPostLike,
+        getCardInfoFromData: getCardInfoFromData,
         setOnPostSave: setOnPostSave,
         createComment: createComment,
         getNextItems: getNextItems,
