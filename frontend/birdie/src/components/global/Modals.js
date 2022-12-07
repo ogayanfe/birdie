@@ -338,7 +338,8 @@ const ChangePasswordModal = ({ open, close }) => {
             .then(() => {
                 alert("Update Successfull");
                 close();
-            });
+            })
+            .catch(() => alert("Couldn't update passwords"));
     }
     function handleChange(e) {
         setPasswords((prev) => ({
@@ -349,24 +350,26 @@ const ChangePasswordModal = ({ open, close }) => {
     }
 
     return (
-        <Dialog open={open} PaperProps={{ style: { background: "inherit" } }} onClose={close}>
-            <div className="w-[90vw] bg-purple-50 max-w-lg p-6 h-max-content rounded-lgz border-l-4">
+        <Dialog open={open} PaperProps={{ style: { background: "transparent" } }} onClose={close}>
+            <div className="w-[90vw] bg-purple-50 max-w-lg p-6 h-max-content rounded-lg dark:bg-black dark:border-2 border-gray-900 rounded-lgz">
                 <h1 className="text-2xl text-purple-500 flex justify-center gap-1 items-center m-2">
                     <span className="text-3xl">
                         <iconify-icon icon="game-icons:hummingbird"></iconify-icon>
                     </span>
-                    Create An Account
+                    Change Password
                 </h1>
                 <form
-                    className="flex flex-col gap-2"
+                    className="flex flex-col gap-3 border-b-4 border-gray-300  dark:border-gray-900 pb-6"
                     id="update-password-form"
                     onSubmit={handleSubmit}
                 >
                     {passwordError && <p className="text-sm text-red-500">Invalid password</p>}
-                    <label htmlFor="new-password">New password</label>
+                    <label htmlFor="new-password" className="dark:text-gray-200">
+                        New password
+                    </label>
                     <input
                         type="password"
-                        className="rounded-lg p-2 text-sm"
+                        className="rounded-lg p-2 text-sm text-[#5B7083] bg-white dark:bg-gray-900 dark:text-gray-300"
                         name="newPassword"
                         id="new-password"
                         onChange={handleChange}
@@ -374,12 +377,14 @@ const ChangePasswordModal = ({ open, close }) => {
                         value={newPassword}
                         placeholder="password"
                     />
-                    <label htmlFor="new-password-confirm">Type password again</label>
+                    <label htmlFor="new-password-confirm" className="dark:text-gray-200">
+                        Type password again
+                    </label>
                     <input
                         type="password"
                         value={newPasswordConfirm}
                         onChange={handleChange}
-                        className="rounded-lg p-2 text-sm"
+                        className="rounded-lg p-2 text-sm text-[#5B7083] bg-white dark:bg-gray-900 dark:text-gray-300"
                         name="newPasswordConfirm"
                         id="new-password-confirm"
                         required
