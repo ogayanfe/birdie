@@ -351,7 +351,7 @@ const ChangePasswordModal = ({ open, close }) => {
 
     return (
         <Dialog open={open} PaperProps={{ style: { background: "transparent" } }} onClose={close}>
-            <div className="w-[90vw] bg-purple-50 max-w-lg p-6 h-max-content rounded-lg dark:bg-black dark:border-2 border-gray-900 rounded-lgz">
+            <div className="w-[80vw] bg-purple-50 max-w-lg p-6 h-max-content rounded-lg dark:bg-black dark:border-2 border-gray-900 rounded-lgz">
                 <h1 className="text-2xl text-purple-500 flex justify-center gap-1 items-center m-2">
                     <span className="text-3xl">
                         <iconify-icon icon="game-icons:hummingbird"></iconify-icon>
