@@ -7,6 +7,7 @@ import CommentCard from "./CommentCard";
 import CommentForm from "./CommentForm";
 import { Avatar } from "@mui/material";
 import KeyboardDoubleArrowDownIcon from "@mui/icons-material/KeyboardDoubleArrowDown";
+import useThemeContext from "../../contexts/themeContext";
 
 const ImagePreview = ({ src, removeImage, file }) => {
     if (src || file.file) {
@@ -144,6 +145,7 @@ const EditPostModal = ({ id, open, onClose }) => {
     const {
         profileData: { username, profile_pic },
     } = useUserContext();
+    const { darkTheme } = useThemeContext();
     const { getCardInfoFromData, maxFileSizeKb, updatePost } = usePageContext();
     const prevContent = getCardInfoFromData(id)[0];
     const [file, setFile] = useState({ name: "", file: null, sizeKb: 0 });
@@ -200,10 +202,20 @@ const EditPostModal = ({ id, open, onClose }) => {
             window.removeEventListener("resize", checkWindowSize);
         };
     }, []);
-
+    const darkThemePaperStyle = {
+        background: "black",
+        border: "2px solid rgb(17, 24, 39)",
+    };
     return (
-        <Dialog open={open} onClose={onClose} fullScreen={fullScreen}>
-            <div className="max-w-md mb-3 mx-auto w-screen dark:bg-black flex overflow-y-scroll flex-col p-2 gap-2 overflow-hidden dark:border-2 dark:border-gray-900">
+        <Dialog
+            open={open}
+            onClose={onClose}
+            fullScreen={fullScreen}
+            PaperProps={{
+                style: darkTheme ? darkThemePaperStyle : {},
+            }}
+        >
+            <div className="max-w-md mb-3 mx-auto w-screen dark:bg-black flex overflow-y-scroll flex-col p-2 gap-2 overflow-hidden">
                 <div className="w-full grid-cols-[49px,_auto] h-min-content grid p-3  border-b-4 gap-1 bg-gray-100 mt-2 dark:bg-black dark:bg-opacity-90 dark:shadow-xl dark:border-gray-800">
                     <div>
                         <Avatar alt="post" src={profile_pic}>
