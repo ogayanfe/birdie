@@ -90,6 +90,7 @@ function UserContextProvider({ children }) {
         signup: signup,
         profileData: profileData,
         setProfileData: setProfileData,
+        isDemoUser: profileData.username === "DemoUser",
     };
 
     useEffect(() => {

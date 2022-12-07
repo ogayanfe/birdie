@@ -11,10 +11,9 @@ function validateUsername(username) {
 }
 
 const Settings = () => {
-    const { profileData, updateInfo } = useUserContext();
+    const { profileData, updateInfo, isDemoUser } = useUserContext();
     const { maxFileSizeKb } = usePageContext();
     const { profile_pic, username, cover_pic } = profileData;
-
     const defaultFileValues = {
         profile_pic: { name: "", file: null, sizeKb: 0 },
         cover_pic: { name: "", file: null, sizeKb: 0 },
@@ -224,7 +223,13 @@ const Settings = () => {
                     <div className="flex gap-3 absolute top-0 right-3">
                         <button
                             type="button"
-                            onClick={() => setEditUsername((prev) => !prev)}
+                            onClick={() => {
+                                if (isDemoUser) {
+                                    alert("You can't change the username of this account");
+                                    return;
+                                }
+                                setEditUsername((prev) => !prev);
+                            }}
                             className="text-purple-500 hover:bg-gray-200 hover:dark:bg-gray-900 py-[.2rem] px-1 text-large rounded capitalize"
                         >
                             {editUsername ? "cancel" : "edit"}
