@@ -13,7 +13,7 @@ const Home = () => {
         const success = (r) => {
             setData({ next: r.data.next, posts: r.data.results });
         };
-        getPosts("", success, console.log);
+        getPosts("", success, () => alert("Couldn't load content"));
         return () => {
             setData({ next: null, posts: [] });
         };

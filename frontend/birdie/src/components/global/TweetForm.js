@@ -55,7 +55,7 @@ const TweetForm = () => {
             formElement.image.value = "";
             clearFile();
         };
-        createPost(new FormData(formElement), success, console.log);
+        createPost(new FormData(formElement), success, () => alert("Couldn't complete actions"));
     };
 
     const clearFile = (e) => {

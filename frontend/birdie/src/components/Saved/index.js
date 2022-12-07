@@ -13,7 +13,7 @@ const Saved = () => {
         const success = (r) => {
             setData({ next: r.data.next, posts: r.data.results });
         };
-        getPosts("saved", success, console.log);
+        getPosts("saved", success, () => alert("Couldn't complete action"));
         return () => {
             setData({ next: null, posts: [] });
         };

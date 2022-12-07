@@ -53,6 +53,7 @@ const Card = (props) => {
         is_commented,
         is_following_user,
         created,
+        isEdited,
     } = props;
     const { likePost, savePost, deletePost } = usePageContext();
     const [viewComment, setViewComment] = useState(false);
@@ -67,7 +68,7 @@ const Card = (props) => {
         const success = (response) => {
             alert("Successfully completed action");
         };
-        const failure = console.log;
+        const failure = () => alert("Could not complet action");
         deletePost(id, success, failure);
     };
 
@@ -92,7 +93,10 @@ const Card = (props) => {
                         </div>
                     )}
                 </div>
-                <div className="text-[#0F1419] text-[0.8rem] dark:text-white">{card_content}</div>
+                <div className="text-[#0F1419] text-[0.8rem] dark:text-white">
+                    {isEdited ? "Edited: " : ""}
+                    {card_content}
+                </div>
                 {card_image && (
                     <div className="my-2 ">
                         <img

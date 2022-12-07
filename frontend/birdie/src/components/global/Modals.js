@@ -66,7 +66,7 @@ const CommentsModal = ({ id, open, close }) => {
                 comments: response.data.results,
             });
         };
-        getComments(id, success, console.log);
+        getComments(id, success, () => alert("Couldn't load comments"));
     }, [id, setComments, getComments]);
 
     const checkWindowSize = () => {
@@ -264,6 +264,7 @@ const EditPostModal = ({ id, open, onClose }) => {
                                     });
                                 }}
                             />
+                            <input type="hidden" name="isEdited" value="True" />
                         </div>
                         {file.file && (
                             <div

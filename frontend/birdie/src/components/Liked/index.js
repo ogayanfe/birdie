@@ -13,7 +13,7 @@ const Liked = () => {
         const success = (r) => {
             setData({ next: r.data.next, posts: r.data.results });
         };
-        getPosts("liked", success, console.log);
+        getPosts("liked", success, () => alert("Couldn't load content"));
         return () => {
             setData({ next: null, posts: [] });
         };

@@ -38,6 +38,7 @@ class Post(models.Model):
     created = models.DateTimeField(auto_now_add=True)
     likes = models.ManyToManyField(User, related_name="liked_post")
     saves = models.ManyToManyField(User, related_name="saved_post")
+    isEdited = models.BooleanField(default=False)
     objects = PostManager()
 
     def __str__(self):

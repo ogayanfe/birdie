@@ -79,7 +79,8 @@ class PostSerializer(serializers.ModelSerializer):
             'is_saved',
             'is_commented',
             'is_following_user',
-            'is_followed_by_user'
+            'is_followed_by_user',
+            "isEdited"
         )
 
     def get_created(self, post):
