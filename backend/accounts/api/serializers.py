@@ -1,7 +1,9 @@
 from rest_framework_simplejwt.serializers import TokenObtainPairSerializer
 from rest_framework import serializers
+from django.contrib.auth import update_session_auth_hash
 from accounts.models import User
 from django.contrib.humanize.templatetags.humanize import naturalday
+from typing import Any
 
 
 class MyTokenObtainPairSerializer(TokenObtainPairSerializer):
@@ -33,10 +35,14 @@ class UserSerializer(serializers.ModelSerializer):
             'following',
             'followers',
             'cover_pic',
+            'password'
         ]
         extra_kwargs = {
             'date_joined': {
                 'read_only': True,
+            },
+            "password": {
+                "write_only": True,
             }
         }
 
@@ -48,6 +54,19 @@ class UserSerializer(serializers.ModelSerializer):
 
     def get_date_joined(self, user):
         return naturalday(user.date_joined)
+
+    def update(self, instance, validated_data):
+        for attr, value in validated_data.items():
+            if attr == 'password':
+                instance.set_password(value)
+            else:
+                setattr(instance, attr, value)
+
+        instance.save()
+
+        update_session_auth_hash(self.context.get('request'), instance)
+
+        return instance
 
 
 class SignupSerializer(serializers.ModelSerializer):

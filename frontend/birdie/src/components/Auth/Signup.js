@@ -69,7 +69,7 @@ export default function SignUp() {
                         placeholder="username"
                         id="signup-username"
                     />
-                    {passwordError && <p className="text-sm text-red-500">Passwords must match</p>}
+                    {passwordError && <p className="text-sm text-red-500">invalid password</p>}
                     <label htmlFor="signup-password">Password</label>
                     <input
                         type="password"

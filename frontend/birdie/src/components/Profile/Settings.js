@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import useUserContext from "../../contexts/UserContext";
 import usePageContext from "../../contexts/pageContext";
 import { useEffect } from "react";
+import { ChangePasswordModal } from "../global/Modals";
 
 const validUsernamePattern = /^[\w.@+-]+$/;
 
@@ -23,6 +24,7 @@ const Settings = () => {
         username: username,
         ...defaultFileValues,
     });
+    const [updatePassword, setupdatePassword] = useState(false);
     const clearField = (field) => {
         const fieldFileIdMapping = {
             profile_pic: "profilePicUpdate",
@@ -253,6 +255,29 @@ const Settings = () => {
                         </div>
                     )}
                 </div>
+                <div className="flex gap-1 flex-col justify-center relative">
+                    <label
+                        htmlFor="usernameUpdate"
+                        className="dark:text-gray-200 font-medium tracking-wide"
+                    >
+                        Password
+                    </label>
+                    <div className="flex gap-3 absolute top-0 right-3">
+                        <button
+                            type="button"
+                            className="text-purple-500 hover:bg-gray-200 hover:dark:bg-gray-900 py-[.2rem] px-1 text-large rounded capitalize"
+                            onClick={() => {
+                                if (isDemoUser) {
+                                    alert("You can't update the password of this account");
+                                    return;
+                                }
+                                setupdatePassword(true);
+                            }}
+                        >
+                            Change
+                        </button>
+                    </div>
+                </div>
                 <div className="flex items-center justify-end w-full">
                     <button
                         className="bg-purple-400 text-purple-50 float-right px-2 h-8 rounded-full  mt-3 w-20"
@@ -262,6 +287,9 @@ const Settings = () => {
                     </button>
                 </div>
             </form>
+            {updatePassword && (
+                <ChangePasswordModal open={updatePassword} close={() => setupdatePassword(false)} />
+            )}
         </div>
     );
 };

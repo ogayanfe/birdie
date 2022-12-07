@@ -309,4 +309,91 @@ const EditPostModal = ({ id, open, onClose }) => {
         </Dialog>
     );
 };
-export { CommentsModal, EditPostModal };
+
+const validUsernamePattern = /^[\w.@+-]+$/;
+
+function validateUsername(username) {
+    if (!username || username.at(-1) === " ") return false;
+    return Boolean(username.match(validUsernamePattern));
+}
+
+const ChangePasswordModal = ({ open, close }) => {
+    const [passwordError, setPasswordError] = useState(false);
+    const [{ newPassword, newPasswordConfirm }, setPasswords] = useState({
+        newPassword: "",
+        newPasswordConfirm: "",
+    });
+    const { axiosInstance } = useUserContext();
+
+    function handleSubmit(e) {
+        e.preventDefault();
+        if (newPassword !== newPasswordConfirm) {
+            alert("Passwords do not match");
+            return;
+        }
+        axiosInstance
+            .patch("/accounts/profile/update/", {
+                password: newPassword,
+            })
+            .then(() => {
+                alert("Update Successfull");
+                close();
+            });
+    }
+    function handleChange(e) {
+        setPasswords((prev) => ({
+            ...prev,
+            [e.target.name]: e.target.value,
+        }));
+        setPasswordError(!validateUsername(e.target.value));
+    }
+
+    return (
+        <Dialog open={open} PaperProps={{ style: { background: "inherit" } }} onClose={close}>
+            <div className="w-[90vw] bg-purple-50 max-w-lg p-6 h-max-content rounded-lgz border-l-4">
+                <h1 className="text-2xl text-purple-500 flex justify-center gap-1 items-center m-2">
+                    <span className="text-3xl">
+                        <iconify-icon icon="game-icons:hummingbird"></iconify-icon>
+                    </span>
+                    Create An Account
+                </h1>
+                <form
+                    className="flex flex-col gap-2"
+                    id="update-password-form"
+                    onSubmit={handleSubmit}
+                >
+                    {passwordError && <p className="text-sm text-red-500">Invalid password</p>}
+                    <label htmlFor="new-password">New password</label>
+                    <input
+                        type="password"
+                        className="rounded-lg p-2 text-sm"
+                        name="newPassword"
+                        id="new-password"
+                        onChange={handleChange}
+                        required
+                        value={newPassword}
+                        placeholder="password"
+                    />
+                    <label htmlFor="new-password-confirm">Type password again</label>
+                    <input
+                        type="password"
+                        value={newPasswordConfirm}
+                        onChange={handleChange}
+                        className="rounded-lg p-2 text-sm"
+                        name="newPasswordConfirm"
+                        id="new-password-confirm"
+                        required
+                        placeholder="confirm your password"
+                    />
+                    <div>
+                        <button className="bg-purple-600 text-purple-100 rounded-full px-2 w-20 py-1 float-right mt-2">
+                            Update
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </Dialog>
+    );
+};
+
+export { CommentsModal, EditPostModal, ChangePasswordModal };
