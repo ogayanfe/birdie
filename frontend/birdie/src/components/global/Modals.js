@@ -17,15 +17,13 @@ const ImagePreview = ({ src, removeImage, file }) => {
                     alt="selected file preview"
                     className="w-full rounded-lg object-cover max-h-[50vh]"
                 ></img>
-                {file.file && (
-                    <button
-                        className="w-full h-full p-3  rounded-lg lg:text-2xl absolute top-0 left-0 bg-gray-900 opacity-0 hover:opacity-80 text-white transition-all"
-                        onClick={removeImage}
-                        type="button"
-                    >
-                        Remove Image
-                    </button>
-                )}
+                <button
+                    className="w-full h-full p-3  rounded-lg lg:text-2xl absolute top-0 left-0 bg-gray-900 opacity-0 hover:opacity-80 text-white transition-all"
+                    onClick={removeImage}
+                    type="button"
+                >
+                    Remove Image
+                </button>
             </div>
         );
     }
@@ -146,25 +144,41 @@ const EditPostModal = ({ id, open, onClose }) => {
     const {
         profileData: { username, profile_pic },
     } = useUserContext();
-    const { getCardInfoFromData, maxFileSizeKb } = usePageContext();
+    const { getCardInfoFromData, maxFileSizeKb, updatePost } = usePageContext();
     const prevContent = getCardInfoFromData(id)[0];
     const [file, setFile] = useState({ name: "", file: null, sizeKb: 0 });
+    const [prevImageSrc, setPrevImageSrc] = useState(prevContent.image);
     const [editPostText, setEditPostText] = useState(prevContent.content);
-    const fileInputRef = useRef();
-    const submitForm = (e) => {
-        e.preventDefault();
-    };
     const chooseImageFile = (e) => {
         e.preventDefault();
         document.querySelector("#edit-post-image-field").click();
     };
     const [fullScreen, setFullScreen] = useState(false);
-    console.log(prevContent);
+    const fileInputRef = useRef();
+
+    const submitForm = (e) => {
+        e.preventDefault();
+        const formElement = e.target;
+        if (file.sizeKb > maxFileSizeKb) {
+            alert(
+                `File to large, maximum size is ${maxFileSizeKb} kb. Your file is ${file.sizeKb} kb`
+            );
+            return;
+        }
+        const success = () => {
+            alert("Successfully updated post");
+        };
+        updatePost(id, new FormData(formElement), success, () => {
+            alert("Failed to update post");
+        });
+    };
+
     const clearFile = (e) => {
-        if (e) {
-            e.preventDefault();
-            const remove = window.confirm(`Clear ${file.name} from form?`);
-            if (!remove) return;
+        e.preventDefault();
+        const remove = window.confirm(`Clear image from form?`);
+        if (!remove) return;
+        if (!file.file) {
+            setPrevImageSrc("");
         }
         fileInputRef.value = null;
         setFile({
@@ -189,7 +203,7 @@ const EditPostModal = ({ id, open, onClose }) => {
 
     return (
         <Dialog open={open} onClose={onClose} fullScreen={fullScreen}>
-            <div className="max-w-md mx-auto w-screen dark:bg-black flex flex-col p-2 gap-2 overflow-hidden dark:border-2 dark:border-gray-900">
+            <div className="max-w-md mb-3 mx-auto w-screen dark:bg-black flex overflow-y-scroll flex-col p-2 gap-2 overflow-hidden dark:border-2 dark:border-gray-900">
                 <div className="w-full grid-cols-[49px,_auto] h-min-content grid p-3  border-b-4 gap-1 bg-gray-100 mt-2 dark:bg-black dark:bg-opacity-90 dark:shadow-xl dark:border-gray-800">
                     <div>
                         <Avatar alt="post" src={profile_pic}>
@@ -228,9 +242,9 @@ const EditPostModal = ({ id, open, onClose }) => {
                                 id="edit-post-image-field"
                                 ref={fileInputRef}
                                 className="fixed -top-[10000px]"
+                                disabled={prevImageSrc && !file.file}
                                 onChange={(e) => {
                                     const file = URL.createObjectURL(e.target.files[0]);
-                                    console.log(e);
                                     setFile({
                                         file: file,
                                         sizeKb: Math.round(e.target.files[0].size / 1024),
@@ -253,7 +267,7 @@ const EditPostModal = ({ id, open, onClose }) => {
                         )}
                         <ImagePreview
                             file={file}
-                            src={prevContent.image}
+                            src={prevImageSrc}
                             removeImage={(e) => clearFile(e)}
                         />
                         <div>
@@ -274,7 +288,7 @@ const EditPostModal = ({ id, open, onClose }) => {
                 </div>
             </div>
             <button
-                className="bg-purple-400 text-purple-100 w-[90%] m-auto rounded-md my-4"
+                className="bg-purple-400 text-purple-100 w-[96%] mx-auto rounded-sm mb-4 mt-auto"
                 onClick={onClose}
             >
                 Close

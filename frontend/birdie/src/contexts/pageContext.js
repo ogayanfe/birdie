@@ -69,6 +69,7 @@ export const PageContextProvider = ({ children }) => {
             })
             .catch((e) => onFailure(e));
     };
+
     const deletePost = (id, onSuccess, onFailure) => {
         axiosInstance
             .delete(`/post/delete/${id}/`)
@@ -85,12 +86,27 @@ export const PageContextProvider = ({ children }) => {
     const getCardInfoFromData = (id) => {
         return data.posts.filter((post) => post.id === id);
     };
+
+    const updatePost = (id, formData, onSuccess, onFailure) => {
+        axiosInstance
+            .patch(`/post/update/${id}/`, formData)
+            .then((response) => {
+                const updatedData = response.data;
+                setData((prev) => {
+                    const posts = prev.posts.map((post) => (post.id === id ? updatedData : post));
+                    return { ...prev, posts: posts };
+                });
+                onSuccess(response);
+            })
+            .catch((e) => onFailure(e));
+    };
     const context = {
         data: data,
         setData: setData,
         likePost: likePost,
         savePost: savePost,
         deletePost: deletePost,
+        updatePost: updatePost,
         setOnPostLike: setOnPostLike,
         getCardInfoFromData: getCardInfoFromData,
         setOnPostSave: setOnPostSave,
