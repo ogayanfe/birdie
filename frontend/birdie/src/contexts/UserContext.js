@@ -11,6 +11,9 @@ const defaultProfileData = {
     following: "",
     follower: "",
 };
+
+const SERVERURL = "https://ogayanfe.pythonanywhere.com/";
+
 function UserContextProvider({ children }) {
     const userTokensFromStorage = JSON.parse(localStorage.getItem("userTokens"));
     const [user, setUser] = useState(
@@ -19,7 +22,7 @@ function UserContextProvider({ children }) {
     const [profileData, setProfileData] = useState(defaultProfileData);
     const [tokens, setTokens] = useState(userTokensFromStorage);
     const axiosInstance = axios.create({
-        baseURL: "http://localhost:8000/api",
+        baseURL: SERVERURL + "/api",
         headers: {
             Authorization: `Bearer ${tokens && tokens.access}`,
         },
