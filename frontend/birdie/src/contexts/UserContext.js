@@ -22,7 +22,7 @@ function UserContextProvider({ children }) {
     const [profileData, setProfileData] = useState(defaultProfileData);
     const [tokens, setTokens] = useState(userTokensFromStorage);
     const axiosInstance = axios.create({
-        baseURL: SERVERURL + "/api",
+        baseURL: SERVERURL + "api",
         headers: {
             Authorization: `Bearer ${tokens && tokens.access}`,
         },
