@@ -49,6 +49,8 @@ const Card = (props) => {
         user,
         liked,
         creator_id,
+        onLike,
+        onSave,
         is_saved,
         is_commented,
         is_following_user,
@@ -165,7 +167,7 @@ const Card = (props) => {
                         className={`flex justify-center gap-4 items-center w-full h-full ${
                             liked ? "text-red-500" : "dark:text-gray-400"
                         }`}
-                        onClick={() => likePost(id)}
+                        onClick={() => likePost(id, onLike)}
                     >
                         {liked ? (
                             <iconify-icon icon="flat-color-icons:like">Like</iconify-icon>
@@ -176,7 +178,7 @@ const Card = (props) => {
                     </button>
 
                     <button
-                        onClick={() => savePost(id)}
+                        onClick={() => savePost(id, onSave)}
                         className={`flex justify-center gap-4 items-center w-full h-full ${
                             is_saved ? "text-blue-500" : "dark:text-gray-400"
                         }`}

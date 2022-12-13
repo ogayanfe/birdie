@@ -8,6 +8,8 @@ const CardContainer = (props) => {
     } = usePageContext();
     let results = posts;
     if (props.posts) results = props.posts;
+    const { onLike, onSave } = props;
+
     return (
         <>
             {results.map((post) => {
@@ -20,6 +22,8 @@ const CardContainer = (props) => {
                         user={post.creator.username}
                         card_content={post.content}
                         card_image={post.image}
+                        onLike={onLike}
+                        onSave={onSave}
                         comments={post.comments}
                         likes={post.likes}
                         saves={post.saves}

@@ -11,32 +11,27 @@ export const PageContextProvider = ({ children }) => {
         posts: [],
     });
     const { _likePost, _savePost, _createComment } = usePostActionContext();
-    // function to be called to filter posts when liked
-    const [onPostLike, setOnPostLike] = useState(null);
-    // function to be called to filter posts when saved
-    const [onPostSave, setOnPostSave] = useState(null);
-    const likePost = (id) => {
-        const success = (response) => {
+
+    const likePost = (id, success) => {
+        const _success = (response) => {
             setData((prev) => {
                 const update = response.data;
                 let newPost = prev.posts.map((post) => (post.id === update.id ? update : post));
-                if (onPostLike) newPost = onPostLike(newPost);
                 return { ...prev, posts: newPost };
             });
         };
-        _likePost(id, success);
+        _likePost(id, success ? success : _success);
     };
 
-    const savePost = (id) => {
-        const success = (response) => {
+    const savePost = (id, success) => {
+        const _success = (response) => {
             setData((prev) => {
                 const update = response.data;
                 let newPost = prev.posts.map((post) => (post.id === update.id ? update : post));
-                if (onPostSave) newPost = onPostSave(newPost);
                 return { ...prev, posts: newPost };
             });
         };
-        _savePost(id, success);
+        _savePost(id, success ? success : _success);
     };
 
     const createComment = async (id, formData, onSuccess, onFailure) => {
@@ -107,9 +102,7 @@ export const PageContextProvider = ({ children }) => {
         savePost: savePost,
         deletePost: deletePost,
         updatePost: updatePost,
-        setOnPostLike: setOnPostLike,
         getCardInfoFromData: getCardInfoFromData,
-        setOnPostSave: setOnPostSave,
         createComment: createComment,
         getNextItems: getNextItems,
         getNextUrl: () => data.next,

@@ -24,6 +24,22 @@ const Posts = () => {
             .catch(() => alert("Couldn't refresh post, check internet connection and refresh"));
     }, [axiosInstance, userId]);
 
+    const onLike = (response) => {
+        setData((prev) => {
+            const update = response.data;
+            let newPost = prev.posts.map((post) => (post.id === update.id ? update : post));
+            return { ...prev, posts: newPost };
+        });
+    };
+
+    const onSave = (response) => {
+        setData((prev) => {
+            const update = response.data;
+            let newPost = prev.posts.map((post) => (post.id === update.id ? update : post));
+            return { ...prev, posts: newPost };
+        });
+    };
+
     const retrieveNextPosts = () => {
         const success = (response) => {
             setData((prev) => {
@@ -39,7 +55,7 @@ const Posts = () => {
 
     return (
         <>
-            <CardContainer posts={posts} />
+            <CardContainer posts={posts} onSave={onSave} onLike={onLike} />
             {next && (
                 <div className="flex flex-col items-center w-full">
                     <button
