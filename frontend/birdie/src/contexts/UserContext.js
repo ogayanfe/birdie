@@ -12,13 +12,16 @@ const defaultProfileData = {
     follower: "",
 };
 
-const SERVERURL = "https://ogayanfe.pythonanywhere.com/";
+const pyAnywhere = "https://ogayanfe.pythonanywhere.com/";
 
 function UserContextProvider({ children }) {
     const userTokensFromStorage = JSON.parse(localStorage.getItem("userTokens"));
     const [user, setUser] = useState(
         userTokensFromStorage && jwtDecode(userTokensFromStorage.access)
     );
+    const SERVERURL = ["localhost:3000", "127.0.0.1:3000"].includes(window.location.host)
+        ? "http://localhost:8000/"
+        : pyAnywhere;
     const [profileData, setProfileData] = useState(defaultProfileData);
     const [tokens, setTokens] = useState(userTokensFromStorage);
     const axiosInstance = axios.create({
