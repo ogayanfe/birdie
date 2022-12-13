@@ -35,7 +35,7 @@ const ImagePreview = ({ src, removeImage, file }) => {
     );
 };
 
-const CommentsModal = ({ id, open, close }) => {
+const CommentsModal = ({ id, open, close, onComment }) => {
     const { getComments } = usePostActionContext();
     const { createComment, getNextItems } = usePageContext();
     const [{ comments, next }, setComments] = useState({
@@ -53,6 +53,7 @@ const CommentsModal = ({ id, open, close }) => {
                     comments: [response.data, ...prev.comments],
                 };
             });
+            onComment && onComment(id);
             e.target.content.value = "";
         };
         const formData = new FormData(e.target);

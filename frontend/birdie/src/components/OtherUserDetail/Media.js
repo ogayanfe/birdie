@@ -37,9 +37,40 @@ const Media = () => {
         getNextItems(next, success);
     };
 
+    const onLike = (response) => {
+        setData((prev) => {
+            const update = response.data;
+            let newPost = prev.posts.map((post) => (post.id === update.id ? update : post));
+            return { ...prev, posts: newPost };
+        });
+    };
+
+    const onSave = (response) => {
+        setData((prev) => {
+            const update = response.data;
+            let newPost = prev.posts.map((post) => (post.id === update.id ? update : post));
+            return { ...prev, posts: newPost };
+        });
+    };
+
+    const updateCommentCount = (id) => {
+        setData((prev) => {
+            const newPosts = prev.posts.map((post) => {
+                return post.id === id
+                    ? { ...post, comments: post.comments + 1, is_commented: true }
+                    : post;
+            });
+            return { ...prev, posts: newPosts };
+        });
+    };
     return (
         <>
-            <CardContainer posts={posts} />
+            <CardContainer
+                posts={posts}
+                onLike={onLike}
+                onSave={onSave}
+                onComment={updateCommentCount}
+            />
             {next && (
                 <div className="flex flex-col items-center w-full">
                     <button

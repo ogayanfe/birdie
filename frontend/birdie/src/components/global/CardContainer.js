@@ -8,7 +8,7 @@ const CardContainer = (props) => {
     } = usePageContext();
     let results = posts;
     if (props.posts) results = props.posts;
-    const { onLike, onSave } = props;
+    const { onLike, onSave, onComment } = props;
 
     return (
         <>
@@ -23,6 +23,7 @@ const CardContainer = (props) => {
                         card_content={post.content}
                         card_image={post.image}
                         onLike={onLike}
+                        onComment={onComment}
                         onSave={onSave}
                         comments={post.comments}
                         likes={post.likes}

@@ -40,6 +40,17 @@ const Posts = () => {
         });
     };
 
+    const updateCommentCount = (id) => {
+        setData((prev) => {
+            const newPosts = prev.posts.map((post) => {
+                return post.id === id
+                    ? { ...post, comments: post.comments + 1, is_commented: true }
+                    : post;
+            });
+            return { ...prev, posts: newPosts };
+        });
+    };
+
     const retrieveNextPosts = () => {
         const success = (response) => {
             setData((prev) => {
@@ -55,7 +66,12 @@ const Posts = () => {
 
     return (
         <>
-            <CardContainer posts={posts} onSave={onSave} onLike={onLike} />
+            <CardContainer
+                posts={posts}
+                onSave={onSave}
+                onLike={onLike}
+                onComment={updateCommentCount}
+            />
             {next && (
                 <div className="flex flex-col items-center w-full">
                     <button

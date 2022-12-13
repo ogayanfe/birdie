@@ -56,6 +56,7 @@ const Card = (props) => {
         is_following_user,
         created,
         isEdited,
+        onComment,
     } = props;
     const { likePost, savePost, deletePost } = usePageContext();
     const [viewComment, setViewComment] = useState(false);
@@ -159,6 +160,7 @@ const Card = (props) => {
                     {viewComment && (
                         <CommentsModal
                             id={id}
+                            onComment={onComment}
                             open={viewComment}
                             close={() => setViewComment(false)}
                         />
