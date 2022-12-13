@@ -21,7 +21,7 @@ https://user-images.githubusercontent.com/95624629/206938826-7436f618-ea9b-4918-
 - Material ui and Material ui icons
 
 ## Setting up locally
-- Pull the project to your local computer using git via command `git pull https://github.com/O-A-Grandeur/birdie/edit/main/README.md`. You can simply download the zip folder and unzip if you don't have git installed.
+- Clone the project to your local computer using git via command `git clone https://github.com/O-A-Grandeur/birdie.git`. You can simply download the zip folder and unzip if you don't have git installed.
 - `cd` into the application folder using your terminal.
 -  `cd` into the backend direcory via the command `cd backend`.
 - You can create and activate a virtual environment here.
