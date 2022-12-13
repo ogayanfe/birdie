@@ -7,10 +7,12 @@ const ProfileUsers = () => {
         next: null,
         followers: [],
     });
+
     const {
         axiosInstance,
         user: { user_id },
     } = useUserContext();
+
     useEffect(() => {
         axiosInstance
             .get(`/accounts/${user_id}/following/`)
@@ -21,7 +23,7 @@ const ProfileUsers = () => {
                 });
             })
             .catch(() => alert("Could not retrieve data"));
-    }, [axiosInstance]);
+    }, [axiosInstance, user_id]);
     return (
         <div className="grid grid-cols-1 gap-2 md:grid-cols-2 p-2">
             {followers.map((user) => {

@@ -73,7 +73,6 @@ const Profile = () => {
     }, []);
 
     if (curId && curId === id) {
-        alert(curId, id);
         return <Navigate to="/profile" />;
     }
     return (
