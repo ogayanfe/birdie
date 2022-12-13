@@ -42,7 +42,7 @@ const CommentsModal = ({ id, open, close, onComment }) => {
         next: null,
         comments: [],
     });
-    const [fullScreen, setFullScreen] = useState(false);
+    const [fullScreen, setFullScreen] = useState(window.innerWidth < 520);
 
     const handleSubmit = (e) => {
         e.preventDefault();
@@ -156,7 +156,7 @@ const EditPostModal = ({ id, open, onClose }) => {
         e.preventDefault();
         document.querySelector("#edit-post-image-field").click();
     };
-    const [fullScreen, setFullScreen] = useState(false);
+    const [fullScreen, setFullScreen] = useState(window.innerWidth < 520);
     const fileInputRef = useRef();
 
     const submitForm = (e) => {

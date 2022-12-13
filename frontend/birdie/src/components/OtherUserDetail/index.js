@@ -18,7 +18,7 @@ const tabDarkTheme = createTheme({
 const Profile = () => {
     const { userId } = useParams();
     const { followUser } = usePageContext();
-    const [tabFullWidth, setTabFullWidth] = useState(true);
+    const [tabFullWidth, setTabFullWidth] = useState(!(window.innerWidth < 400));
     const [profileData, setProfileData] = useState({});
     const [queryParams, setQueryParams] = useSearchParams();
     const { darkTheme } = useThemeContext();
