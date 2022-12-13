@@ -54,7 +54,7 @@ const Profile = () => {
             setProfileData((prev) => ({ ...prev, followers: followers }));
         };
         const failure = () => {
-            alert("Could not complete action, check internet connection and refresh");
+            alert("Could no't complete action, check internet connection and refresh");
         };
         followUser(id, success, failure);
     };
@@ -72,7 +72,10 @@ const Profile = () => {
         };
     }, []);
 
-    if (curId === id) return <Navigate to="/profile" />;
+    if (curId && curId === id) {
+        alert(curId, id);
+        return <Navigate to="/profile" />;
+    }
     return (
         <div className="w-[599px] max-w-[99%] mt-1 mx-auto">
             <div className="bg-gray-100 dark:bg-[#030108]">
