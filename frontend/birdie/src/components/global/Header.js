@@ -28,9 +28,21 @@ const Header = (props) => {
                         {isError ? "birdie" : cur}
                     </h1>
                 </div>
-                <div className="flex justify-between items-center gap-3">
+                <div className="flex justify-between items-center gap-2 lg:gap-3">
+                    <a
+                        className="dark:text-white text-gray-900 text-3xl hover:text-purple-500"
+                        href="https://github.com/ogayanfe/birdie"
+                        target="_blank"
+                        alt="github"
+                        aria-label="view code on github"
+                    >
+                        <span className="fixed -left-[10000000000000000px]">
+                            View code on Github
+                        </span>
+                        <iconify-icon icon="bi:github">Light Theme</iconify-icon>
+                    </a>
                     <button
-                        className="text-purple-400 h-full text-2xl gap-1 justify-center px-2 xm:rounded-full rounded-lg"
+                        className="text-purple-400 h-full text-2xl gap-1 justify-center"
                         onClick={() => setDarkTheme((p) => !p)}
                     >
                         {darkTheme ? (
