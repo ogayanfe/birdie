@@ -18,7 +18,11 @@ const SideNav = (props) => {
     if (cur.length === 0) cur = "home";
 
     return (
-        <div className="w-full h-full relative  flex flex-col bg-white border-r-4 border-gray-300 dark:bg-black">
+        <div
+            className={`w-full h-full transition-all duration-300 relative  flex flex-col bg-white border-gray-300 dark:bg-black ${
+                open ? "border-r-4" : "sm:border-r-4"
+            }`}
+        >
             <header
                 className={`flex dark:bg-[#030409] w-[100%] bg-gray-100  h-14 lg:scale-[1_!important] transition origin-left duration-500 justify-center gap-4 dark:border-b-gray-900 text-2xl text-purple-500 items-center ${
                     !open && "scale-0"
@@ -31,8 +35,10 @@ const SideNav = (props) => {
             </header>
             <nav className="flex flex-col py-2 flex-grow overflow-y-scroll overflow-x-hidden">
                 <button
-                    className={`lg:hidden transition duration-300 rotate top-4 text-purple-500 absolute right-2 ${
-                        open && "rotate-[720deg]"
+                    className={`lg:hidden transition duration-300 rotate top-3 sm:top-4 text-purple-500 sm:absolute sm:left-auto sm:right-2 ${
+                        open
+                            ? "sm:rotate-[720deg] absolute left-auto right-2"
+                            : "fixed left-4 sm:absolute sm:left-auto sm:right-2"
                     }`}
                     onClick={() => setShowSidebar((p) => !p)}
                     aria-hidden="true"

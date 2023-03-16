@@ -15,7 +15,7 @@ const Header = (props) => {
     let cur = location.pathname.split("/").at(1);
     if (cur === "") cur = "home";
     return (
-        <header className="flex items-center justify-center  p-2 h-14 absolute w-full bg-gray-100 border-0 text-gray-900 sm:px-8 dark:bg-black">
+        <header className="flex items-center justify-center pl-12 sm:pl-2 p-2 h-14 absolute w-full bg-gray-100 border-0 text-gray-900 sm:px-8 dark:bg-black">
             <div className="max max-w-6xl w-full flex justify-between">
                 <div
                     className={`flex gap-1 text-2xl text-purple-400 items-center`}
