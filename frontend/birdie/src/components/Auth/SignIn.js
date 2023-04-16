@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import useUserContext from "../../contexts/UserContext";
 import { Navigate, Link } from "react-router-dom";
 
@@ -13,6 +13,13 @@ export default function SignIn() {
         username: "",
         password: "",
     });
+
+    useEffect(() => {
+        document.title = "Sign In To Birdie";
+        return function () {
+            document.title = "Birdie";
+        };
+    }, []);
 
     function handleSubmit(e) {
         e.preventDefault();

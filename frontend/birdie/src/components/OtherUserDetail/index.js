@@ -48,6 +48,14 @@ const Profile = () => {
     } = profileData;
     const currentTab = queryParams.get("tab") || "posts";
 
+    useEffect(() => {
+        if (!username) return;
+        document.title = `Birdie Profile | @${username}`;
+        return function () {
+            document.title = "Birdie";
+        };
+    }, [username]);
+
     const handleFollowUnfollow = () => {
         const success = (response) => {
             const { followers } = response.data;

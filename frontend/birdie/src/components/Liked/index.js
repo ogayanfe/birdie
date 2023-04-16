@@ -19,6 +19,13 @@ const Liked = () => {
         };
     }, [getPosts, setData]);
 
+    useEffect(() => {
+        document.title = "Birdie | Liked Posts";
+        return function () {
+            document.title = "Birdie";
+        };
+    }, []);
+
     const retrieveNextPost = () => {
         const success = (response) => {
             setData((prev) => {

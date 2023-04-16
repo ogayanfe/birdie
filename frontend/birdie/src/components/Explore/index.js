@@ -19,6 +19,13 @@ const Explore = () => {
         };
     }, [getPosts, setData]);
 
+    useEffect(() => {
+        document.title = "Birdie | Explore";
+        return () => {
+            document.title = "Birdie";
+        };
+    }, []);
+
     const retrieveNextPost = () => {
         const success = (response) => {
             setData((prev) => {

@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { Tab, Tabs, createTheme } from "@mui/material";
 import useUserContext from "../../contexts/UserContext";
 import PostComments from "./PostComments";
@@ -24,6 +24,14 @@ const Profile = () => {
     };
     const { username, profile_pic, followers, following, date_joined, cover_pic } = profileData;
     const currentTab = queryParams.get("tab") || "posts";
+
+    useEffect(() => {
+        document.title = `Birdie Profile | @${username}`;
+        return function () {
+            document.title = "Birdie";
+        };
+    }, []);
+
     return (
         <div className="w-[599px] max-w-[99%] mt-1 mx-auto">
             <div className="bg-gray-100 dark:bg-[#030108]">
